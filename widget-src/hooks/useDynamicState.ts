@@ -1,12 +1,12 @@
 const { useSyncedState } = figma.widget
 
 /** Dynamic Object of unknown values */
-type DynamicState = { [key: string]: unknown }
+export type DynamicState = { [key: string]: unknown }
 /** setState Callback (Only valid keys with matching values for initialState)
  * @param propKey - Accepts keys from `initialState`
  * @param propValue - Values of matching type for `initialState[propKey]`
  */
-type DynamicSetSTate<T> = <K extends keyof T>(propKey: K, propValue: T[K]) => void
+export type DynamicSetSTate<S> = <K extends keyof S>(propKey: K, propValue: S[K]) => void
 
 /** Centralized safely typed synced state object manager (example: hold multiple input values)
  * @param initialState - `useSyncedState` default Value
@@ -25,11 +25,11 @@ type DynamicSetSTate<T> = <K extends keyof T>(propKey: K, propValue: T[K]) => vo
  * setInputs("buttons", [{ id: 1, text: "Updated Button 1" }, { id: 2, text: "Updated Button 2" }])
  * console.log(inputs.buttons[0].text) // Output: "Updated Button 1"
  */
-export default function useDynamicState<T extends DynamicState>({ ...initialState }: T): [T, DynamicSetSTate<T>] {
-   const [state, setState] = useSyncedState<T>("state", initialState)
+export default function useDynamicState<S extends DynamicState>({ ...initialState }: S): [S, DynamicSetSTate<S>] {
+   const [state, setState] = useSyncedState<S>("state", initialState)
 
    /** Update state for specific state property */
-   const setSafeState: DynamicSetSTate<T> = (propKey, propValue) => {
+   const setSafeState: DynamicSetSTate<S> = (propKey, propValue) => {
       setState((prevState) => ({
          ...prevState,
          [propKey]: propValue,
