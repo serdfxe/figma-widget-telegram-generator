@@ -1,9 +1,11 @@
 // Dependencies
 const { widget } = figma
-const { useSyncedState, AutoLayout, Text } = widget
+const { AutoLayout, Text } = widget
 // Components
 import { remapTokens } from "../../utils"
 import { Section, Label, ButtonsRow, Button, ButtomSmall, ChatButtonEditable, Selector, TextInput } from "./InterfaceElements"
+
+import { type SetCallback } from "../../hooks/useDynamicState"
 
 /** Import Changelog
  * Generate Interface, colors & extracted svg paths
@@ -13,54 +15,45 @@ import { Section, Label, ButtonsRow, Button, ButtomSmall, ChatButtonEditable, Se
 interface MessageCreatorProps extends Partial<AutoLayoutProps>, ReqCompProps {
    /** Fully Hide from layers tree */
    renderElement: boolean
+   /** Editor State Manager (New Message Inputs Centralized State at base code.tsx) */
+   editorManager: [StateManagerProps, SetCallback<StateManagerProps>]
 }
 
-export function MessageCreator({ renderElement, theme, ...props }: MessageCreatorProps) {
-   // Single state object to hold multiple input values
-   const [inputs, setInputs] = useSyncedState("inputs", {
-      messageDirection: 0,
-      messageType: 1,
-      messageText: "",
-      buttons: [
-         { id: 1, text: "Button 1" },
-         { id: 2, text: "Button 2" },
-      ],
-   })
+// tmp
+const obj = { direction: 0, type: 1, text: "", size: "", extension: "", buttons: [{ id: 1, text: "", hasRef: false }] }
+export interface StateManagerProps {
+   direction: number
+   type: number
+   /** Used for message text and file name */
+   text: string
+   size: string
+   extension: string
+   buttons: {
+      id: number
+      text: string
+      hasRef: boolean
+   }[]
+}
 
-   // Single handler function to update the state based on input name and value
-   const handleInputChange = (name: string, value: string | number) => {
-      setInputs((prevInputs) => ({
-         ...prevInputs,
-         [name]: value,
-      }))
+export function MessageCreator({ editorManager, renderElement, theme, ...props }: MessageCreatorProps) {
+   const [{ direction, type, text, extension, size, buttons }, setEditorState] = editorManager
+
+   const handleSelectorEvent = (key: keyof StateManagerProps) => {
+      let val = editorManager[0][key]
+      if (typeof val !== "number") val = 0
+      setEditorState(key, (val + 1) % 2)
    }
 
-   // Handler for direction change
-   const handleDirectionChange = () => handleInputChange("messageDirection", (inputs.messageDirection + 1) % 2)
-
-   // Handler for Type change
-   const handleTypeChange = () => handleInputChange("messageType", (inputs.messageType + 1) % 2)
+   const addButtonToRow = () => {}
+   const addRowOfButtons = () => {}
 
    // Handler function to update the text of a specific button
    const handleButtonTextChange = (id: number, newText: string) => {
-      setInputs((prevInputs) => ({
-         ...prevInputs,
-         buttons: prevInputs.buttons.map((button) => (button.id === id ? { ...button, text: newText } : button)),
-      }))
+      setEditorState(
+         "buttons",
+         buttons.map((button) => (button.id === id ? { ...button, text: newText } : button)),
+      )
    }
-
-   // // Single handler function to update the state based on input name and value
-   // const handleInputChange = (name: keyof typeof state, value: string | number) => {
-   //    setSafeState(name, value)
-   // }
-
-   // // Handler function to update the text of a specific button
-   // const handleButtonTextChange = (id: number, newText: string) => {
-   //    setSafeState(
-   //       "buttons",
-   //       state.buttons.map((button) => (button.id === id ? { ...button, text: newText } : button)),
-   //    )
-   // }
 
    // Theme Mode
    /** Edit Module Color Palette */
@@ -140,30 +133,36 @@ export function MessageCreator({ renderElement, theme, ...props }: MessageCreato
             </Section>
             <Section>
                <Label colorPalette={color}>Message Direction</Label>
-               <Selector onEvent={handleDirectionChange} value={inputs.messageDirection} options={["Out", "In"]} colorPalette={color} />
+               <Selector onEvent={() => handleSelectorEvent("direction")} value={direction} options={["Out", "In"]} colorPalette={color} />
             </Section>
             <Section>
                <Label colorPalette={color}>Message Type</Label>
-               <Selector onEvent={handleTypeChange} value={inputs.messageType} options={["Image / File", "Text"]} colorPalette={color} />
+               <Selector onEvent={() => handleSelectorEvent("type")} value={type} options={["Image / File", "Text"]} colorPalette={color} />
             </Section>
             {/* Message Type Image / File */}
-            <Section hidden={inputs.messageType === 1}>
+            <Section hidden={type === 1}>
                <Label colorPalette={color}>Image Details</Label>
-               <TextInput onEvent={console.log} value={""} placeholder="Image/ File Name" colorPalette={color} />
-               <TextInput onEvent={console.log} value={""} placeholder="Image/ File Extension" colorPalette={color} />
-               <TextInput onEvent={console.log} value={""} placeholder="Image/ File Size" colorPalette={color} />
+               <TextInput onEvent={(e) => setEditorState("text", e.characters)} value={text} placeholder="Image/ File Name" colorPalette={color} />
+               <TextInput onEvent={(e) => setEditorState("extension", e.characters)} value={extension} placeholder="Image/ File Extension" colorPalette={color} />
+               <TextInput onEvent={(e) => setEditorState("size", e.characters)} value={size} placeholder="Image/ File Size" colorPalette={color} />
             </Section>
             {/* Message Type Text */}
-            <Section hidden={inputs.messageType !== 1}>
+            <Section hidden={type !== 1}>
                <Label colorPalette={color}>Message Content</Label>
-               <TextInput onEvent={console.log} value={""} placeholder="Text Message..." isResizable={true} colorPalette={color} />
+               <TextInput onEvent={(e) => setEditorState("text", e.characters)} value={text} placeholder="Text Message..." isResizable={true} colorPalette={color} />
                <AutoLayout name="Buttons Container" cornerRadius={8} overflow="visible" direction="vertical" spacing={12} width="fill-parent">
                   <ButtonsRow>
-                     <ChatButtonEditable value={"Button 1"} onEvent={console.log} name="chat-button" width="fill-parent" colorPalette={color} />
-                     <ButtomSmall onEvent={console.log} colorPalette={color} />
+                     <ChatButtonEditable
+                        value={buttons[0].text}
+                        onEvent={(e) => handleButtonTextChange(0, e.characters)}
+                        name="chat-button"
+                        width="fill-parent"
+                        colorPalette={color}
+                     />
+                     <ButtomSmall onEvent={() => addButtonToRow()} colorPalette={color} />
                   </ButtonsRow>
                   <ButtonsRow>
-                     <ButtomSmall onEvent={console.log} colorPalette={color}>
+                     <ButtomSmall onEvent={() => addRowOfButtons()} colorPalette={color}>
                         Add Buttons Row
                      </ButtomSmall>
                   </ButtonsRow>
@@ -174,7 +173,7 @@ export function MessageCreator({ renderElement, theme, ...props }: MessageCreato
                   Advanced
                </Label>
             </Section>
-            {/* Main Event */}
+            {/* Editor Main Event */}
             <Button onEvent={console.log} colorPalette={color}>
                Apply To Chat
             </Button>

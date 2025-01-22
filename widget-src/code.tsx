@@ -16,11 +16,9 @@ import useDynamicState from "./hooks/useDynamicState"
 function Widget() {
    // Widget Property Menu
    const { theme, displayMode, isEditMode } = useWidgetMenu()
-   // New Message Editor Handler
-   const [editorState, setEditorState] = useDynamicState({ messageDirection: 0, name: "John Doe" })
-
-   setEditorState("messageDirection", 22)
-   console.log(editorState.messageDirection)
+   // New Message Editor State Manager
+   // const [...editorManager]
+   const [editorState, setEditorState] = useDynamicState({ direction: 0, type: 1, text: "", size: "", extension: "", buttons: [{ id: 1, text: "", hasRef: false }] })
 
    return (
       <AutoLayout name="Widget Container" width={"hug-contents"} height={"hug-contents"} overflow="visible">
@@ -34,7 +32,7 @@ function Widget() {
          </PhoneFrame>
 
          {/* Edit Interface (New Message) */}
-         <MessageCreator renderElement={isEditMode} theme={theme} />
+         <MessageCreator editorManager={[editorState, setEditorState]} renderElement={isEditMode} theme={theme} />
       </AutoLayout>
    )
 }
