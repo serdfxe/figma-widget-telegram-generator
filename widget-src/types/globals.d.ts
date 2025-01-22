@@ -1,4 +1,4 @@
-import { themeModes } from "../constants"
+import { THEME_MODES } from "../constants"
 
 declare global {
    /** Display Modes */
@@ -22,7 +22,7 @@ declare global {
    /** Hex & Primitives */
    type Color = ColorHex | PrimitiveColor
 
-   type ThemeModes = (typeof themeModes)[number]
+   type ThemeModes = (typeof THEME_MODES)[number]
 
    type LayoutProps = "surface" | "text" | "stroke" | "effects"
 

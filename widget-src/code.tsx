@@ -13,12 +13,13 @@ import { ChatLayout } from "./components/display/ChatLayout"
 import { MessageCreator } from "./components/edit-mode/MessageCreator"
 import useDynamicState from "./hooks/useDynamicState"
 
+import { EDITOR_STATE } from "./constants"
+
 function Widget() {
    // Widget Property Menu
    const { theme, displayMode, isEditMode } = useWidgetMenu()
    // New Message Editor State Manager
-   // const [...editorManager]
-   const [editorState, setEditorState] = useDynamicState({ direction: 0, type: 1, text: "", size: "", extension: "", buttons: [{ id: 1, text: "", hasRef: false }] })
+   const [editorState, setEditorState] = useDynamicState(EDITOR_STATE)
 
    return (
       <AutoLayout name="Widget Container" width={"hug-contents"} height={"hug-contents"} overflow="visible">
@@ -32,7 +33,7 @@ function Widget() {
          </PhoneFrame>
 
          {/* Edit Interface (New Message) */}
-         <MessageCreator editorManager={[editorState, setEditorState]} renderElement={isEditMode} theme={theme} />
+         <MessageCreator renderElement={isEditMode} editorManager={[editorState, setEditorState]} theme={theme} />
       </AutoLayout>
    )
 }

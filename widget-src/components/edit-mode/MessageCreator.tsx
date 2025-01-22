@@ -7,6 +7,8 @@ import { Section, Label, ButtonsRow, Button, ButtomSmall, ChatButtonEditable, Se
 
 import { type SetCallback } from "../../hooks/useDynamicState"
 
+import { EDITOR_STATE } from "../../constants"
+
 /** Import Changelog
  * Generate Interface, colors & extracted svg paths
  * Separated reusable components ()
@@ -16,29 +18,13 @@ interface MessageCreatorProps extends Partial<AutoLayoutProps>, ReqCompProps {
    /** Fully Hide from layers tree */
    renderElement: boolean
    /** Editor State Manager (New Message Inputs Centralized State at base code.tsx) */
-   editorManager: [StateManagerProps, SetCallback<StateManagerProps>]
-}
-
-// tmp
-const obj = { direction: 0, type: 1, text: "", size: "", extension: "", buttons: [{ id: 1, text: "", hasRef: false }] }
-export interface StateManagerProps {
-   direction: number
-   type: number
-   /** Used for message text and file name */
-   text: string
-   size: string
-   extension: string
-   buttons: {
-      id: number
-      text: string
-      hasRef: boolean
-   }[]
+   editorManager: [typeof EDITOR_STATE, SetCallback<typeof EDITOR_STATE>]
 }
 
 export function MessageCreator({ editorManager, renderElement, theme, ...props }: MessageCreatorProps) {
    const [{ direction, type, text, extension, size, buttons }, setEditorState] = editorManager
 
-   const handleSelectorEvent = (key: keyof StateManagerProps) => {
+   const handleSelectorEvent = (key: keyof typeof EDITOR_STATE) => {
       let val = editorManager[0][key]
       if (typeof val !== "number") val = 0
       setEditorState(key, (val + 1) % 2)

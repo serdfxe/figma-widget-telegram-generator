@@ -2,7 +2,7 @@
 const { widget } = figma
 const { useSyncedState, usePropertyMenu } = widget
 // Components
-import { themeModes } from "../constants"
+import { THEME_MODES } from "../constants"
 
 interface useWidgetMenuConfig {
    /** Initial State */
@@ -15,7 +15,7 @@ interface useWidgetMenuConfig {
 
 /** Default config */
 const defaultConfig: useWidgetMenuConfig["config"] = {
-   theme: themeModes[0],
+   theme: THEME_MODES[0],
    isEditMode: true,
    displayMode: 2,
 }
@@ -24,7 +24,7 @@ const defaultConfig: useWidgetMenuConfig["config"] = {
 export const useWidgetMenu = ({ config = defaultConfig }: Partial<useWidgetMenuConfig> = {}) => {
    // Theme Mode
    const [theme, setTheme] = useSyncedState<ThemeModes>("theme", config.theme)
-   const themeOptions = themeModes.map((mode) => {
+   const themeOptions = THEME_MODES.map((mode) => {
       return { option: mode, label: mode.charAt(0).toUpperCase() + mode.slice(1) }
    })
 
