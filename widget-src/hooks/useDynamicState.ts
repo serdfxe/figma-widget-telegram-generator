@@ -8,7 +8,7 @@ type DynamicState = { [key: string]: unknown }
  */
 type DynamicSetSTate<T> = <K extends keyof T>(propKey: K, propValue: T[K]) => void
 
-/** Centralized state object (hold multiple input values)
+/** Centralized safely typed synced state object manager (example: hold multiple input values)
  * @param initialState - `useSyncedState` default Value
  * @returns [state, setSafeState]
  *
