@@ -11,10 +11,16 @@ import { MessagesSample } from "./components/MessagesSample"
 import { useWidgetMenu } from "./hooks/useWidgetMenu"
 import { ChatLayout } from "./components/display/ChatLayout"
 import { MessageCreator } from "./components/edit-mode/MessageCreator"
+import useDynamicState from "./hooks/useDynamicState"
 
 function Widget() {
    // Widget Property Menu
    const { theme, displayMode, isEditMode } = useWidgetMenu()
+   // New Message Editor Handler
+   const [editorState, setEditorState] = useDynamicState({ messageDirection: 0, name: "John Doe" })
+
+   setEditorState("messageDirection", 22)
+   console.log(editorState.messageDirection)
 
    return (
       <AutoLayout name="Widget Container" width={"hug-contents"} height={"hug-contents"} overflow="visible">
