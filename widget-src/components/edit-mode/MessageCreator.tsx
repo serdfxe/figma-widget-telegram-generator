@@ -27,11 +27,11 @@ export function MessageCreator({ editorManager, renderElement, theme, ...props }
    const addButtonToRow = () => {}
    const addRowOfButtons = () => {}
 
-   // Handler function to update the text of a specific button
-   const handleButtonTextChange = (id: number, newText: string) => {
+   /** Overrides values of a specific button */
+   const updateButton = (id: number, newvals: Partial<(typeof EDITOR_STATE)["buttons"][number]>) => {
       setEditorState(
          "buttons",
-         buttons.map((button) => (button.id === id ? { ...button, text: newText } : button)),
+         buttons.map((button) => (button.id === id ? { ...button, ...newvals } : button)),
       )
    }
 
@@ -134,7 +134,7 @@ export function MessageCreator({ editorManager, renderElement, theme, ...props }
                   <ButtonsRow>
                      <ChatButtonEditable
                         value={buttons[0].text}
-                        onEvent={(e) => handleButtonTextChange(0, e.characters)}
+                        onEvent={(e) => updateButton(0, { text: e.characters })}
                         name="chat-button"
                         width="fill-parent"
                         colorPalette={color}
