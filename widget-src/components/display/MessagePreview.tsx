@@ -1,6 +1,7 @@
+// Components
 import { Message } from "@/components/ui"
 import { EDITOR_STATE } from "@/constants"
-import { DirectionContainer, WithButtons } from "@/components/display/atoms"
+import { DirectionContainer, PreviewLabel, WithButtons } from "@/components/display/atoms"
 
 interface MessagePreviewProps extends Partial<AutoLayoutProps>, ReqCompProps {
    editorState: typeof EDITOR_STATE
@@ -27,6 +28,7 @@ export function MessagePreview({ theme, editorState, ...props }: MessagePreviewP
    return (
       <DirectionContainer name="Preview Container" side={directionAsStr} {...props}>
          <WithButtons buttons={buttons} theme={theme}>
+            <PreviewLabel theme={theme} />
             <Message side={directionAsStr} type={typeAsStr} config={propsOfType[0]} theme={theme} />
          </WithButtons>
       </DirectionContainer>

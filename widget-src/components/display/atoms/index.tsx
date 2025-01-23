@@ -1,8 +1,9 @@
 // Dependencies
-const { AutoLayout } = figma.widget
+const { AutoLayout, Text } = figma.widget
 // Components
 import { Button } from "@/components/ui"
 import { EDITOR_STATE } from "@/constants"
+import { remapTokens } from "@/utils"
 
 interface SideContainerProps extends Partial<AutoLayoutProps> {
    side: "out" | "in"
@@ -46,6 +47,133 @@ export function WithButtons({ children, buttons, theme, ...props }: WithButtonsP
                   ))}
                </AutoLayout>
             ))}
+         </AutoLayout>
+      </AutoLayout>
+   )
+}
+
+export function PreviewLabel({ theme, ...props }: Partial<AutoLayoutProps> & ReqCompProps) {
+   const gradientHandle = [
+      {
+         x: 0.873,
+         y: -3.048,
+      },
+      {
+         x: 0.937,
+         y: 2.048,
+      },
+      {
+         x: 0.89,
+         y: -3.079,
+      },
+   ] as const
+
+   // Theme Mode
+   const color = remapTokens({
+      text: {
+         default: { dark: "#000", light: "#fff" },
+      },
+      surface: {
+         gradient: {
+            dark: [
+               {
+                  type: "gradient-linear",
+                  gradientHandlePositions: [...gradientHandle],
+                  gradientStops: [
+                     {
+                        position: 0,
+                        color: {
+                           r: 0.8274509906768799,
+                           g: 1,
+                           b: 0.5529412031173706,
+                           a: 1,
+                        },
+                     },
+                     {
+                        position: 1,
+                        color: {
+                           r: 0.6423529386520386,
+                           g: 1,
+                           b: 0.5529412031173706,
+                           a: 1,
+                        },
+                     },
+                  ],
+               },
+            ],
+            light: [
+               {
+                  type: "gradient-linear",
+                  gradientHandlePositions: [...gradientHandle],
+                  gradientStops: [
+                     {
+                        position: 0,
+                        color: {
+                           r: 0.1568627506494522,
+                           g: 0.3176470696926117,
+                           b: 0.7176470756530762,
+                           a: 1,
+                        },
+                     },
+                     {
+                        position: 1,
+                        color: {
+                           r: 0,
+                           g: 0.28671324253082275,
+                           b: 1,
+                           a: 1,
+                        },
+                     },
+                  ],
+               },
+            ],
+         },
+      },
+   })[theme]
+
+   console.log(color)
+
+   return (
+      <AutoLayout
+         name="CenterLabel"
+         x={{
+            type: "left-right",
+            leftOffset: 0,
+            rightOffset: 0,
+         }}
+         y={-15}
+         positioning="absolute"
+         overflow="visible"
+         direction="vertical"
+         spacing={8}
+         width={278}
+         height={15}
+         horizontalAlignItems="center"
+      >
+         <AutoLayout
+            name="PreviewLabel"
+            fill={color.surface.gradient}
+            cornerRadius={{
+               topLeft: 5,
+               topRight: 5,
+               bottomRight: 0,
+               bottomLeft: 0,
+            }}
+            strokeWidth={0.625}
+            overflow="visible"
+            spacing={5}
+            padding={{
+               vertical: 2.5,
+               horizontal: 60,
+            }}
+            width={133.75}
+            height={15}
+            horizontalAlignItems="center"
+            {...props}
+         >
+            <Text name="PREVIEW" fill={color.text.default} lineHeight={11.25} fontSize={8.75} letterSpacing={0.35} fontWeight={700} strokeWidth={0.625}>
+               PREVIEW
+            </Text>
          </AutoLayout>
       </AutoLayout>
    )

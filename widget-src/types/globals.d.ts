@@ -20,7 +20,7 @@ declare global {
    }
 
    /** Hex & Primitives */
-   type Color = ColorHex | PrimitiveColor
+   type Color = ColorHex | PrimitiveColor | (WidgetJSX.SolidPaint | WidgetJSX.GradientPaint)[]
 
    type ThemeModes = (typeof THEME_MODES)[number]
 
