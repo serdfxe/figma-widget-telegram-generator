@@ -24,16 +24,16 @@ interface MessageCreatorProps extends Partial<AutoLayoutProps>, ReqCompProps {
 export function MessageCreator({ editorManager, renderElement, theme, ...props }: MessageCreatorProps) {
    const [{ direction, type, text, name, extension, size, buttons }, setEditorState] = editorManager
 
-   const addButtonToRow = () => {}
-   const addRowOfButtons = () => {}
-
    /** Overrides values of a specific button */
    const updateButton = (id: number, newvals: Partial<(typeof EDITOR_STATE)["buttons"][number]>) => {
       setEditorState(
          "buttons",
-         buttons.map((button) => (button.id === id ? { ...button, ...newvals } : button)),
+         buttons.map((button, i) => (i === id ? { ...button, ...newvals } : button)),
       )
    }
+
+   const addButtonToRow = () => {}
+   const addRowOfButtons = () => {}
 
    // Theme Mode
    /** Edit Module Color Palette */
