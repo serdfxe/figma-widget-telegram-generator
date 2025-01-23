@@ -24,12 +24,6 @@ interface MessageCreatorProps extends Partial<AutoLayoutProps>, ReqCompProps {
 export function MessageCreator({ editorManager, renderElement, theme, ...props }: MessageCreatorProps) {
    const [{ direction, type, text, name, extension, size, buttons }, setEditorState] = editorManager
 
-   const handleSelectorEvent = (key: keyof typeof EDITOR_STATE) => {
-      let val = editorManager[0][key]
-      if (typeof val !== "number") val = 0
-      setEditorState(key, (val + 1) % 2)
-   }
-
    const addButtonToRow = () => {}
    const addRowOfButtons = () => {}
 
@@ -119,11 +113,11 @@ export function MessageCreator({ editorManager, renderElement, theme, ...props }
             </Section>
             <Section>
                <Label colorPalette={color}>Message Direction</Label>
-               <Selector onEvent={() => handleSelectorEvent("direction")} value={direction} options={["Out", "In"]} colorPalette={color} />
+               <Selector onEvent={(e, i) => setEditorState("direction", i++)} value={direction} options={["Out", "In"]} colorPalette={color} />
             </Section>
             <Section>
                <Label colorPalette={color}>Message Type</Label>
-               <Selector onEvent={() => handleSelectorEvent("type")} value={type} options={["Image / File", "Text"]} colorPalette={color} />
+               <Selector onEvent={(e, i) => setEditorState("type", i++)} value={type} options={["Image / File", "Text"]} colorPalette={color} />
             </Section>
             {/* Message Type Image / File */}
             <Section hidden={type === 1}>
