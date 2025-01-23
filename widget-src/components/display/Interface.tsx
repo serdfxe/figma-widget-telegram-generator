@@ -1,7 +1,7 @@
 // Dependencies
 const { Frame } = figma.widget
 // Components
-import { ChatBg, BottomBar, Header } from "@/components/ui"
+import { Background, BottomBar, Header } from "@/components/ui"
 
 /** Import Changelog
  * commented unnimported comps
@@ -33,12 +33,12 @@ export function Interface({ children, renderElements, theme, ...props }: Interfa
          height={844 + 16 * 2}
          {...props}
       >
-         <ChatBg
+         <Background
             theme={theme}
             name="chat-bg/latest"
             x={{
                type: "left-right",
-               leftOffset: -1,
+               leftOffset: 0,
                rightOffset: 0,
             }}
             y={{

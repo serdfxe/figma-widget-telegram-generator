@@ -9,13 +9,13 @@ import { LatestDark64, LatestLight64, FlatDark64, FlatLight64 } from "@/assets/b
  * merged flat and latest
  */
 
-interface ChatBgProps extends ReqCompProps, Partial<FrameProps> {
+interface BackgroundProps extends ReqCompProps, Partial<FrameProps> {
    type?: "flat" | "latest"
 }
 
-export function ChatBg({ theme, type = "latest", ...props }: ChatBgProps) {
+export function Background({ theme, type = "latest", ...props }: BackgroundProps) {
    return (
-      <Frame name="ChatBgLatest" width={225} height={626} {...props}>
+      <Frame name="BackgroundLatest" width={225} height={626} {...props}>
          <Image
             name="last-light"
             x={{

@@ -15,6 +15,10 @@ function Widget() {
    const { theme, displayMode, isEditMode } = useWidgetMenu()
    // New Message Editor State Manager
    const [editorState, setEditorState] = useDynamicState(EDITOR_STATE)
+   // Messages Manager
+   const [messagesState, setMessagesState] = useDynamicState({
+      messages: [[{ direction: 0, type: 1, text: "", name: "", size: "", extension: "", buttons: [[{ id: 1, text: "", hasRef: false }]] }]],
+   })
 
    return (
       <AutoLayout name="Widget Container" width={"hug-contents"} height={"hug-contents"} overflow="visible">

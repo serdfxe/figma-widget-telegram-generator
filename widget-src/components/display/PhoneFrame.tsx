@@ -66,11 +66,29 @@ export function PhoneFrame({ renderElements, children }: PhoneFrameProps) {
          overflow="visible"
          verticalAlignItems="center"
       >
+         <Image
+            name="Frame + Bezel"
+            x={{
+               type: "left-right",
+               leftOffset: 0,
+               rightOffset: 0,
+            }}
+            y={{
+               type: "top-bottom",
+               topOffset: 0,
+               bottomOffset: 0,
+            }}
+            positioning="absolute"
+            strokeWidth={1}
+            width={428}
+            height={876}
+            src={FrameBezel64}
+         />
          <Frame
             // Rounded screen corners
             name="hideCornersOnPhoneDisplay"
             overflow={"hidden"}
-            cornerRadius={50}
+            cornerRadius={54}
             // Phone Aspect Ratio
             width={390}
             height={844}
@@ -88,24 +106,6 @@ export function PhoneFrame({ renderElements, children }: PhoneFrameProps) {
             width={390}
             height={60}
             src={DynamicIsland64}
-         />
-         <Image
-            name="Frame + Bezel"
-            x={{
-               type: "left-right",
-               leftOffset: 0,
-               rightOffset: 0,
-            }}
-            y={{
-               type: "top-bottom",
-               topOffset: 0,
-               bottomOffset: 0,
-            }}
-            positioning="absolute"
-            strokeWidth={1.084}
-            width={425.766}
-            height={832.37}
-            src={FrameBezel64}
          />
       </AutoLayout>
    )

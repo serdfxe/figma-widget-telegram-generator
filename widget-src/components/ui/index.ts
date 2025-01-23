@@ -1,5 +1,5 @@
 export * from "./BottomBar"
 export * from "./Button"
-export * from "./ChatBg"
+export * from "./Background"
 export * from "./Header"
 export * from "./Message"
