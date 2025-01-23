@@ -1,7 +1,7 @@
 // Dependencies
 const { AutoLayout } = figma.widget
-// Components
-import { ChatButtonAtom } from "@/components/atoms"
+// Internal
+import { ChatButtonAtom } from "@/components/ui/atoms"
 
 /** Import Changelog
  * Declare props Interface & extract reqProps by children

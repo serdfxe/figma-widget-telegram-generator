@@ -5,21 +5,21 @@ import { remapTokens } from "@/utils"
 import { type SetCallback } from "@/hooks"
 import { EDITOR_STATE } from "@/constants"
 // Internal
-import { Section, Label, ButtonsRow, Button, ButtomSmall, ChatButtonEditable, Selector, TextInput } from "./InterfaceElements"
+import { Section, Label, ButtonsRow, Button, ButtomSmall, ChatButtonEditable, Selector, TextInput } from "@/components/edit-mode/atoms"
 
 /** Import Changelog
  * Generate Interface, colors & extracted svg paths
  * Separated reusable components ()
  */
 
-interface MessageCreatorProps extends Partial<AutoLayoutProps>, ReqCompProps {
+interface MessageBuilderProps extends Partial<AutoLayoutProps>, ReqCompProps {
    /** Fully Hide from layers tree */
    renderElement: boolean
    /** Editor State Manager (New Message Inputs Centralized State at base code.tsx) */
    editorManager: [typeof EDITOR_STATE, SetCallback<typeof EDITOR_STATE>]
 }
 
-export function MessageCreator({ editorManager, renderElement, theme, ...props }: MessageCreatorProps) {
+export function MessageBuilder({ editorManager, renderElement, theme, ...props }: MessageBuilderProps) {
    const [{ direction, type, text, name, extension, size, buttons }, setEditorState] = editorManager
 
    /** Overrides values of a specific button */
@@ -74,13 +74,7 @@ export function MessageCreator({ editorManager, renderElement, theme, ...props }
    return (
       renderElement && (
          <AutoLayout
-            name="MessageCreator"
-            positioning="absolute"
-            x={{
-               type: "right",
-               offset: -25 - 390,
-            }}
-            y={16}
+            name="MessageBuilder"
             effect={[
                {
                   type: "drop-shadow",
@@ -111,7 +105,8 @@ export function MessageCreator({ editorManager, renderElement, theme, ...props }
                vertical: 32,
                horizontal: 16,
             }}
-            width={390}
+            width={"fill-parent"}
+            height={"hug-contents"}
             horizontalAlignItems="center"
             stroke={color.surface.primary30}
             strokeAlign="outside"

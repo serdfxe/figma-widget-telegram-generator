@@ -2,7 +2,8 @@
 const { Frame, Text, Rectangle, SVG } = figma.widget
 // Components
 import { remapTokens } from "@/utils"
-import { IosBottomBar } from "@/components/atoms"
+// Internal
+import { IosBottomBar } from "@/components/ui/atoms"
 
 /** Import Changelog
  * colors with remapTokens

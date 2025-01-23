@@ -1,1 +1,1 @@
-export * from "./MessageCreator"
+export * from "./MessageBuilder"

@@ -5,7 +5,7 @@ const { AutoLayout } = widget
 // Components
 import { useWidgetMenu, useDynamicState } from "@/hooks"
 import { PhoneFrame, Interface, ChatLayout } from "@/components/display"
-import { MessageCreator } from "@/components/edit-mode"
+import { MessageBuilder } from "@/components/edit-mode"
 import { EDITOR_STATE } from "./constants"
 
 import { MessagesSample } from "./components/MessagesSample"
@@ -18,7 +18,7 @@ function Widget() {
 
    return (
       <AutoLayout name="Widget Container" width={"hug-contents"} height={"hug-contents"} overflow="visible">
-         {/* Generated Chat (Result) */}
+         {/* Generated Chat (Displayed Result) */}
          <PhoneFrame renderElements={displayMode >= 2} theme={theme}>
             <Interface renderElements={displayMode >= 1} theme={theme}>
                <ChatLayout renderElements={displayMode >= 0} theme={theme}>
@@ -27,8 +27,20 @@ function Widget() {
             </Interface>
          </PhoneFrame>
 
-         {/* Edit Interface (New Message) */}
-         <MessageCreator renderElement={isEditMode} editorManager={[editorState, setEditorState]} theme={theme} />
+         {/* Editor Mode (Interface) */}
+         <AutoLayout
+            positioning="absolute"
+            overflow="visible"
+            width={390}
+            y={16}
+            x={{
+               type: "right",
+               offset: -25 - 390,
+            }}
+         >
+            {/* (New Message) Constructor */}
+            <MessageBuilder renderElement={isEditMode} editorManager={[editorState, setEditorState]} theme={theme} />
+         </AutoLayout>
       </AutoLayout>
    )
 }

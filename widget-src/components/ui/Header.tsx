@@ -1,8 +1,9 @@
 // Dependencies
 const { AutoLayout, Text, Rectangle, SVG } = figma.widget
 // Components
-import { IosHeaderStatus, ProfilePic } from "@/components/atoms"
 import { remapTokens } from "@/utils"
+// Internal
+import { IosHeaderStatus, ProfilePic } from "@/components/ui/atoms"
 
 /** Import Changelog
  * Drilled Props

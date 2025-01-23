@@ -1,9 +1,10 @@
 // Dependencies
 const { Image, AutoLayout, Text } = figma.widget
 // Components
-import { StatusAtom, TailAtom } from "@/components/atoms"
 import { PreviewImage64 } from "@/assets/base64"
 import { remapTokens } from "@/utils"
+// Internal
+import { StatusAtom, TailAtom } from "@/components/ui/atoms"
 
 /** Import Changelog
  * Added maxWidth at maxMin Layer
