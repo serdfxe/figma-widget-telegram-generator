@@ -169,7 +169,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
             </Section>
             {/* Editor Main Event */}
             <Button onEvent={console.log} colorPalette={color}>
-               Apply To Chat
+               Add To Chat
             </Button>
          </AutoLayout>
       )
