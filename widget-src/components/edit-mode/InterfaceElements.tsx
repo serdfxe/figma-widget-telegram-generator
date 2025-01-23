@@ -224,8 +224,8 @@ export function Button({ colorPalette, children, onEvent, ...props }: ButtonProp
    )
 }
 
-interface SelectorProps extends CreatorCompKitConfig, ContainsEvent<[WidgetClickEvent]> {
-   options: [string, string]
+interface SelectorProps extends CreatorCompKitConfig, ContainsEvent<[WidgetClickEvent, number]> {
+   options: string[]
 }
 
 export function Selector({ onEvent, options, value, colorPalette, ...props }: SelectorProps) {
@@ -282,12 +282,11 @@ export function Selector({ onEvent, options, value, colorPalette, ...props }: Se
          verticalAlignItems="center"
          {...props}
       >
-         <Option value={value} onEvent={onEvent} optionIndex={0}>
-            {options[0]}
-         </Option>
-         <Option value={value} onEvent={onEvent} optionIndex={1}>
-            {options[1]}
-         </Option>
+         {options.map((option, index) => (
+            <Option value={value} onEvent={(e) => onEvent(e, index)} optionIndex={index}>
+               {option}
+            </Option>
+         ))}
       </AutoLayout>
    )
 }
