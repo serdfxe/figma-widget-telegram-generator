@@ -88,11 +88,12 @@ export function PhoneFrame({ renderElements, children }: PhoneFrameProps) {
             // Rounded screen corners
             name="hideCornersOnPhoneDisplay"
             overflow={"hidden"}
-            cornerRadius={54}
+            cornerRadius={52}
             // Phone Aspect Ratio
             width={390}
             height={844}
          >
+            {/* Viewport */}
             {children}
          </Frame>
          <Image
