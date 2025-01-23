@@ -5,11 +5,12 @@ interface CreatorCompKitConfig extends Partial<AutoLayoutProps> {
    colorPalette: ThemedColors[ThemeModes]
 }
 
-interface ContainsEvent<T = WidgetClickEvent> {
+/** Generic `P`: onEvent callback parameters */
+interface ContainsEvent<P extends unknown[] = [WidgetClickEvent]> {
    /** TextEditEvent Inputs Value */
-   value: T extends WidgetClickEvent ? number : string
+   value: P[0] extends WidgetClickEvent ? number : string
    /** example User Click Event */
-   onEvent: (e: T) => void
+   onEvent: (...args: P) => void
 }
 
 export function Section({ children, ...props }: Partial<CreatorCompKitConfig>) {
@@ -63,7 +64,7 @@ export function ButtonsRow({ children, ...props }: Partial<CreatorCompKitConfig>
    )
 }
 
-interface ButtonProps<T = WidgetClickEvent> extends CreatorCompKitConfig, PartialPick<ContainsEvent<T>, "value"> {
+interface ButtonProps<A extends unknown[] = [WidgetClickEvent]> extends CreatorCompKitConfig, PartialPick<ContainsEvent<A>, "value"> {
    children?: string
 }
 
@@ -105,7 +106,7 @@ export function ButtomSmall({ colorPalette, children, onEvent, ...props }: Butto
 }
 
 /** Branched from telegram chat button */
-export function ChatButtonEditable({ colorPalette, onEvent, value, ...props }: Omit<ButtonProps<TextEditEvent>, "children">) {
+export function ChatButtonEditable({ colorPalette, onEvent, value, ...props }: Omit<ButtonProps<[TextEditEvent]>, "children">) {
    return (
       <AutoLayout
          name="ChatButton"
@@ -223,7 +224,7 @@ export function Button({ colorPalette, children, onEvent, ...props }: ButtonProp
    )
 }
 
-interface SelectorProps extends CreatorCompKitConfig, ContainsEvent {
+interface SelectorProps extends CreatorCompKitConfig, ContainsEvent<[WidgetClickEvent]> {
    options: [string, string]
 }
 
@@ -291,7 +292,7 @@ export function Selector({ onEvent, options, value, colorPalette, ...props }: Se
    )
 }
 
-interface TextInputProps extends CreatorCompKitConfig, ContainsEvent<TextEditEvent> {
+interface TextInputProps extends CreatorCompKitConfig, ContainsEvent<[TextEditEvent]> {
    placeholder: string
    isResizable?: boolean
 }
