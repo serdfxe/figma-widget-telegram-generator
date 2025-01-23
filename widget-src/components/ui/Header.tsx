@@ -1,11 +1,8 @@
-const { widget } = figma
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { useSyncedState, usePropertyMenu, Frame, Image, AutoLayout, Text, Rectangle, Input, SVG } = widget
-
-import { IosHeaderStatus } from "../atoms/IosAtoms"
-import { ProfilePic } from "../atoms/ProfilePicture"
-
-import { remapTokens } from "../../utils"
+// Dependencies
+const { AutoLayout, Text, Rectangle, SVG } = figma.widget
+// Components
+import { IosHeaderStatus, ProfilePic } from "@/components/atoms"
+import { remapTokens } from "@/utils"
 
 /** Import Changelog
  * Drilled Props

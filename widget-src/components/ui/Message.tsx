@@ -1,11 +1,9 @@
-const { widget } = figma
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { useSyncedState, usePropertyMenu, Frame, Image, AutoLayout, Text, Input, SVG } = widget
-
-import { StatusAtom, TailAtom } from "../atoms/MessageAtoms"
-import { PreviewImage64 } from "../../assets/base64/Message"
-
-import { remapTokens } from "../../utils"
+// Dependencies
+const { Image, AutoLayout, Text } = figma.widget
+// Components
+import { StatusAtom, TailAtom } from "@/components/atoms"
+import { PreviewImage64 } from "@/assets/base64"
+import { remapTokens } from "@/utils"
 
 /** Import Changelog
  * Added maxWidth at maxMin Layer

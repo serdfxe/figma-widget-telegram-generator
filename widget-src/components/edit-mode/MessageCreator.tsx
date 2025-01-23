@@ -1,13 +1,11 @@
 // Dependencies
-const { widget } = figma
-const { AutoLayout, Text } = widget
+const { AutoLayout, Text } = figma.widget
 // Components
-import { remapTokens } from "../../utils"
+import { remapTokens } from "@/utils"
+import { type SetCallback } from "@/hooks"
+import { EDITOR_STATE } from "@/constants"
+// Internal
 import { Section, Label, ButtonsRow, Button, ButtomSmall, ChatButtonEditable, Selector, TextInput } from "./InterfaceElements"
-
-import { type SetCallback } from "../../hooks/useDynamicState"
-
-import { EDITOR_STATE } from "../../constants"
 
 /** Import Changelog
  * Generate Interface, colors & extracted svg paths

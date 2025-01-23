@@ -1,8 +1,7 @@
-const { widget } = figma
-const { Frame, Image, AutoLayout } = widget
-
-import { FrameBezel64 } from "../../assets/base64/FrameBezel"
-import { DynamicIsland64 } from "../../assets/base64/DynamicIsland"
+// Dependencies
+const { Frame, Image, AutoLayout } = figma.widget
+// Components
+import { FrameBezel64, DynamicIsland64 } from "@/assets/base64"
 
 interface PhoneFrameProps extends Partial<AutoLayoutProps>, ReqCompProps, OptionalRender {}
 

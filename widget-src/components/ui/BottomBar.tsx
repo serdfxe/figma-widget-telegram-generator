@@ -1,9 +1,8 @@
-const { widget } = figma
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { useSyncedState, usePropertyMenu, Frame, Image, AutoLayout, Text, Rectangle, Input, SVG } = widget
-
-import { remapTokens } from "../../utils"
-import { IosBottomBar } from "../atoms/IosAtoms"
+// Dependencies
+const { Frame, Text, Rectangle, SVG } = figma.widget
+// Components
+import { remapTokens } from "@/utils"
+import { IosBottomBar } from "@/components/atoms"
 
 /** Import Changelog
  * colors with remapTokens

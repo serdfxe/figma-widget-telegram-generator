@@ -1,5 +1,5 @@
-const { widget } = figma
-const { AutoLayout, Text, Input, SVG } = widget
+// Dependencies
+const { AutoLayout, Text, Input, SVG } = figma.widget
 
 interface CreatorCompKitConfig extends Partial<AutoLayoutProps> {
    colorPalette: ThemedColors[ThemeModes]

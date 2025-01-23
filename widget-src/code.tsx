@@ -1,19 +1,14 @@
-/* 
-   This is a Telegram bot chat generator. 
-*/
+/* This is a Telegram bot chat generator. */
 // Dependencies
 const { widget } = figma
 const { AutoLayout } = widget
 // Components
-import { PhoneFrame } from "./components/display/PhoneFrame"
-import { Interface } from "./components/display/Interface"
-import { MessagesSample } from "./components/MessagesSample"
-import { useWidgetMenu } from "./hooks/useWidgetMenu"
-import { ChatLayout } from "./components/display/ChatLayout"
-import { MessageCreator } from "./components/edit-mode/MessageCreator"
-import useDynamicState from "./hooks/useDynamicState"
-
+import { useWidgetMenu, useDynamicState } from "@/hooks"
+import { PhoneFrame, Interface, ChatLayout } from "@/components/display"
+import { MessageCreator } from "@/components/edit-mode"
 import { EDITOR_STATE } from "./constants"
+
+import { MessagesSample } from "./components/MessagesSample"
 
 function Widget() {
    // Widget Property Menu

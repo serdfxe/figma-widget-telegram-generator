@@ -1,6 +1,5 @@
 // Dependencies
-const { widget } = figma
-const { useSyncedState, usePropertyMenu } = widget
+const { useSyncedState, usePropertyMenu } = figma.widget
 // Components
 import { THEME_MODES } from "../constants"
 
@@ -21,7 +20,7 @@ const defaultConfig: useWidgetMenuConfig["config"] = {
 }
 
 /** Custom Hook Hnadle Widget Property Menu */
-export const useWidgetMenu = ({ config = defaultConfig }: Partial<useWidgetMenuConfig> = {}) => {
+export default function useWidgetMenu({ config = defaultConfig }: Partial<useWidgetMenuConfig> = {}) {
    // Theme Mode
    const [theme, setTheme] = useSyncedState<ThemeModes>("theme", config.theme)
    const themeOptions = THEME_MODES.map((mode) => {

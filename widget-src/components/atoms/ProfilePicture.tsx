@@ -1,8 +1,7 @@
-const { widget } = figma
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { useSyncedState, usePropertyMenu, Frame, Image, AutoLayout, Text, Rectangle, Input, SVG } = widget
-
-import { ProfilePic64 } from "../../assets/base64/ProfilePic"
+// Dependencies
+const { Frame, Image } = figma.widget
+// Components
+import { ProfilePic64 } from "@/assets/base64"
 
 /** Import Changelog
  * SVG to base64 Image with props src

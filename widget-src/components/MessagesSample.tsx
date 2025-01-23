@@ -1,9 +1,7 @@
-const { widget } = figma
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { useSyncedState, usePropertyMenu, Frame, Image, AutoLayout, Text, Input, SVG } = widget
-
-import { Button } from "./ui/Button"
-import { Message } from "./ui/Message"
+// Dependencies
+const { AutoLayout, Text } = figma.widget
+// Components
+import { Button, Message } from "@/components/ui"
 
 export function MessagesSample({ theme }: Partial<AutoLayoutProps> & ReqCompProps) {
    return (

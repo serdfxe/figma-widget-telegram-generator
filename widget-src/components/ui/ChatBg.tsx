@@ -1,8 +1,7 @@
-const { widget } = figma
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { useSyncedState, usePropertyMenu, Rectangle, Frame, Image, AutoLayout, Text, Input, SVG } = widget
-
-import { LatestDark64, LatestLight64, FlatDark64, FlatLight64 } from "../../assets/base64/Background"
+// Dependencies
+const { Rectangle, Frame, Image } = figma.widget
+// Components
+import { LatestDark64, LatestLight64, FlatDark64, FlatLight64 } from "@/assets/base64"
 
 /** Import Changelog
  * Darkmode handle with prop

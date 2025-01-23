@@ -1,8 +1,7 @@
-const { widget } = figma
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { useSyncedState, usePropertyMenu, Frame, Image, AutoLayout, Text, Input, SVG } = widget
-
-import { ChatButtonAtom } from "../atoms/ButtonAtom"
+// Dependencies
+const { AutoLayout } = figma.widget
+// Components
+import { ChatButtonAtom } from "@/components/atoms"
 
 /** Import Changelog
  * Declare props Interface & extract reqProps by children

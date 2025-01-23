@@ -1,10 +1,7 @@
-const { widget } = figma
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { Frame } = widget
-
-import { ChatBg } from "../ui/ChatBg"
-import { Header } from "../ui/Header"
-import { BottomBar } from "../ui/BottomBar"
+// Dependencies
+const { Frame } = figma.widget
+// Components
+import { ChatBg, BottomBar, Header } from "@/components/ui"
 
 /** Import Changelog
  * commented unnimported comps

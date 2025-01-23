@@ -1,5 +1,5 @@
-const { widget } = figma
-const { AutoLayout } = widget
+// Dependencies
+const { AutoLayout } = figma.widget
 
 interface ChatLayoutProps extends Partial<AutoLayoutProps>, ReqCompProps, OptionalRender {}
 

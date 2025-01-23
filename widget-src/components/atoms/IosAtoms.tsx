@@ -1,8 +1,7 @@
-const { widget } = figma
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { useSyncedState, usePropertyMenu, Frame, Image, AutoLayout, Text, Rectangle, Input, SVG } = widget
-
-import { remapTokens } from "../../utils"
+// Dependencies
+const { Frame, AutoLayout, Rectangle, SVG } = figma.widget
+// Components
+import { remapTokens } from "@/utils"
 
 /** Import Changelog
  * Add ReqCompprops with theme & Colors
