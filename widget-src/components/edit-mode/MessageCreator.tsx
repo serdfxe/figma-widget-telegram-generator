@@ -23,10 +23,10 @@ export function MessageCreator({ editorManager, renderElement, theme, ...props }
    const [{ direction, type, text, name, extension, size, buttons }, setEditorState] = editorManager
 
    /** Overrides values of a specific button */
-   const updateButton = (id: number, newvals: Partial<(typeof EDITOR_STATE)["buttons"][number]>) => {
+   const updateButton = (row: number, id: number, newvals: Partial<(typeof EDITOR_STATE)["buttons"][number][number]>) => {
       setEditorState(
          "buttons",
-         buttons.map((button, i) => (i === id ? { ...button, ...newvals } : button)),
+         buttons.map((buttonRow, rowIndex) => (rowIndex === row ? buttonRow.map((button, buttonIndex) => (buttonIndex === id ? { ...button, ...newvals } : button)) : buttonRow)),
       )
    }
 
@@ -131,8 +131,15 @@ export function MessageCreator({ editorManager, renderElement, theme, ...props }
                <AutoLayout name="Buttons Container" cornerRadius={8} overflow="visible" direction="vertical" spacing={12} width="fill-parent">
                   <ButtonsRow>
                      <ChatButtonEditable
-                        value={buttons[0].text}
-                        onEvent={(e) => updateButton(0, { text: e.characters })}
+                        value={buttons[0][0].text}
+                        onEvent={(e) => updateButton(0, 0, { text: e.characters })}
+                        name="chat-button"
+                        width="fill-parent"
+                        colorPalette={color}
+                     />
+                     <ChatButtonEditable
+                        value={buttons[0][0].text}
+                        onEvent={(e) => updateButton(0, 0, { text: e.characters })}
                         name="chat-button"
                         width="fill-parent"
                         colorPalette={color}
