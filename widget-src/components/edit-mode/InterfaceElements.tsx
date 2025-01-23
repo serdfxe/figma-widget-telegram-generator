@@ -66,12 +66,17 @@ export function ButtonsRow({ children, ...props }: Partial<CreatorCompKitConfig>
 
 interface ButtonProps<A extends unknown[] = [WidgetClickEvent]> extends CreatorCompKitConfig, PartialPick<ContainsEvent<A>, "value"> {
    children?: string
+   icon?: "plus" | "minus"
 }
 
-export function ButtomSmall({ colorPalette, children, onEvent, ...props }: ButtonProps) {
+export function ButtomSmall({ colorPalette, icon, children, onEvent, ...props }: ButtonProps) {
    const svgPaths = {
       plus: `<svg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'>
              <path d='M7.05714 6.90714H11.8C11.9381 6.90714 12.05 6.79521 12.05 6.65714V5.34286C12.05 5.20479 11.9381 5.09286 11.8 5.09286H7.05714C6.9743 5.09286 6.90714 5.0257 6.90714 4.94286V0.2C6.90714 0.0619289 6.79521 -0.05 6.65714 -0.05H5.34286C5.20479 -0.05 5.09286 0.0619287 5.09286 0.2V4.94286C5.09286 5.0257 5.0257 5.09286 4.94286 5.09286H0.2C0.0619289 5.09286 -0.05 5.20479 -0.05 5.34286V6.65714C-0.05 6.79521 0.0619287 6.90714 0.2 6.90714H4.94286C5.0257 6.90714 5.09286 6.9743 5.09286 7.05714V11.8C5.09286 11.9381 5.20479 12.05 5.34286 12.05H6.65714C6.79521 12.05 6.90714 11.9381 6.90714 11.8V7.05714C6.90714 6.9743 6.9743 6.90714 7.05714 6.90714Z' fill='white' stroke='${colorPalette.text.white}' stroke-width='0.1'/>
+         </svg>`,
+      minus: `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_139_8212)"><path d="M7.05709 6.90715H11.8C11.9381 6.90715 12.05 6.79522 12.05 6.65715V5.34287C12.05 5.2048 11.9381 5.09287 11.8 5.09287H7.05709C6.97425 5.09287 7 5.09287 6.90709 5.09287C7 5.09287 6.79516 5.09287 6.65709 5.09287H5.34281C5.20474 5.09287 5.5 5.0932 5.09281 5.09287C5 5.09277 5.02565 5.09287 4.94281 5.09287H0.199951C0.0618801 5.09287 -0.0500488 5.2048 -0.0500488 5.34287V6.65715C-0.0500488 6.79522 0.0618799 6.90715 0.199951 6.90715H4.94281C5.02565 6.90715 4.94281 6.90715 5.09281 6.90715C5.24281 6.90715 5.20474 6.90715 5.34281 6.90715H6.65709C6.79516 6.90715 6.5 6.90715 6.90709 6.90715C7 6.90715 6.97425 6.90715 7.05709 6.90715Z" fill="white" stroke="black" stroke-width="0.1"/>
+            </g><defs><clipPath id="clip0_139_8212"><rect width="12" height="12" fill="white"/></clipPath></defs>
          </svg>`,
    }
 
@@ -100,7 +105,7 @@ export function ButtomSmall({ colorPalette, children, onEvent, ...props }: Butto
          <Text hidden={(children ?? "").length == 0} name="Add Button Row" fill={colorPalette.text.white} lineHeight={22} fontSize={14} fontWeight={600}>
             {children}
          </Text>
-         <SVG name="plus" height={12} width={12} src={svgPaths.plus} />
+         <SVG name="plus" height={12} width={12} src={svgPaths[icon ?? "plus"]} />
       </AutoLayout>
    )
 }

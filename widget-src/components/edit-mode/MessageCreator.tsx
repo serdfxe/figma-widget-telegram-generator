@@ -30,8 +30,22 @@ export function MessageCreator({ editorManager, renderElement, theme, ...props }
       )
    }
 
-   const addButtonToRow = () => {}
-   const addRowOfButtons = () => {}
+   const addButtonToRow = (row: number, nextId: number) => {
+      setEditorState(
+         "buttons",
+         buttons.map((buttonsRow, rowIndex) => (rowIndex === row ? [...buttonsRow, { id: nextId, text: `Button ${rowIndex + 1}-${nextId}`, hasRef: false }] : buttonsRow)),
+      )
+   }
+   const removeButtonFromRow = (row: number, id: number) => {
+      setEditorState(
+         "buttons",
+         buttons.map((buttonsRow, rowIndex) => (rowIndex === row ? buttonsRow.filter((button) => button.id !== id) : buttonsRow)),
+      )
+   }
+
+   const addRowOfButtons = () => {
+      setEditorState("buttons", [...buttons, [{ id: 1, text: `Button ${buttons.length}-1`, hasRef: false }]])
+   }
 
    // Theme Mode
    /** Edit Module Color Palette */
@@ -129,26 +143,26 @@ export function MessageCreator({ editorManager, renderElement, theme, ...props }
                <Label colorPalette={color}>Message Content</Label>
                <TextInput onEvent={(e) => setEditorState("text", e.characters)} value={text} placeholder="Text Message..." isResizable={true} colorPalette={color} />
                <AutoLayout name="Buttons Container" cornerRadius={8} overflow="visible" direction="vertical" spacing={12} width="fill-parent">
-                  <ButtonsRow>
-                     <ChatButtonEditable
-                        value={buttons[0][0].text}
-                        onEvent={(e) => updateButton(0, 0, { text: e.characters })}
-                        name="chat-button"
-                        width="fill-parent"
-                        colorPalette={color}
-                     />
-                     <ChatButtonEditable
-                        value={buttons[0][0].text}
-                        onEvent={(e) => updateButton(0, 0, { text: e.characters })}
-                        name="chat-button"
-                        width="fill-parent"
-                        colorPalette={color}
-                     />
-                     <ButtomSmall onEvent={() => addButtonToRow()} colorPalette={color} />
-                  </ButtonsRow>
+                  {buttons.map((buttonsRow, rowIndex) => (
+                     <ButtonsRow>
+                        {buttonsRow.length > 1 && (
+                           <ButtomSmall onEvent={() => removeButtonFromRow(rowIndex, buttonsRow.length - 1)} icon="minus" tooltip="Remove Button From Row" colorPalette={color} />
+                        )}
+                        {buttonsRow.map((button, buttonIndex) => (
+                           <ChatButtonEditable
+                              value={button.text}
+                              onEvent={(e) => updateButton(rowIndex, buttonIndex, { text: e.characters })}
+                              name="chat-button"
+                              width="fill-parent"
+                              colorPalette={color}
+                           />
+                        ))}
+                        <ButtomSmall onEvent={() => addButtonToRow(rowIndex, buttonsRow.length + 1)} tooltip="Add Button To Row" colorPalette={color} />
+                     </ButtonsRow>
+                  ))}
                   <ButtonsRow>
                      <ButtomSmall onEvent={() => addRowOfButtons()} colorPalette={color}>
-                        Add Buttons Row
+                        Add Row of Buttons
                      </ButtomSmall>
                   </ButtonsRow>
                </AutoLayout>
