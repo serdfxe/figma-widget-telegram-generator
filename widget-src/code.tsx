@@ -4,7 +4,7 @@ const { widget } = figma
 const { AutoLayout } = widget
 // Components
 import { useWidgetMenu, useDynamicState } from "@/hooks"
-import { PhoneFrame, Interface, ChatLayout } from "@/components/display"
+import { PhoneFrame, Interface, MessagesLayout, MessagePreview } from "@/components/display"
 import { MessageBuilder } from "@/components/edit-mode"
 import { EDITOR_STATE } from "./constants"
 
@@ -21,9 +21,10 @@ function Widget() {
          {/* Generated Chat (Displayed Result) */}
          <PhoneFrame renderElements={displayMode >= 2} theme={theme}>
             <Interface renderElements={displayMode >= 1} theme={theme}>
-               <ChatLayout renderElements={displayMode >= 0} theme={theme}>
+               <MessagesLayout renderElements={displayMode >= 0} theme={theme}>
                   <MessagesSample theme={theme} />
-               </ChatLayout>
+                  <MessagePreview editorState={editorState} theme={theme} />
+               </MessagesLayout>
             </Interface>
          </PhoneFrame>
 
@@ -40,6 +41,7 @@ function Widget() {
          >
             {/* (New Message) Constructor */}
             <MessageBuilder renderElement={isEditMode} editorManager={[editorState, setEditorState]} theme={theme} />
+            {/* TODO: Remove existing messages from display method*/}
          </AutoLayout>
       </AutoLayout>
    )

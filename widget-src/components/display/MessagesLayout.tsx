@@ -1,10 +1,10 @@
 // Dependencies
 const { AutoLayout } = figma.widget
 
-interface ChatLayoutProps extends Partial<AutoLayoutProps>, ReqCompProps, OptionalRender {}
+interface MessagesLayoutProps extends Partial<AutoLayoutProps>, ReqCompProps, OptionalRender {}
 
-/** Layout In & Out Messages */
-export function ChatLayout({ renderElements, children, ...props }: ChatLayoutProps) {
+/** A component that arranges messages in a specific layout (In & Out Messages). */
+export function MessagesLayout({ renderElements, children, ...props }: MessagesLayoutProps) {
    return !renderElements ? (
       children
    ) : (

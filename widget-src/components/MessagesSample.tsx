@@ -18,7 +18,7 @@ export function MessagesSample({ theme }: Partial<AutoLayoutProps> & ReqCompProp
          </AutoLayout>
          <AutoLayout name="In" overflow="visible" direction="vertical" spacing={8} width="fill-parent" verticalAlignItems="end">
             <Message config={{ text: "Weather Forecast" }} type="text" side="in" theme={theme} />
-            <Message config={{ fileName: "IMG_023", fileSize: "22", fileExtension: ".pngh" }} type="image" side="in" theme={theme} />
+            <Message config={{ name: "IMG_023", size: "22", extension: ".pngh" }} type="image" side="in" theme={theme} />
          </AutoLayout>
          <AutoLayout name="Out" overflow="visible" direction="vertical" spacing={8} width="fill-parent" horizontalAlignItems="end">
             <AutoLayout name="With Buttons" overflow="visible" direction="vertical" spacing={8} horizontalAlignItems="end">

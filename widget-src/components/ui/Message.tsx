@@ -30,9 +30,12 @@ interface TypePropsMap {
    }
    image: {
       config: {
-         fileName: string
-         fileSize: string
-         fileExtension?: string
+         /** File Name*/
+         name: string
+         /** File Size 2.4 MB */
+         size: string
+         /** File Size .PNG*/
+         extension?: string
       }
    }
 }
@@ -113,15 +116,15 @@ export function Message<T extends MessageTypes>({ side, type, config, theme, ...
                      >
                         <AutoLayout name="Frame 3" overflow="visible" width="fill-parent">
                            <Text name="IMG_0475.PNG" fill={color.text[side]} lineHeight={21} letterSpacing={-0.3} strokeWidth={0} strokeAlign="center">
-                              {(config as MessageProps<"image">["config"]).fileName}
+                              {(config as MessageProps<"image">["config"]).name}
                            </Text>
                            <Text name="IMG_0475.PNG" fill={color.text[side]} lineHeight={21} letterSpacing={-0.3} strokeWidth={0} strokeAlign="center">
-                              {(config as MessageProps<"image">["config"]).fileExtension}
+                              {(config as MessageProps<"image">["config"]).extension}
                            </Text>
                         </AutoLayout>
                         <AutoLayout name="Frame 2" overflow="visible" width={43}>
                            <Text name="2.4 MB" fill={color.text[side]} fontSize={13} letterSpacing={-0.1} strokeWidth={0} strokeAlign="center">
-                              {(config as MessageProps<"image">["config"]).fileSize}
+                              {(config as MessageProps<"image">["config"]).size}
                            </Text>
                            <Text name="Label" fill={color.text[side]} fontSize={13} letterSpacing={-0.1} strokeWidth={0} strokeAlign="center">
                               {"  "}
