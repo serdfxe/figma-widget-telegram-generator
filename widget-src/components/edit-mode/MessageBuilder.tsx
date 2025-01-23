@@ -37,10 +37,19 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
       )
    }
    const removeButtonFromRow = (row: number, id: number) => {
-      setEditorState(
-         "buttons",
-         buttons.map((buttonsRow, rowIndex) => (rowIndex === row ? buttonsRow.filter((button) => button.id !== id) : buttonsRow)),
-      )
+      if (buttons[row].length === 1) {
+         // Remove row
+         setEditorState(
+            "buttons",
+            buttons.filter((_, rowIndex) => rowIndex !== row),
+         )
+      } else {
+         // Remove Last Button
+         setEditorState(
+            "buttons",
+            buttons.map((buttonsRow, rowIndex) => (rowIndex === row ? buttonsRow.filter((button) => button.id !== id) : buttonsRow)),
+         )
+      }
    }
 
    const addRowOfButtons = () => {
@@ -140,9 +149,8 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                <AutoLayout name="Buttons Container" cornerRadius={8} overflow="visible" direction="vertical" spacing={12} width="fill-parent">
                   {buttons.map((buttonsRow, rowIndex) => (
                      <ButtonsRow>
-                        {buttonsRow.length > 1 && (
-                           <ButtomSmall onEvent={() => removeButtonFromRow(rowIndex, buttonsRow.length - 1)} icon="minus" tooltip="Remove Button From Row" colorPalette={color} />
-                        )}
+                        <ButtomSmall onEvent={() => removeButtonFromRow(rowIndex, buttonsRow.length - 1)} icon="minus" tooltip="Remove Button From Row" colorPalette={color} />
+
                         {buttonsRow.map((button, buttonIndex) => (
                            <ChatButtonEditable
                               value={button.text}
