@@ -22,7 +22,7 @@ interface MessageCreatorProps extends Partial<AutoLayoutProps>, ReqCompProps {
 }
 
 export function MessageCreator({ editorManager, renderElement, theme, ...props }: MessageCreatorProps) {
-   const [{ direction, type, text, extension, size, buttons }, setEditorState] = editorManager
+   const [{ direction, type, text, name, extension, size, buttons }, setEditorState] = editorManager
 
    const handleSelectorEvent = (key: keyof typeof EDITOR_STATE) => {
       let val = editorManager[0][key]
@@ -128,7 +128,7 @@ export function MessageCreator({ editorManager, renderElement, theme, ...props }
             {/* Message Type Image / File */}
             <Section hidden={type === 1}>
                <Label colorPalette={color}>Image Details</Label>
-               <TextInput onEvent={(e) => setEditorState("text", e.characters)} value={text} placeholder="Image/ File Name" colorPalette={color} />
+               <TextInput onEvent={(e) => setEditorState("name", e.characters)} value={name} placeholder="Image/ File Name" colorPalette={color} />
                <TextInput onEvent={(e) => setEditorState("extension", e.characters)} value={extension} placeholder="Image/ File Extension" colorPalette={color} />
                <TextInput onEvent={(e) => setEditorState("size", e.characters)} value={size} placeholder="Image/ File Size" colorPalette={color} />
             </Section>
