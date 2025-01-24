@@ -2,7 +2,6 @@
 const { AutoLayout, Text } = figma.widget
 // Components
 import { Button } from "@/components/ui"
-import { EDITOR_STATE } from "@/constants"
 import { remapTokens } from "@/utils"
 
 interface SideContainerProps extends Partial<AutoLayoutProps> {
@@ -27,7 +26,7 @@ export function DirectionContainer({ children, side, ...props }: SideContainerPr
 }
 
 interface WithButtonsProps extends Partial<AutoLayoutProps>, ReqCompProps {
-   buttons: (typeof EDITOR_STATE)["buttons"]
+   buttons: Message["buttons"]
 }
 
 export function WithButtons({ children, buttons, theme, ...props }: WithButtonsProps) {

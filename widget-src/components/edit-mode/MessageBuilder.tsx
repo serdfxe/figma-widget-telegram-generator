@@ -2,8 +2,7 @@
 const { AutoLayout, Text } = figma.widget
 // Components
 import { remapTokens } from "@/utils"
-import { type SetCallback } from "@/hooks"
-import { EDITOR_STATE } from "@/constants"
+import { type SetterProp } from "@/hooks"
 // Internal
 import { Section, Label, ButtonsRow, Button, ButtomSmall, ChatButtonEditable, Selector, TextInput } from "@/components/edit-mode/atoms"
 
@@ -15,15 +14,15 @@ import { Section, Label, ButtonsRow, Button, ButtomSmall, ChatButtonEditable, Se
 interface MessageBuilderProps extends Partial<AutoLayoutProps>, ReqCompProps {
    /** Fully Hide from layers tree */
    renderElement: boolean
-   /** Editor State Manager (New Message Inputs Centralized State at base code.tsx) */
-   editorManager: [typeof EDITOR_STATE, SetCallback<typeof EDITOR_STATE>]
+   /** Editor State Manager (New Message Inputs Centralized State at base code.tsx) & setMessagesState */
+   editorManager: [Message, SetterProp<Message>, SetterProp<MessagesState>]
 }
 
 export function MessageBuilder({ editorManager, renderElement, theme, ...props }: MessageBuilderProps) {
-   const [{ direction, type, text, name, extension, size, buttons }, setEditorState] = editorManager
+   const [{ direction, type, text, name, extension, size, buttons }, setEditorState, setMessagesState] = editorManager
 
    /** Overrides values of a specific button */
-   const updateButton = (row: number, id: number, newvals: Partial<(typeof EDITOR_STATE)["buttons"][number][number]>) => {
+   const updateButton = (row: number, id: number, newvals: Partial<Message["buttons"][number][number]>) => {
       setEditorState(
          "buttons",
          buttons.map((buttonRow, rowIndex) => (rowIndex === row ? buttonRow.map((button, buttonIndex) => (buttonIndex === id ? { ...button, ...newvals } : button)) : buttonRow)),
@@ -56,6 +55,25 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
       setEditorState("buttons", [...buttons, [{ id: 1, text: `Button ${buttons.length}-1`, hasRef: false }]])
    }
 
+   const addMessageToChat = () => {
+      const newMessage = { direction, type, text, name, extension, size, buttons }
+      setMessagesState("messages", (prevMessages) => {
+         // Array of In & Out Messages
+         const allMsgs = [...(prevMessages ?? [])]
+         // Array of Messages in a specific direction
+         const dirMsgs = allMsgs.length > 0 ? allMsgs.pop() : []
+         // Handle No Messages & Direction Change
+         if (typeof dirMsgs !== "undefined" && dirMsgs[0]?.direction === direction) {
+            dirMsgs.push(newMessage)
+            allMsgs.push(dirMsgs)
+         } else {
+            allMsgs.push(dirMsgs)
+            allMsgs.push([newMessage])
+         }
+         return allMsgs
+      })
+   }
+
    // Theme Mode
    /** Edit Module Color Palette */
    const color = remapTokens({
@@ -84,6 +102,14 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
       renderElement && (
          <AutoLayout
             name="MessageBuilder"
+            positioning="absolute"
+            overflow="visible"
+            width={390}
+            y={16}
+            x={{
+               type: "right",
+               offset: -25 - 390,
+            }}
             effect={[
                {
                   type: "drop-shadow",
@@ -114,7 +140,6 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                vertical: 32,
                horizontal: 16,
             }}
-            width={"fill-parent"}
             height={"hug-contents"}
             horizontalAlignItems="center"
             stroke={color.surface.primary30}
@@ -176,7 +201,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                </Label>
             </Section>
             {/* Editor Main Event */}
-            <Button onEvent={console.log} colorPalette={color}>
+            <Button onEvent={addMessageToChat} colorPalette={color}>
                Add To Chat
             </Button>
          </AutoLayout>

@@ -1,10 +1,9 @@
 // Components
 import { Message } from "@/components/ui"
-import { EDITOR_STATE } from "@/constants"
 import { DirectionContainer, PreviewLabel, WithButtons } from "@/components/display/atoms"
 
 interface MessagePreviewProps extends Partial<AutoLayoutProps>, ReqCompProps {
-   editorState: typeof EDITOR_STATE
+   editorState: Message
 }
 
 /** Message from editor mode (preview labeled) */
