@@ -29,6 +29,7 @@ export default function useWidgetMenu({ config = defaultConfig }: Partial<useWid
 
    // Display Mode
    const displayOptions = [
+      { option: "message", label: "Last Message Only" },
       { option: "messages", label: "Only Messages" },
       { option: "viewport", label: "Viewport (scrollable)" },
       { option: "phone", label: "Framed Phone" },

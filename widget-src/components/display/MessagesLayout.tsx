@@ -11,8 +11,28 @@ interface MessagesLayoutProps extends Partial<AutoLayoutProps>, ReqCompProps, Op
 
 /** A component that arranges messages in a specific layout (In & Out Messages). */
 export function MessagesLayout({ messagesState, renderElements, children, theme, ...props }: MessagesLayoutProps) {
+   /** Last Message Only Display Mode */
+   const lastMessageSide = messagesState.messages?.[messagesState.messages.length - 1]
+   const lastMessage = lastMessageSide?.[lastMessageSide.length - 1]
+
    return !renderElements ? (
-      children // TODO: last message
+      <>
+         {lastMessage ? (
+            <AutoLayout direction="vertical" spacing={28}>
+               <WithButtons buttons={lastMessage.buttons} theme={theme}>
+                  <Message
+                     type={EDITOR_INPUTS.type.values[lastMessage.type]}
+                     side={EDITOR_INPUTS.direction.values[lastMessage.direction]}
+                     config={lastMessage}
+                     theme={theme}
+                  ></Message>
+               </WithButtons>
+               {children}
+            </AutoLayout>
+         ) : (
+            children
+         )}
+      </>
    ) : (
       <AutoLayout
          name="Container Layout" // Container
