@@ -3,12 +3,15 @@ const { useSyncedState } = figma.widget
 /** Initial Default State (Dynamic object of unknown values) */
 export type DynamicState = { [key: string]: unknown }
 
+/** Nested Callback (prevState passed as argument to `propValue`) */
+type SetCallback<T, K extends keyof T> = (currValue: T[K]) => T[K]
+
 /** setState Callback (Dynamic State & type safe)
  * Only valid keys with matching values for initialState
  * @param propKey - Accepts keys from `initialState`
- * @param propValue - Values of matching type for `initialState[propKey]`
+ * @param propValue - Callback with prevState as prop or Value of matching type for `initialState[propKey]`
  */
-export type SetCallback<S> = <K extends keyof S>(propKey: K, propValue: S[K]) => void
+export type SetterProp<S> = <K extends keyof S>(propKey: K, propValue: S[K] | SetCallback<S, K>) => void
 
 /**
  * Centralized safely typed synced state object manager (example: hold multiple input values)
@@ -28,15 +31,19 @@ export type SetCallback<S> = <K extends keyof S>(propKey: K, propValue: S[K]) =>
  * // Update state for specific state property
  * setInputs("buttons", [{ id: 1, text: "Updated Button 1" }, { id: 2, text: "Updated Button 2" }])
  * console.log(inputs.buttons[0].text) // Output: "Updated Button 1"
+ * setInputs("buttons", (prevButtons) => [...prevButtons, { id: 3, text: "Button 3" }])
+ * // With callback
+ * console.log(inputs.buttons.length) // Output: 3
+ * console.log(inputs.buttons[2].text) // Output: "Button 3"
  */
-export default function useDynamicState<S extends DynamicState>({ ...initialState } = {} as S): [S, SetCallback<S>] {
+export default function useDynamicState<S extends DynamicState>({ ...initialState } = {} as S): [S, SetterProp<S>] {
    const [state, setState] = useSyncedState<S>("state", initialState)
 
-   /** Update state for specific state property */
-   const setSafeState: SetCallback<S> = (propKey, propValue) => {
+   const setSafeState: SetterProp<S> = (propKey, propValue) => {
+      /** Update state for specific state property */
       setState((prevState) => ({
          ...prevState,
-         [propKey]: propValue,
+         [propKey]: typeof propValue === "function" ? (propValue as SetCallback<S, keyof S>)(prevState[propKey]) : propValue,
       }))
    }
 

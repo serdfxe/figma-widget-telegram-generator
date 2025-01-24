@@ -1,6 +1,19 @@
-import { THEME_MODES } from "../constants"
+import { EDITOR_STATE, THEME_MODES } from "@/constants"
 
 declare global {
+   /** Message Props*/
+   type Message = typeof EDITOR_STATE
+
+   /** Messages
+    * @description 2D Array of Out & In Messages
+    */
+   type MessagesState = {
+      // presetMessages?: Message[][]
+      messages?: (Message[] | undefined)[]
+   }
+
+   // Components
+
    /** Display Modes */
    interface OptionalRender {
       /** Applies to all Elements except children
@@ -18,6 +31,8 @@ declare global {
       /** Theme Mode, Set Color Variables */
       theme: ThemeModes
    }
+
+   // Utils
 
    /** Hex & Primitives */
    type Color = ColorHex | PrimitiveColor | (WidgetJSX.SolidPaint | WidgetJSX.GradientPaint)[]
