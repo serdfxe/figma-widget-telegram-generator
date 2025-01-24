@@ -8,13 +8,11 @@ import { PhoneFrame, Interface, MessagesLayout, MessagePreview } from "@/compone
 import { MessageBuilder } from "@/components/edit-mode"
 import { EDITOR_STATE } from "./constants"
 
-import { MessagesSample } from "./components/MessagesSample"
-
 function Widget() {
    const { theme, displayMode, isEditMode } = useWidgetMenu() // Widget Property Menu
 
    // State Management
-   const [editorState, setEditorState] = useDynamicState<Message>(EDITOR_STATE) // Editor
+   const [editorState, setEditorState] = useDynamicState<EditorState>({ ...EDITOR_STATE, isNew: true }) // Editor
    const [messagesState, setMessagesState] = useDynamicState<MessagesState>({ messages: [] }) // Messages
 
    return (
@@ -22,9 +20,9 @@ function Widget() {
          {/* Generated Chat (Displayed Result) */}
          <PhoneFrame renderElements={displayMode >= 2} theme={theme}>
             <Interface renderElements={displayMode >= 1} theme={theme}>
-               <MessagesLayout renderElements={displayMode >= 0} theme={theme}>
-                  <MessagesSample theme={theme} />
-                  <MessagePreview editorState={editorState} theme={theme} />
+               <MessagesLayout renderElements={displayMode >= 0} messagesState={messagesState} theme={theme}>
+                  {/* Preview Message */}
+                  {editorState.isNew && <MessagePreview editorState={editorState} theme={theme} />}
                </MessagesLayout>
             </Interface>
          </PhoneFrame>

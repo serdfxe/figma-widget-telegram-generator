@@ -15,14 +15,17 @@ interface MessageBuilderProps extends Partial<AutoLayoutProps>, ReqCompProps {
    /** Fully Hide from layers tree */
    renderElement: boolean
    /** Editor State Manager (New Message Inputs Centralized State at base code.tsx) & setMessagesState */
-   editorManager: [Message, SetterProp<Message>, SetterProp<MessagesState>]
+   editorManager: [EditorState, SetterProp<EditorState>, SetterProp<MessagesState>]
 }
 
 export function MessageBuilder({ editorManager, renderElement, theme, ...props }: MessageBuilderProps) {
    const [{ direction, type, text, name, extension, size, buttons }, setEditorState, setMessagesState] = editorManager
 
+   const resetIsNew = () => setEditorState("isNew", true) // Reset isNew
+
    /** Overrides values of a specific button */
    const updateButton = (row: number, id: number, newvals: Partial<Message["buttons"][number][number]>) => {
+      resetIsNew()
       setEditorState(
          "buttons",
          buttons.map((buttonRow, rowIndex) => (rowIndex === row ? buttonRow.map((button, buttonIndex) => (buttonIndex === id ? { ...button, ...newvals } : button)) : buttonRow)),
@@ -30,12 +33,14 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
    }
 
    const addButtonToRow = (row: number, nextId: number) => {
+      resetIsNew()
       setEditorState(
          "buttons",
          buttons.map((buttonsRow, rowIndex) => (rowIndex === row ? [...buttonsRow, { id: nextId, text: `Button ${rowIndex + 1}-${nextId}`, hasRef: false }] : buttonsRow)),
       )
    }
    const removeButtonFromRow = (row: number, id: number) => {
+      resetIsNew()
       if (buttons[row].length === 1) {
          // Remove row
          setEditorState(
@@ -52,10 +57,12 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
    }
 
    const addRowOfButtons = () => {
+      resetIsNew()
       setEditorState("buttons", [...buttons, [{ id: 1, text: `Button ${buttons.length}-1`, hasRef: false }]])
    }
 
    const addMessageToChat = () => {
+      setEditorState("isNew", false) // Set isNew
       const newMessage = { direction, type, text, name, extension, size, buttons }
       setMessagesState("messages", (prevMessages) => {
          // Array of In & Out Messages
@@ -154,23 +161,66 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
             </Section>
             <Section>
                <Label colorPalette={color}>Message Direction</Label>
-               <Selector onEvent={(e, i) => setEditorState("direction", i++)} value={direction} options={["Out", "In"]} colorPalette={color} />
+               <Selector
+                  onEvent={(e, i) => {
+                     resetIsNew(), setEditorState("direction", i++)
+                  }}
+                  value={direction}
+                  options={["Out", "In"]}
+                  colorPalette={color}
+               />
             </Section>
             <Section>
                <Label colorPalette={color}>Message Type</Label>
-               <Selector onEvent={(e, i) => setEditorState("type", i++)} value={type} options={["Image / File", "Text"]} colorPalette={color} />
+               <Selector
+                  onEvent={(e, i) => {
+                     resetIsNew(), setEditorState("type", i++)
+                  }}
+                  value={type}
+                  options={["Image / File", "Text"]}
+                  colorPalette={color}
+               />
             </Section>
             {/* Message Type Image / File */}
             <Section hidden={type === 1}>
                <Label colorPalette={color}>Image Details</Label>
-               <TextInput onEvent={(e) => setEditorState("name", e.characters)} value={name} placeholder="Image/ File Name" colorPalette={color} />
-               <TextInput onEvent={(e) => setEditorState("extension", e.characters)} value={extension} placeholder="Image/ File Extension" colorPalette={color} />
-               <TextInput onEvent={(e) => setEditorState("size", e.characters)} value={size} placeholder="Image/ File Size" colorPalette={color} />
+               <TextInput
+                  onEvent={(e) => {
+                     resetIsNew(), setEditorState("name", e.characters)
+                  }}
+                  value={name}
+                  placeholder="Image/ File Name"
+                  colorPalette={color}
+               />
+               <TextInput
+                  onEvent={(e) => {
+                     resetIsNew(), setEditorState("extension", e.characters)
+                  }}
+                  value={extension}
+                  placeholder="Image/ File Extension"
+                  colorPalette={color}
+               />
+               <TextInput
+                  onEvent={(e) => {
+                     resetIsNew(), setEditorState("size", e.characters)
+                  }}
+                  value={size}
+                  placeholder="Image/ File Size"
+                  colorPalette={color}
+               />
             </Section>
             {/* Message Type Text */}
             <Section hidden={type !== 1}>
                <Label colorPalette={color}>Message Content</Label>
-               <TextInput onEvent={(e) => setEditorState("text", e.characters)} value={text} placeholder="Text Message..." isResizable={true} colorPalette={color} />
+               <TextInput
+                  onEvent={(e) => {
+                     resetIsNew(), setEditorState("text", e.characters)
+                  }}
+                  value={text}
+                  placeholder="Text Message..."
+                  isResizable={true}
+                  colorPalette={color}
+               />
                <AutoLayout name="Buttons Container" cornerRadius={8} overflow="visible" direction="vertical" spacing={12} width="fill-parent">
                   {buttons.map((buttonsRow, rowIndex) => (
                      <ButtonsRow>

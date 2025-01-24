@@ -1,12 +1,17 @@
 // Dependencies
 const { AutoLayout } = figma.widget
 
-interface MessagesLayoutProps extends Partial<AutoLayoutProps>, ReqCompProps, OptionalRender {}
+import { DirectionContainer, WithButtons } from "@/components/display/atoms"
+import { Message } from "../ui"
+
+interface MessagesLayoutProps extends Partial<AutoLayoutProps>, ReqCompProps, OptionalRender {
+   messagesState: MessagesState
+}
 
 /** A component that arranges messages in a specific layout (In & Out Messages). */
-export function MessagesLayout({ renderElements, children, ...props }: MessagesLayoutProps) {
+export function MessagesLayout({ messagesState, renderElements, children, theme, ...props }: MessagesLayoutProps) {
    return !renderElements ? (
-      children
+      children // TODO: last message
    ) : (
       <AutoLayout
          name="Container Layout" // Container
@@ -31,6 +36,18 @@ export function MessagesLayout({ renderElements, children, ...props }: MessagesL
          horizontalAlignItems="center"
          {...props}
       >
+         {messagesState.messages?.map(
+            (dirMsg) =>
+               dirMsg && (
+                  <DirectionContainer side={(["out", "in"] as const)[dirMsg[0].direction]}>
+                     {dirMsg.map((msg) => (
+                        <WithButtons buttons={msg.buttons} theme={theme}>
+                           <Message type={(["image", "text"] as const)[msg.type]} side={(["out", "in"] as const)[msg.direction]} config={msg} theme={theme}></Message>
+                        </WithButtons>
+                     ))}
+                  </DirectionContainer>
+               ),
+         )}
          {children}
       </AutoLayout>
    )

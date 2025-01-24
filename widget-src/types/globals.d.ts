@@ -12,6 +12,9 @@ declare global {
       messages?: (Message[] | undefined)[]
    }
 
+   /** @param `IsNew` - Represents if message was applied to MessagesState (should change on edit)  */
+   type EditorState = Message & { isNew: boolean }
+
    // Components
 
    /** Display Modes */
