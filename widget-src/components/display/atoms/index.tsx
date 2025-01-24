@@ -5,20 +5,20 @@ import { Button } from "@/components/ui"
 import { remapTokens } from "@/utils"
 
 interface SideContainerProps extends Partial<AutoLayoutProps> {
-   side: "out" | "in"
+   side: "in" | "out"
 }
 
 export function DirectionContainer({ children, side, ...props }: SideContainerProps) {
    switch (side) {
-      case "out":
-         return (
-            <AutoLayout name="Out" overflow="visible" direction="vertical" spacing={8} width="fill-parent" verticalAlignItems="center" horizontalAlignItems="end" {...props}>
-               {children}
-            </AutoLayout>
-         )
       case "in":
          return (
             <AutoLayout name="In" overflow="visible" direction="vertical" spacing={8} width="fill-parent" {...props}>
+               {children}
+            </AutoLayout>
+         )
+      case "out":
+         return (
+            <AutoLayout name="Out" overflow="visible" direction="vertical" spacing={8} width="fill-parent" verticalAlignItems="center" horizontalAlignItems="end" {...props}>
                {children}
             </AutoLayout>
          )

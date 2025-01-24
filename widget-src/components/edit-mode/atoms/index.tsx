@@ -262,7 +262,7 @@ export function Selector({ onEvent, options, value, colorPalette, ...props }: Se
             <Text
                hoverStyle={{ opacity: 1 }}
                opacity={value == optionIndex ? 1 : 0.5}
-               name="Out"
+               name={`Selector Option ${String(value)}`}
                fill={value == optionIndex ? colorPalette.text.white : colorPalette.text.default}
                lineHeight={22}
                fontSize={14}

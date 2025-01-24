@@ -39,10 +39,10 @@ export function MessagesLayout({ messagesState, renderElements, children, theme,
          {messagesState.messages?.map(
             (dirMsg, key) =>
                dirMsg && (
-                  <DirectionContainer key={key} side={(["out", "in"] as const)[dirMsg[0].direction]}>
+                  <DirectionContainer key={key} side={(["in", "out"] as const)[dirMsg[0].direction]}>
                      {dirMsg.map((msg, key) => (
                         <WithButtons key={key} buttons={msg.buttons} theme={theme}>
-                           <Message type={(["image", "text"] as const)[msg.type]} side={(["out", "in"] as const)[msg.direction]} config={msg} theme={theme}></Message>
+                           <Message type={(["image", "text"] as const)[msg.type]} side={(["in", "out"] as const)[msg.direction]} config={msg} theme={theme}></Message>
                         </WithButtons>
                      ))}
                   </DirectionContainer>

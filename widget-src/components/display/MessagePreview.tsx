@@ -11,7 +11,7 @@ export function MessagePreview({ theme, editorState, ...props }: MessagePreviewP
    const { direction, type, text, name, size, extension, buttons } = editorState
 
    // Convert
-   const directionAsStr = (["out", "in"] as const)[direction]
+   const directionAsStr = (["in", "out"] as const)[direction]
    const typeAsStr = (["image", "text"] as const)[type]
 
    // Match Overload
