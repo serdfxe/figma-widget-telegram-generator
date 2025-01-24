@@ -229,6 +229,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                   }}
                   value={direction}
                   options={[...EDITOR_INPUTS.direction.values]}
+                  tips={[...EDITOR_INPUTS.direction.tips]}
                   colorPalette={color}
                />
             </Section>
@@ -241,6 +242,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                   }}
                   value={type}
                   options={[...EDITOR_INPUTS.type.values]}
+                  tips={[...EDITOR_INPUTS.type.tips]}
                   colorPalette={color}
                />
             </Section>

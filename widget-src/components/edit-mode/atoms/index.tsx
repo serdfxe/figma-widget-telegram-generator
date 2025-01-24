@@ -231,16 +231,18 @@ export function Button({ colorPalette, children, onEvent, ...props }: ButtonProp
 
 interface SelectorProps extends CreatorCompKitConfig, ContainsEvent<[WidgetClickEvent, number]> {
    options: string[]
+   /** ToolTips for option[number] */
+   tips?: string[]
 }
 
-export function Selector({ onEvent, options, value, colorPalette, ...props }: SelectorProps) {
+export function Selector({ onEvent, tips, options, value, colorPalette, ...props }: SelectorProps) {
    /** Selector Option */
-   interface OptionProps extends ContainsEvent {
+   interface OptionProps extends Partial<AutoLayoutProps>, ContainsEvent {
       optionIndex: number
       children: string
    }
 
-   const Option = ({ value, onEvent, children, optionIndex }: OptionProps) => {
+   const Option = ({ value, onEvent, children, optionIndex, ...props }: OptionProps) => {
       return (
          <AutoLayout
             name="Direction"
@@ -258,6 +260,7 @@ export function Selector({ onEvent, options, value, colorPalette, ...props }: Se
             width="fill-parent"
             horizontalAlignItems="center"
             verticalAlignItems="center"
+            {...props}
          >
             <Text
                hoverStyle={{ opacity: 1 }}
@@ -288,7 +291,7 @@ export function Selector({ onEvent, options, value, colorPalette, ...props }: Se
          {...props}
       >
          {options.map((option, index) => (
-            <Option key={index} value={value % options.length} onEvent={(e) => onEvent(e, index)} optionIndex={index}>
+            <Option key={index} value={value % options.length} onEvent={(e) => onEvent(e, index)} optionIndex={index} tooltip={tips && tips[index]}>
                {option}
             </Option>
          ))}

@@ -7,6 +7,6 @@ export const EDITOR_STATE = { direction: 0, type: 1, text: "Sample Text", name: 
 
 /** TODO: use numbers */
 export const EDITOR_INPUTS = {
-   direction: { values: ["In", "Out"] },
-   type: { values: ["File", "Text", "Image"] },
+   direction: { values: ["In", "Out"], tips: ["Incoming Message", "Outgoing Message"] },
+   type: { values: ["File", "Text", "Image"], tips: ["File / Compressed Image", "Text Message", "Uncompressed Image"] },
 } as const
