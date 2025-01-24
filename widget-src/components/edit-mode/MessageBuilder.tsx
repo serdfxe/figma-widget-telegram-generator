@@ -168,15 +168,6 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                   Add New Message
                </Text>
                <Icon
-                  tooltip="Reset New Message Inputs"
-                  onEvent={() => {
-                     resetIsNew(), resetInputs()
-                  }}
-                  icon={"reset"}
-                  theme={theme}
-                  color={color.text.default as string}
-               />
-               <Icon
                   tooltip={hidePreview ? "Show Preview Message" : "Hide Preview Message"}
                   onEvent={() => {
                      resetIsNew(), setEditorState("hidePreview", (bool) => !bool)
@@ -185,7 +176,16 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                   theme={theme}
                   opacity={hidePreview ? 1 : 0.5}
                   x={{ type: "left", offset: 6 }}
-                  color={(hidePreview ? color.surface.primaryHover : color.text.default) as string}
+                  color={hidePreview ? (color.surface.primaryHover as string) : (color.text.default as string)}
+               />
+               <Icon
+                  tooltip="Reset New Message Inputs"
+                  onEvent={() => {
+                     resetIsNew(), resetInputs()
+                  }}
+                  icon={"reset"}
+                  theme={theme}
+                  color={color.text.default as string}
                />
             </Section>
             {/* Direction */}
