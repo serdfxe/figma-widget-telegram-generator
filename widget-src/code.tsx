@@ -15,6 +15,8 @@ function Widget() {
    const [editorState, setEditorState] = useDynamicState<EditorState>({ ...EDITOR_STATE, isNew: true, hidePreview: false }) // Editor
    const [messagesState, setMessagesState] = useDynamicState<MessagesState>({ messages: [] }) // Messages
 
+   const showPreview = isEditMode && editorState.isNew && !editorState.hidePreview // Show Preview Condition
+
    return (
       <AutoLayout name="Widget Container" width={"hug-contents"} height={"hug-contents"} overflow="visible">
          {/* Generated Chat (Displayed Result) */}
@@ -22,7 +24,7 @@ function Widget() {
             <Interface renderElements={displayMode >= 1} theme={theme}>
                <MessagesLayout renderElements={displayMode >= 0} messagesState={messagesState} theme={theme}>
                   {/* Preview Message */}
-                  {editorState.isNew && !editorState.hidePreview && <MessagePreview editorState={editorState} theme={theme} />}
+                  {showPreview && <MessagePreview editorState={editorState} theme={theme} />}
                </MessagesLayout>
             </Interface>
          </PhoneFrame>

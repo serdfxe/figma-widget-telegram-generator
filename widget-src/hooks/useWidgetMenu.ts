@@ -80,7 +80,7 @@ export default function useWidgetMenu({ config = defaultConfig }: Partial<useWid
          {
             itemType: "action",
             propertyName: "input",
-            tooltip: isEditMode ? "Preview Mode (Hide Inputs)" : "Edit Mode (New Messages)",
+            tooltip: isEditMode ? "Display Mode (Hide Builder)" : "Edit Mode (New Messages)",
             icon: isEditMode ? svgPaths.hide : svgPaths.edit,
          },
       ],
