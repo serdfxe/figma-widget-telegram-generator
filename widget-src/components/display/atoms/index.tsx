@@ -1,22 +1,22 @@
 // Dependencies
 const { AutoLayout, Text } = figma.widget
 // Components
-import { Button } from "@/components/ui"
+import { Button, type MessageSides } from "@/components/ui"
 import { remapTokens } from "@/utils"
 
 interface SideContainerProps extends Partial<AutoLayoutProps> {
-   side: "in" | "out"
+   side: MessageSides
 }
 
 export function DirectionContainer({ children, side, ...props }: SideContainerProps) {
    switch (side) {
-      case "in":
+      case "In":
          return (
             <AutoLayout name="In" overflow="visible" direction="vertical" spacing={8} width="fill-parent" {...props}>
                {children}
             </AutoLayout>
          )
-      case "out":
+      case "Out":
          return (
             <AutoLayout name="Out" overflow="visible" direction="vertical" spacing={8} width="fill-parent" verticalAlignItems="center" horizontalAlignItems="end" {...props}>
                {children}

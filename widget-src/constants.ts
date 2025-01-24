@@ -5,6 +5,7 @@ export const THEME_MODES = ["light", "dark"] as const
  */
 export const EDITOR_STATE = { direction: 0, type: 1, text: "Sample Text", name: "File_Name", size: "1.4", extension: ".PNG", buttons: [] }
 
+/** TODO: use numbers */
 export const EDITOR_INPUTS = {
    direction: { values: ["In", "Out"] },
    type: { values: ["File", "Text", "Image"] },

@@ -17,10 +17,11 @@ import { StatusAtom, TailAtom } from "@/components/ui/atoms"
  */
 
 type MessageTypes<S extends number = number> = (typeof EDITOR_INPUTS)["type"]["values"][S]
+export type MessageSides = (typeof EDITOR_INPUTS)["direction"]["values"][number]
 
 interface TypePropsMap {
    required: {
-      side: "in" | "out"
+      side: MessageSides
       type: MessageTypes
    }
    text: {
@@ -63,25 +64,25 @@ export function Message<T extends MessageTypes>({ side, type, config, theme, ...
    // Theme Mode
    const color = remapTokens({
       surface: {
-         in: { dark: "#262628", light: "#FFF" },
-         out: { dark: "#363638", light: "#E1FEC6" },
+         containerIn: { dark: "#262628", light: "#FFF" },
+         containerOut: { dark: "#363638", light: "#E1FEC6" },
       },
       text: {
-         in: { dark: "#FFF", light: "#000" },
-         out: { dark: "#FFF", light: "#000" },
+         primaryIn: { dark: "#FFF", light: "#000" },
+         primaryOut: { dark: "#FFF", light: "#000" },
          labelIn: { dark: "#8D8D8F", light: "#8D8D8F" },
          labelOut: { dark: "#8D8D8F", light: "#3EAA3C" },
       },
    })[theme]
 
    const layout = {
-      tailXType: {
-         in: "left",
-         out: "right",
+      tailX: {
+         sideIn: "left",
+         sideOut: "right",
       },
       radius: {
-         in: { topLeft: 12, topRight: 18, bottomRight: 16, bottomLeft: 16 },
-         out: { topLeft: 18, topRight: 12, bottomRight: 16, bottomLeft: 18 },
+         In: { topLeft: 12, topRight: 18, bottomRight: 16, bottomLeft: 16 },
+         Out: { topLeft: 18, topRight: 12, bottomRight: 16, bottomLeft: 18 },
       },
    } as const
 
@@ -108,7 +109,7 @@ export function Message<T extends MessageTypes>({ side, type, config, theme, ...
             {...reqChildProps}
             name="_tail-atom"
             x={{
-               type: layout.tailXType[side],
+               type: layout.tailX[`side${side}`],
                offset: -6.077,
             }}
             y={{
@@ -119,7 +120,7 @@ export function Message<T extends MessageTypes>({ side, type, config, theme, ...
          />
          <AutoLayout
             name="text box"
-            fill={color.surface[side]}
+            fill={color.surface[`container${side}`]}
             direction="vertical"
             cornerRadius={layout.radius[side]}
             spacing={6}
@@ -165,7 +166,16 @@ export function Message<T extends MessageTypes>({ side, type, config, theme, ...
                         />
                      </AutoLayout>
                      <AutoLayout name="Content Text" hidden={!textConfig.text} maxWidth={250} overflow="visible" spacing={8}>
-                        <Text name="Text" fill={color.text[side]} width="fill-parent" lineHeight={22} fontSize={15} letterSpacing={-0.4} strokeWidth={0} strokeAlign="center">
+                        <Text
+                           name="Text"
+                           fill={color.text[`primary${side}`]}
+                           width="fill-parent"
+                           lineHeight={22}
+                           fontSize={15}
+                           letterSpacing={-0.4}
+                           strokeWidth={0}
+                           strokeAlign="center"
+                        >
                            {textConfig.text + "                "}
                         </Text>
                      </AutoLayout>
@@ -174,7 +184,16 @@ export function Message<T extends MessageTypes>({ side, type, config, theme, ...
                   <>
                      {/* Text */}
                      <AutoLayout name="Content Text" minWidth={60} maxWidth={250} overflow="visible" spacing={8}>
-                        <Text name="Text" fill={color.text[side]} width="fill-parent" lineHeight={22} fontSize={15} letterSpacing={-0.4} strokeWidth={0} strokeAlign="center">
+                        <Text
+                           name="Text"
+                           fill={color.text[`primary${side}`]}
+                           width="fill-parent"
+                           lineHeight={22}
+                           fontSize={15}
+                           letterSpacing={-0.4}
+                           strokeWidth={0}
+                           strokeAlign="center"
+                        >
                            {(config as MessageProps<"Text">["config"]).text + "                "}
                         </Text>
                      </AutoLayout>
@@ -195,10 +214,10 @@ export function Message<T extends MessageTypes>({ side, type, config, theme, ...
                         }}
                      >
                         <AutoLayout name="Frame 3" overflow="visible" width="fill-parent">
-                           <Text name="IMG_0475.PNG" fill={color.text[side]} lineHeight={21} letterSpacing={-0.3} strokeWidth={0} strokeAlign="center">
+                           <Text name="IMG_0475.PNG" fill={color.text[`primary${side}`]} lineHeight={21} letterSpacing={-0.3} strokeWidth={0} strokeAlign="center">
                               {(config as MessageProps<"Image">["config"]).name}
                            </Text>
-                           <Text name="IMG_0475.PNG" fill={color.text[`label${side}`]} lineHeight={21} letterSpacing={-0.3} strokeWidth={0} strokeAlign="center">
+                           <Text name="IMG_0475.PNG" fill={color.text[`primary${side}`]} lineHeight={21} letterSpacing={-0.3} strokeWidth={0} strokeAlign="center">
                               {(config as MessageProps<"Image">["config"]).extension}
                            </Text>
                         </AutoLayout>

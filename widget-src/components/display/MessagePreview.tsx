@@ -12,7 +12,7 @@ export function MessagePreview({ theme, editorState, ...props }: MessagePreviewP
    const { direction, type, text, name, size, extension, buttons } = editorState
 
    // Convert
-   const directionAsStr = (["in", "out"] as const)[direction]
+   const directionAsStr = EDITOR_INPUTS.direction.values[direction]
    const typeAsStr = EDITOR_INPUTS.type.values[type]
 
    // Match Overload

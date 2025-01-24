@@ -228,7 +228,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                      resetIsNew(), setEditorState("direction", i++)
                   }}
                   value={direction}
-                  options={["In", "Out"]}
+                  options={[...EDITOR_INPUTS.direction.values]}
                   colorPalette={color}
                />
             </Section>

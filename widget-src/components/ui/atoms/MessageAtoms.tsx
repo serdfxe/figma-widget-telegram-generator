@@ -11,7 +11,7 @@ import { remapTokens } from "@/utils"
  */
 
 interface StatusAtomProps extends ReqCompProps, Partial<AutoLayoutProps> {
-   side: "in" | "out"
+   side: "In" | "Out"
    status?: "read" | "pending" | "sent" | "received"
 }
 
@@ -20,8 +20,8 @@ export function StatusAtom({ side, theme, ...props }: StatusAtomProps) {
    const color = remapTokens({
       surface: {},
       text: {
-         in: { dark: "#8D8D8F", light: "#8D8D8F" },
-         out: { dark: "#8D8D8F", light: "#3EAA3C" },
+         In: { dark: "#8D8D8F", light: "#8D8D8F" },
+         Out: { dark: "#8D8D8F", light: "#3EAA3C" },
       },
    })[theme]
 
@@ -46,29 +46,29 @@ export function StatusAtom({ side, theme, ...props }: StatusAtomProps) {
 }
 
 interface TailAtomProps extends ReqCompProps, Partial<FrameProps> {
-   side: "in" | "out"
+   side: "In" | "Out"
 }
 
 export function TailAtom({ side, theme, ...props }: TailAtomProps) {
    // Theme Mode
    const color = remapTokens({
       surface: {
-         in: { dark: "#262628", light: "white" },
-         out: { dark: "#363638", light: "#E1FEC6" },
+         In: { dark: "#262628", light: "white" },
+         Out: { dark: "#363638", light: "#E1FEC6" },
       },
       text: {},
    })[theme]
 
    // Side Prop
    const svgPaths = {
-      in: `<svg width='14' height='21' viewBox='0 0 14 21' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M6.0874 4.2408C6.07746 4.00483 6.07243 3.76761 6.07243 3.52922C6.07243 0.329218 10.3115 -0.137449 12.431 0.0292181C13.5977 4.60169 15.231 14.3249 12.431 16.6379C9.23879 19.4306 5.15531 20.5878 0.180569 20.1094C0.117102 20.1033 0.0603914 20.0676 0.0279045 20.0134C-0.0283432 19.9194 0.00307751 19.7982 0.0980797 19.7426L0.457226 19.5283C2.81102 18.0973 4.35045 16.615 5.0755 15.0814C5.85649 13.4294 6.19381 9.81615 6.0874 4.2408Z' fill='${color.surface.in}'/></svg>`,
-      out: `<svg width='14' height='21' viewBox='0 0 14 21' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M7.88965 4.2408C7.89959 4.00483 7.90462 3.76761 7.90462 3.52922C7.90462 0.329218 3.66556 -0.137449 1.54602 0.0292181C0.379358 4.60169 -1.25398 14.3249 1.54602 16.6379C4.73826 19.4306 8.82174 20.5878 13.7965 20.1094C13.8599 20.1033 13.9167 20.0676 13.9491 20.0134C14.0054 19.9194 13.974 19.7982 13.879 19.7426L13.5198 19.5283C11.166 18.0973 9.62661 16.615 8.90155 15.0814C8.12056 13.4294 7.78325 9.81615 7.88965 4.2408Z' fill='${color.surface.out}'/></svg>`,
+      In: `<svg width='14' height='21' viewBox='0 0 14 21' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M6.0874 4.2408C6.07746 4.00483 6.07243 3.76761 6.07243 3.52922C6.07243 0.329218 10.3115 -0.137449 12.431 0.0292181C13.5977 4.60169 15.231 14.3249 12.431 16.6379C9.23879 19.4306 5.15531 20.5878 0.180569 20.1094C0.117102 20.1033 0.0603914 20.0676 0.0279045 20.0134C-0.0283432 19.9194 0.00307751 19.7982 0.0980797 19.7426L0.457226 19.5283C2.81102 18.0973 4.35045 16.615 5.0755 15.0814C5.85649 13.4294 6.19381 9.81615 6.0874 4.2408Z' fill='${color.surface.In}'/></svg>`,
+      Out: `<svg width='14' height='21' viewBox='0 0 14 21' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M7.88965 4.2408C7.89959 4.00483 7.90462 3.76761 7.90462 3.52922C7.90462 0.329218 3.66556 -0.137449 1.54602 0.0292181C0.379358 4.60169 -1.25398 14.3249 1.54602 16.6379C4.73826 19.4306 8.82174 20.5878 13.7965 20.1094C13.8599 20.1033 13.9167 20.0676 13.9491 20.0134C14.0054 19.9194 13.974 19.7982 13.879 19.7426L13.5198 19.5283C11.166 18.0973 9.62661 16.615 8.90155 15.0814C8.12056 13.4294 7.78325 9.81615 7.88965 4.2408Z' fill='${color.surface.Out}'/></svg>`,
    }
 
    return (
       <Frame name={`TailAtom${side}`} overflow="visible" width={13.977} height={20.214} {...props}>
          <SVG
-            name="tail"
+            name="Tail"
             x={{
                type: "horizontal-scale",
                leftOffsetPercent: 0,
