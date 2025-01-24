@@ -148,6 +148,7 @@ export function PreviewLabel({ theme, ...props }: Partial<AutoLayoutProps> & Req
          spacing={8}
          width={278}
          height={15}
+         padding={{ horizontal: 20 }}
          horizontalAlignItems="center"
       >
          <AutoLayout
@@ -166,7 +167,9 @@ export function PreviewLabel({ theme, ...props }: Partial<AutoLayoutProps> & Req
                vertical: 2.5,
                horizontal: 60,
             }}
-            width={133.75}
+            width={"fill-parent"}
+            maxWidth={135}
+            minWidth={48}
             height={15}
             horizontalAlignItems="center"
             {...props}
