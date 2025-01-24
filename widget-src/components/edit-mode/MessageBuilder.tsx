@@ -76,7 +76,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
          // Array of In & Out Messages
          const allMsgs = [...(prevMessages ?? [])]
          // Array of Messages in a specific direction
-         const dirMsgs = allMsgs.length > 0 ? allMsgs.pop() : []
+         const dirMsgs = allMsgs.pop()
          // Handle No Messages & Direction Change
          if (typeof dirMsgs !== "undefined" && dirMsgs[0]?.direction === direction) {
             dirMsgs.push(newMessage)
@@ -253,22 +253,30 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                   colorPalette={color}
                />
                <AutoLayout name="Buttons Container" cornerRadius={8} overflow="visible" direction="vertical" spacing={12} width="fill-parent">
-                  {buttons.map((buttonsRow, rowIndex) => (
-                     <ButtonsRow>
-                        <ButtomSmall onEvent={() => removeButtonFromRow(rowIndex, buttonsRow.length - 1)} icon="minus" tooltip="Remove Button From Row" colorPalette={color} />
+                  {buttons.map(
+                     (buttonsRow, rowIndex) =>
+                        buttonsRow.length > 0 && (
+                           <ButtonsRow>
+                              <ButtomSmall
+                                 onEvent={() => removeButtonFromRow(rowIndex, buttonsRow.length - 1)}
+                                 icon="minus"
+                                 tooltip="Remove Button From Row"
+                                 colorPalette={color}
+                              />
 
-                        {buttonsRow.map((button, buttonIndex) => (
-                           <ChatButtonEditable
-                              value={button.text}
-                              onEvent={(e) => updateButton(rowIndex, buttonIndex, { text: e.characters })}
-                              name="chat-button"
-                              width="fill-parent"
-                              colorPalette={color}
-                           />
-                        ))}
-                        <ButtomSmall onEvent={() => addButtonToRow(rowIndex, buttonsRow.length + 1)} tooltip="Add Button To Row" colorPalette={color} />
-                     </ButtonsRow>
-                  ))}
+                              {buttonsRow.map((button, buttonIndex) => (
+                                 <ChatButtonEditable
+                                    value={button.text}
+                                    onEvent={(e) => updateButton(rowIndex, buttonIndex, { text: e.characters })}
+                                    name="chat-button"
+                                    width="fill-parent"
+                                    colorPalette={color}
+                                 />
+                              ))}
+                              <ButtomSmall onEvent={() => addButtonToRow(rowIndex, buttonsRow.length + 1)} tooltip="Add Button To Row" colorPalette={color} />
+                           </ButtonsRow>
+                        ),
+                  )}
                   <ButtonsRow>
                      <ButtomSmall onEvent={() => addRowOfButtons()} colorPalette={color}>
                         Add Row of Buttons

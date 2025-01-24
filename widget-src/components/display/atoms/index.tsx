@@ -35,17 +35,20 @@ export function WithButtons({ children, buttons, theme, ...props }: WithButtonsP
          {/* Message */}
          {children}
          {/* 1 Buttons Container */}
-         <AutoLayout name="Actions" overflow="visible" direction="vertical" spacing={4} width="fill-parent">
+         <AutoLayout hidden={!(buttons.length > 0)} name="Actions" overflow="visible" direction="vertical" spacing={4} width="fill-parent">
             {/* 2 Buttons Row */}
-            {buttons.map((buttonsRow) => (
-               <AutoLayout name="Row" overflow="visible" spacing={4} width="fill-parent" horizontalAlignItems="center" verticalAlignItems="center">
-                  {buttonsRow.map((button) => (
-                     <Button config={{ hasRef: false }} theme={theme} name="chat-button" width="fill-parent">
-                        {button.text}
-                     </Button>
-                  ))}
-               </AutoLayout>
-            ))}
+            {buttons.map(
+               (buttonsRow) =>
+                  buttonsRow.length > 0 && (
+                     <AutoLayout name="Row" overflow="visible" spacing={4} width="fill-parent" horizontalAlignItems="center" verticalAlignItems="center">
+                        {buttonsRow.map((button) => (
+                           <Button config={{ hasRef: false }} theme={theme} name="chat-button" width="fill-parent">
+                              {button.text}
+                           </Button>
+                        ))}
+                     </AutoLayout>
+                  ),
+            )}
          </AutoLayout>
       </AutoLayout>
    )
