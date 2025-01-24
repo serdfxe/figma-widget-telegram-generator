@@ -29,7 +29,7 @@ export type SetCallback<S> = <K extends keyof S>(propKey: K, propValue: S[K]) =>
  * setInputs("buttons", [{ id: 1, text: "Updated Button 1" }, { id: 2, text: "Updated Button 2" }])
  * console.log(inputs.buttons[0].text) // Output: "Updated Button 1"
  */
-export default function useDynamicState<S extends DynamicState>({ ...initialState }: S): [S, SetCallback<S>] {
+export default function useDynamicState<S extends DynamicState>({ ...initialState } = {} as S): [S, SetCallback<S>] {
    const [state, setState] = useSyncedState<S>("state", initialState)
 
    /** Update state for specific state property */
