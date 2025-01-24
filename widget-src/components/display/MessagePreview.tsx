@@ -1,6 +1,7 @@
 // Components
 import { Message } from "@/components/ui"
 import { DirectionContainer, PreviewLabel, WithButtons } from "@/components/display/atoms"
+import { EDITOR_INPUTS } from "@/constants"
 
 interface MessagePreviewProps extends Partial<AutoLayoutProps>, ReqCompProps {
    editorState: Message
@@ -12,7 +13,7 @@ export function MessagePreview({ theme, editorState, ...props }: MessagePreviewP
 
    // Convert
    const directionAsStr = (["in", "out"] as const)[direction]
-   const typeAsStr = (["image", "text"] as const)[type]
+   const typeAsStr = EDITOR_INPUTS.type.values[type]
 
    // Match Overload
    const propsOfType = [

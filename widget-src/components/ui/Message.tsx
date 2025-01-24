@@ -3,10 +3,11 @@ const { Image, AutoLayout, Text } = figma.widget
 // Components
 import { PreviewImage64 } from "@/assets/base64"
 import { remapTokens } from "@/utils"
+import { EDITOR_INPUTS } from "@/constants"
 // Internal
 import { StatusAtom, TailAtom } from "@/components/ui/atoms"
 
-/** Import Changelog
+/* Import Changelog
  * Added maxWidth at maxMin Layer
  * Images to base64 (full src (data:im...))
  * Props Drilling (ReqCompProps const) for Atom comps
@@ -15,7 +16,7 @@ import { StatusAtom, TailAtom } from "@/components/ui/atoms"
  * Overload case for MessageProps
  */
 
-type MessageTypes = "text" | "image"
+type MessageTypes<S extends number = number> = (typeof EDITOR_INPUTS)["type"]["values"][S]
 
 interface TypePropsMap {
    required: {
@@ -38,15 +39,22 @@ interface TypePropsMap {
          extension?: string
       }
    }
+   file: {
+      config: {
+         src?: ""
+      }
+   }
 }
 
-type MessageProps<T extends MessageTypes> = TypePropsMap[T] & TypePropsMap["required"] & ReqCompProps & Partial<AutoLayoutProps>
+type MessageProps<T extends MessageTypes> = TypePropsMap[Lowercase<T>] & TypePropsMap["required"] & ReqCompProps & Partial<AutoLayoutProps>
 
 // Overloaded function signatures
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function Message(props: MessageProps<"text">): any
+export function Message(props: MessageProps<MessageTypes<0>>): any
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function Message(props: MessageProps<"image">): any
+export function Message(props: MessageProps<MessageTypes<1>>): any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function Message(props: MessageProps<MessageTypes<2>>): any
 
 export function Message<T extends MessageTypes>({ side, type, config, theme, ...props }: MessageProps<T>) {
    /** Required by children (Drilled Props) */
@@ -61,6 +69,8 @@ export function Message<T extends MessageTypes>({ side, type, config, theme, ...
       text: {
          in: { dark: "#FFF", light: "#000" },
          out: { dark: "#FFF", light: "#000" },
+         labelIn: { dark: "#8D8D8F", light: "#8D8D8F" },
+         labelOut: { dark: "#8D8D8F", light: "#3EAA3C" },
       },
    })[theme]
 
@@ -74,6 +84,8 @@ export function Message<T extends MessageTypes>({ side, type, config, theme, ...
          out: { topLeft: 18, topRight: 12, bottomRight: 16, bottomLeft: 18 },
       },
    } as const
+
+   const textConfig = config as MessageProps<"Text">["config"]
 
    return (
       <AutoLayout
@@ -92,59 +104,6 @@ export function Message<T extends MessageTypes>({ side, type, config, theme, ...
          verticalAlignItems="end"
          {...props}
       >
-         <AutoLayout
-            name="text box"
-            fill={color.surface[side]}
-            cornerRadius={layout.radius[side]}
-            padding={{
-               vertical: 8,
-               horizontal: 14,
-            }}
-         >
-            {type === "image" ? (
-               <>
-                  <AutoLayout name="Frame 2" overflow="visible" spacing={8} verticalAlignItems="center">
-                     <Image name="Preview" cornerRadius={11} strokeWidth={0} strokeAlign="center" width={74} height={74} src={PreviewImage64} />
-                     <AutoLayout
-                        name="Stats"
-                        overflow="visible"
-                        direction="vertical"
-                        padding={{
-                           vertical: 0,
-                           horizontal: 8,
-                        }}
-                     >
-                        <AutoLayout name="Frame 3" overflow="visible" width="fill-parent">
-                           <Text name="IMG_0475.PNG" fill={color.text[side]} lineHeight={21} letterSpacing={-0.3} strokeWidth={0} strokeAlign="center">
-                              {(config as MessageProps<"image">["config"]).name}
-                           </Text>
-                           <Text name="IMG_0475.PNG" fill={color.text[side]} lineHeight={21} letterSpacing={-0.3} strokeWidth={0} strokeAlign="center">
-                              {(config as MessageProps<"image">["config"]).extension}
-                           </Text>
-                        </AutoLayout>
-                        <AutoLayout name="Frame 2" overflow="visible" width={43}>
-                           <Text name="2.4 MB" fill={color.text[side]} fontSize={13} letterSpacing={-0.1} strokeWidth={0} strokeAlign="center">
-                              {(config as MessageProps<"image">["config"]).size}
-                           </Text>
-                           <Text name="Label" fill={color.text[side]} fontSize={13} letterSpacing={-0.1} strokeWidth={0} strokeAlign="center">
-                              {"  "}
-                              MB
-                           </Text>
-                        </AutoLayout>
-                     </AutoLayout>
-                  </AutoLayout>
-               </>
-            ) : (
-               <>
-                  <AutoLayout name="maxMin" maxWidth={250} overflow="visible" spacing={8}>
-                     <Text name="message" fill={color.text[side]} width="fill-parent" lineHeight={22} fontSize={15} letterSpacing={-0.4} strokeWidth={0} strokeAlign="center">
-                        {/* Hey, how's it going? Are we still on for dinner tonight? Let me know what time works for you */}
-                        {(config as MessageProps<"text">["config"]).text + "                "}
-                     </Text>
-                  </AutoLayout>
-               </>
-            )}
-         </AutoLayout>
          <TailAtom
             {...reqChildProps}
             name="_tail-atom"
@@ -158,6 +117,105 @@ export function Message<T extends MessageTypes>({ side, type, config, theme, ...
             }}
             positioning="absolute"
          />
+         <AutoLayout
+            name="text box"
+            fill={color.surface[side]}
+            direction="vertical"
+            cornerRadius={layout.radius[side]}
+            spacing={6}
+            padding={{
+               vertical: 8,
+               horizontal: type === "File" ? 8 : 14,
+            }}
+         >
+            {type !== "File" ? (
+               type !== "Text" ? (
+                  <>
+                     <AutoLayout
+                        name="Content Image"
+                        minHeight={!textConfig.text ? 150 : 135}
+                        minWidth={!textConfig.text ? 250 : 118}
+                        overflow="visible"
+                        direction="vertical"
+                        spacing={8}
+                        width="fill-parent"
+                     >
+                        <Image
+                           name="Rectangle 1"
+                           x={{
+                              type: "left-right",
+                              leftOffset: -13,
+                              rightOffset: -13,
+                           }}
+                           y={{
+                              type: "top-bottom",
+                              topOffset: -7,
+                              bottomOffset: !textConfig.text ? -7 : 0,
+                           }}
+                           positioning="absolute"
+                           cornerRadius={{
+                              topLeft: layout.radius[side].topLeft - 1,
+                              topRight: layout.radius[side].topRight - 1,
+                              bottomRight: !textConfig.text ? layout.radius[side].bottomRight - 1 : 0,
+                              bottomLeft: !textConfig.text ? layout.radius[side].bottomLeft - 1 : 0,
+                           }}
+                           width={276}
+                           height={142}
+                           src={PreviewImage64}
+                        />
+                     </AutoLayout>
+                     <AutoLayout name="Content Text" hidden={!textConfig.text} maxWidth={250} overflow="visible" spacing={8}>
+                        <Text name="Text" fill={color.text[side]} width="fill-parent" lineHeight={22} fontSize={15} letterSpacing={-0.4} strokeWidth={0} strokeAlign="center">
+                           {textConfig.text + "                "}
+                        </Text>
+                     </AutoLayout>
+                  </>
+               ) : (
+                  <>
+                     {/* Text */}
+                     <AutoLayout name="Content Text" minWidth={60} maxWidth={250} overflow="visible" spacing={8}>
+                        <Text name="Text" fill={color.text[side]} width="fill-parent" lineHeight={22} fontSize={15} letterSpacing={-0.4} strokeWidth={0} strokeAlign="center">
+                           {(config as MessageProps<"Text">["config"]).text + "                "}
+                        </Text>
+                     </AutoLayout>
+                  </>
+               )
+            ) : (
+               <>
+                  {/* File */}
+                  <AutoLayout name="Conent File" minWidth={100} overflow="visible" spacing={8} verticalAlignItems="center">
+                     <Image name="Preview" cornerRadius={11} strokeWidth={0} strokeAlign="center" width={74} height={74} src={PreviewImage64} />
+                     <AutoLayout
+                        name="Stats"
+                        overflow="visible"
+                        direction="vertical"
+                        padding={{
+                           vertical: 0,
+                           horizontal: 8,
+                        }}
+                     >
+                        <AutoLayout name="Frame 3" overflow="visible" width="fill-parent">
+                           <Text name="IMG_0475.PNG" fill={color.text[side]} lineHeight={21} letterSpacing={-0.3} strokeWidth={0} strokeAlign="center">
+                              {(config as MessageProps<"Image">["config"]).name}
+                           </Text>
+                           <Text name="IMG_0475.PNG" fill={color.text[`label${side}`]} lineHeight={21} letterSpacing={-0.3} strokeWidth={0} strokeAlign="center">
+                              {(config as MessageProps<"Image">["config"]).extension}
+                           </Text>
+                        </AutoLayout>
+                        <AutoLayout name="Frame 2" overflow="visible" width={43}>
+                           <Text name="2.4 MB" fill={color.text[`label${side}`]} fontSize={13} letterSpacing={-0.1} strokeWidth={0} strokeAlign="center">
+                              {(config as MessageProps<"Image">["config"]).size}
+                           </Text>
+                           <Text name="Label" fill={color.text[`label${side}`]} fontSize={13} letterSpacing={-0.1} strokeWidth={0} strokeAlign="center">
+                              {"  "}
+                              MB
+                           </Text>
+                        </AutoLayout>
+                     </AutoLayout>
+                  </AutoLayout>
+               </>
+            )}
+         </AutoLayout>
          <StatusAtom
             {...reqChildProps}
             name="_status-atom"

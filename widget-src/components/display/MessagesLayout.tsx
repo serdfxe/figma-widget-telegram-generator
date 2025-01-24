@@ -1,8 +1,9 @@
 // Dependencies
 const { AutoLayout } = figma.widget
-
+// Components
 import { DirectionContainer, WithButtons } from "@/components/display/atoms"
-import { Message } from "../ui"
+import { Message } from "@/components/ui"
+import { EDITOR_INPUTS } from "@/constants"
 
 interface MessagesLayoutProps extends Partial<AutoLayoutProps>, ReqCompProps, OptionalRender {
    messagesState: MessagesState
@@ -42,7 +43,7 @@ export function MessagesLayout({ messagesState, renderElements, children, theme,
                   <DirectionContainer key={key} side={(["in", "out"] as const)[dirMsg[0].direction]}>
                      {dirMsg.map((msg, key) => (
                         <WithButtons key={key} buttons={msg.buttons} theme={theme}>
-                           <Message type={(["image", "text"] as const)[msg.type]} side={(["in", "out"] as const)[msg.direction]} config={msg} theme={theme}></Message>
+                           <Message type={EDITOR_INPUTS.type.values[msg.type]} side={(["in", "out"] as const)[msg.direction]} config={msg} theme={theme}></Message>
                         </WithButtons>
                      ))}
                   </DirectionContainer>

@@ -3,7 +3,7 @@ const { AutoLayout, Text } = figma.widget
 // Components
 import { remapTokens } from "@/utils"
 import { type SetterProp } from "@/hooks"
-import { EDITOR_STATE } from "@/constants"
+import { EDITOR_STATE, EDITOR_INPUTS } from "@/constants"
 // Internal
 import { Section, Label, ButtonsRow, Button, ButtomSmall, ChatButtonEditable, Selector, TextInput, Icon } from "@/components/edit-mode/atoms"
 
@@ -113,6 +113,38 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
       },
    })[theme]
 
+   function ButtonsSection() {
+      return (
+         <AutoLayout name="Buttons Container" cornerRadius={8} overflow="visible" direction="vertical" spacing={12} width="fill-parent">
+            {buttons.map(
+               (buttonsRow, rowIndex) =>
+                  buttonsRow.length > 0 && (
+                     <ButtonsRow key={rowIndex}>
+                        <ButtomSmall onEvent={() => removeButtonFromRow(rowIndex, buttonsRow.length - 1)} icon="minus" tooltip="Remove Button From Row" colorPalette={color} />
+
+                        {buttonsRow.map((button, buttonIndex) => (
+                           <ChatButtonEditable
+                              key={buttonIndex}
+                              value={button.text}
+                              onEvent={(e) => updateButton(rowIndex, buttonIndex, { text: e.characters })}
+                              name="chat-button"
+                              width="fill-parent"
+                              colorPalette={color}
+                           />
+                        ))}
+                        <ButtomSmall onEvent={() => addButtonToRow(rowIndex, buttonsRow.length + 1)} tooltip="Add Button To Row" colorPalette={color} />
+                     </ButtonsRow>
+                  ),
+            )}
+            <ButtonsRow>
+               <ButtomSmall onEvent={() => addRowOfButtons()} colorPalette={color}>
+                  Add Row of Buttons
+               </ButtomSmall>
+            </ButtonsRow>
+         </AutoLayout>
+      )
+   }
+
    return (
       renderElement && (
          <AutoLayout
@@ -208,12 +240,12 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                      resetIsNew(), setEditorState("type", i++)
                   }}
                   value={type}
-                  options={["Image / File", "Text"]}
+                  options={[...EDITOR_INPUTS.type.values]}
                   colorPalette={color}
                />
             </Section>
-            {/* Message Type Image / File */}
-            <Section hidden={type === 1}>
+            {/* Message Type File */}
+            <Section hidden={type !== 0}>
                <Label colorPalette={color}>Image Details</Label>
                <TextInput
                   onEvent={(e) => {
@@ -239,6 +271,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                   placeholder="Image/ File Size"
                   colorPalette={color}
                />
+               <ButtonsSection />
             </Section>
             {/* Message Type Text */}
             <Section hidden={type !== 1}>
@@ -252,38 +285,28 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                   isResizable={true}
                   colorPalette={color}
                />
-               <AutoLayout name="Buttons Container" cornerRadius={8} overflow="visible" direction="vertical" spacing={12} width="fill-parent">
-                  {buttons.map(
-                     (buttonsRow, rowIndex) =>
-                        buttonsRow.length > 0 && (
-                           <ButtonsRow key={rowIndex}>
-                              <ButtomSmall
-                                 onEvent={() => removeButtonFromRow(rowIndex, buttonsRow.length - 1)}
-                                 icon="minus"
-                                 tooltip="Remove Button From Row"
-                                 colorPalette={color}
-                              />
-
-                              {buttonsRow.map((button, buttonIndex) => (
-                                 <ChatButtonEditable
-                                    key={buttonIndex}
-                                    value={button.text}
-                                    onEvent={(e) => updateButton(rowIndex, buttonIndex, { text: e.characters })}
-                                    name="chat-button"
-                                    width="fill-parent"
-                                    colorPalette={color}
-                                 />
-                              ))}
-                              <ButtomSmall onEvent={() => addButtonToRow(rowIndex, buttonsRow.length + 1)} tooltip="Add Button To Row" colorPalette={color} />
-                           </ButtonsRow>
-                        ),
-                  )}
-                  <ButtonsRow>
-                     <ButtomSmall onEvent={() => addRowOfButtons()} colorPalette={color}>
-                        Add Row of Buttons
-                     </ButtomSmall>
-                  </ButtonsRow>
-               </AutoLayout>
+               <ButtonsSection />
+            </Section>
+            {/* Message Type Image */}
+            <Section hidden={type !== 2}>
+               <Label colorPalette={color}>Message Content</Label>
+               <TextInput
+                  onEvent={(e) => {
+                     resetIsNew(), setEditorState("text", e.characters)
+                  }}
+                  value={text}
+                  placeholder="Text Message..."
+                  isResizable={true}
+                  colorPalette={color}
+               />
+               <ButtonsSection />
+               <TextInput
+                  onEvent={console.log} // TODO: Accept https
+                  value={"Preview Image"}
+                  placeholder="Image Source"
+                  opacity={0.5}
+                  colorPalette={color}
+               />
             </Section>
             <Section>
                <Label isCollapsable={true} colorPalette={color}>
