@@ -185,7 +185,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                   theme={theme}
                   opacity={hidePreview ? 1 : 0.5}
                   x={{ type: "left", offset: 6 }}
-                  color={(hidePreview ? color.surface.primary : color.text.default) as string}
+                  color={(hidePreview ? color.surface.primaryHover : color.text.default) as string}
                />
             </Section>
             {/* Direction */}
