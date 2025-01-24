@@ -81,8 +81,8 @@ export function Message<T extends MessageTypes>({ side, type, config, theme, ...
          sideOut: "right",
       },
       radius: {
-         In: { topLeft: 12, topRight: 18, bottomRight: 16, bottomLeft: 16 },
-         Out: { topLeft: 18, topRight: 12, bottomRight: 16, bottomLeft: 18 },
+         In: { topLeft: 16, topRight: 18, bottomRight: 18, bottomLeft: 18 },
+         Out: { topLeft: 18, topRight: 16, bottomRight: 18, bottomLeft: 18 },
       },
    } as const
 
