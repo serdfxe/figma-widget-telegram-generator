@@ -3,8 +3,9 @@ const { AutoLayout, Text } = figma.widget
 // Components
 import { remapTokens } from "@/utils"
 import { type SetterProp } from "@/hooks"
+import { EDITOR_STATE } from "@/constants"
 // Internal
-import { Section, Label, ButtonsRow, Button, ButtomSmall, ChatButtonEditable, Selector, TextInput } from "@/components/edit-mode/atoms"
+import { Section, Label, ButtonsRow, Button, ButtomSmall, ChatButtonEditable, Selector, TextInput, Icon } from "@/components/edit-mode/atoms"
 
 /** Import Changelog
  * Generate Interface, colors & extracted svg paths
@@ -19,9 +20,16 @@ interface MessageBuilderProps extends Partial<AutoLayoutProps>, ReqCompProps {
 }
 
 export function MessageBuilder({ editorManager, renderElement, theme, ...props }: MessageBuilderProps) {
-   const [{ direction, type, text, name, extension, size, buttons }, setEditorState, setMessagesState] = editorManager
+   const [{ direction, type, text, name, extension, size, buttons, hidePreview }, setEditorState, setMessagesState] = editorManager
 
    const resetIsNew = () => setEditorState("isNew", true) // Reset isNew
+
+   /** Reset all Inputs to default */
+   const resetInputs = () => {
+      Object.entries(EDITOR_STATE).map(([key, value]) => {
+         setEditorState(key as keyof EditorState, value)
+      })
+   }
 
    /** Overrides values of a specific button */
    const updateButton = (row: number, id: number, newvals: Partial<Message["buttons"][number][number]>) => {
@@ -154,11 +162,33 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
             strokeDashPattern={[16, 8]}
             {...props}
          >
+            {/* Title */}
             <Section horizontalAlignItems={"center"}>
                <Text name="title" fill={color.text.default} verticalAlignText="center" lineHeight={22} fontSize={22} fontWeight={600} height={46}>
                   Add New Message
                </Text>
+               <Icon
+                  tooltip="Reset New Message Inputs"
+                  onEvent={() => {
+                     resetIsNew(), resetInputs()
+                  }}
+                  icon={"reset"}
+                  theme={theme}
+                  color={color.text.default as string}
+               />
+               <Icon
+                  tooltip={hidePreview ? "Show Preview Message" : "Hide Preview Message"}
+                  onEvent={() => {
+                     resetIsNew(), setEditorState("hidePreview", (bool) => !bool)
+                  }}
+                  icon={hidePreview ? "show" : "hide"}
+                  theme={theme}
+                  opacity={hidePreview ? 1 : 0.5}
+                  x={{ type: "left", offset: 6 }}
+                  color={(hidePreview ? color.surface.primary : color.text.default) as string}
+               />
             </Section>
+            {/* Direction */}
             <Section>
                <Label colorPalette={color}>Message Direction</Label>
                <Selector
@@ -170,6 +200,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                   colorPalette={color}
                />
             </Section>
+            {/* Type */}
             <Section>
                <Label colorPalette={color}>Message Type</Label>
                <Selector

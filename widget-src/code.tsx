@@ -12,7 +12,7 @@ function Widget() {
    const { theme, displayMode, isEditMode } = useWidgetMenu() // Widget Property Menu
 
    // State Management
-   const [editorState, setEditorState] = useDynamicState<EditorState>({ ...EDITOR_STATE, isNew: true }) // Editor
+   const [editorState, setEditorState] = useDynamicState<EditorState>({ ...EDITOR_STATE, isNew: true, hidePreview: false }) // Editor
    const [messagesState, setMessagesState] = useDynamicState<MessagesState>({ messages: [] }) // Messages
 
    return (
@@ -22,7 +22,7 @@ function Widget() {
             <Interface renderElements={displayMode >= 1} theme={theme}>
                <MessagesLayout renderElements={displayMode >= 0} messagesState={messagesState} theme={theme}>
                   {/* Preview Message */}
-                  {editorState.isNew && <MessagePreview editorState={editorState} theme={theme} />}
+                  {editorState.isNew && !editorState.hidePreview && <MessagePreview editorState={editorState} theme={theme} />}
                </MessagesLayout>
             </Interface>
          </PhoneFrame>

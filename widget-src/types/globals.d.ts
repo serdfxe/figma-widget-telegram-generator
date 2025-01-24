@@ -13,7 +13,7 @@ declare global {
    }
 
    /** @param `IsNew` - Represents if message was applied to MessagesState (should change on edit)  */
-   type EditorState = Message & { isNew: boolean }
+   type EditorState = Message & { isNew: boolean; hidePreview: boolean }
 
    // Components
 
