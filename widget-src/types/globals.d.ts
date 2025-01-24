@@ -1,8 +1,20 @@
-import { EDITOR_STATE, THEME_MODES } from "@/constants"
+import { THEME_MODES } from "@/constants"
 
 declare global {
    /** Message Props*/
-   type Message = typeof EDITOR_STATE
+   type Message = {
+      direction: number
+      type: number
+      text: string
+      name: string
+      size: string
+      extension: string
+      buttons: {
+         id: number
+         text: string
+         hasRef: boolean
+      }[][]
+   }
 
    /** Messages
     * @description 2D Array of Out & In Messages

@@ -3,4 +3,4 @@ export const THEME_MODES = ["light", "dark"] as const
  * direction - 0: out, 1: in
  * type - 0: image, 1: text
  */
-export const EDITOR_STATE = { direction: 0, type: 1, text: "", name: "", size: "", extension: "", buttons: [[{ id: 1, text: "", hasRef: false }]] }
+export const EDITOR_STATE = { direction: 0, type: 1, text: "Sample Text", name: "File_Name", size: "1.4", extension: ".PNG", buttons: [[]] }
