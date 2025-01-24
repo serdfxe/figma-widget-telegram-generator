@@ -20,9 +20,9 @@ function Widget() {
    return (
       <AutoLayout name="Widget Container" width={"hug-contents"} height={"hug-contents"} overflow="visible">
          {/* Generated Chat (Displayed Result) */}
-         <PhoneFrame renderElements={displayMode >= 3} theme={theme}>
-            <Interface renderElements={displayMode >= 2} theme={theme}>
-               <MessagesLayout renderElements={displayMode >= 1} messagesState={messagesState} theme={theme}>
+         <PhoneFrame renderElements={displayMode <= 0} theme={theme}>
+            <Interface renderElements={displayMode <= 1} theme={theme}>
+               <MessagesLayout renderElements={displayMode <= 2} messagesState={messagesState} theme={theme}>
                   {/* Preview Message */}
                   {showPreview && <MessagePreview editorState={editorState} theme={theme} />}
                </MessagesLayout>

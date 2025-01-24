@@ -29,10 +29,10 @@ export default function useWidgetMenu({ config = defaultConfig }: Partial<useWid
 
    // Display Mode
    const displayOptions = [
-      { option: "message", label: "Last Message Only" },
-      { option: "messages", label: "Only Messages" },
-      { option: "viewport", label: "Viewport (scrollable)" },
       { option: "phone", label: "Framed Phone" },
+      { option: "viewport", label: "Viewport (scrollable)" },
+      { option: "messages", label: "Only Messages" },
+      { option: "message", label: "Last Message Only" },
    ] as const
    const [displayMode, setDisplayMode] = useSyncedState<number>("displayMode", config.displayMode) // useSyncedState<(typeof displayOptions)[number]["option"]>("displayMode", displayOptions[0].option)
 
