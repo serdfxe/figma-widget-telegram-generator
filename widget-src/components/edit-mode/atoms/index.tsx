@@ -288,7 +288,7 @@ export function Selector({ onEvent, options, value, colorPalette, ...props }: Se
          {...props}
       >
          {options.map((option, index) => (
-            <Option value={value % options.length} onEvent={(e) => onEvent(e, index)} optionIndex={index}>
+            <Option key={index} value={value % options.length} onEvent={(e) => onEvent(e, index)} optionIndex={index}>
                {option}
             </Option>
          ))}

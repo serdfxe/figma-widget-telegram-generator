@@ -38,11 +38,11 @@ export function WithButtons({ children, buttons, theme, ...props }: WithButtonsP
          <AutoLayout hidden={!(buttons.length > 0)} name="Actions" overflow="visible" direction="vertical" spacing={4} width="fill-parent">
             {/* 2 Buttons Row */}
             {buttons.map(
-               (buttonsRow) =>
+               (buttonsRow, key) =>
                   buttonsRow.length > 0 && (
-                     <AutoLayout name="Row" overflow="visible" spacing={4} width="fill-parent" horizontalAlignItems="center" verticalAlignItems="center">
-                        {buttonsRow.map((button) => (
-                           <Button config={{ hasRef: false }} theme={theme} name="chat-button" width="fill-parent">
+                     <AutoLayout key={key} name="Row" overflow="visible" spacing={4} width="fill-parent" horizontalAlignItems="center" verticalAlignItems="center">
+                        {buttonsRow.map((button, key) => (
+                           <Button key={key} config={{ hasRef: false }} theme={theme} name="chat-button" width="fill-parent">
                               {button.text}
                            </Button>
                         ))}

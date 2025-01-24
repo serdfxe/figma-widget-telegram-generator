@@ -256,7 +256,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                   {buttons.map(
                      (buttonsRow, rowIndex) =>
                         buttonsRow.length > 0 && (
-                           <ButtonsRow>
+                           <ButtonsRow key={rowIndex}>
                               <ButtomSmall
                                  onEvent={() => removeButtonFromRow(rowIndex, buttonsRow.length - 1)}
                                  icon="minus"
@@ -266,6 +266,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
 
                               {buttonsRow.map((button, buttonIndex) => (
                                  <ChatButtonEditable
+                                    key={buttonIndex}
                                     value={button.text}
                                     onEvent={(e) => updateButton(rowIndex, buttonIndex, { text: e.characters })}
                                     name="chat-button"
