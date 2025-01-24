@@ -133,8 +133,6 @@ export function PreviewLabel({ theme, ...props }: Partial<AutoLayoutProps> & Req
       },
    })[theme]
 
-   console.log(color)
-
    return (
       <AutoLayout
          name="CenterLabel"
