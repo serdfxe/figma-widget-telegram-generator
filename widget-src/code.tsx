@@ -11,14 +11,11 @@ import { EDITOR_STATE } from "./constants"
 import { MessagesSample } from "./components/MessagesSample"
 
 function Widget() {
-   // Widget Property Menu
-   const { theme, displayMode, isEditMode } = useWidgetMenu()
-   // New Message Editor State Manager
-   const [editorState, setEditorState] = useDynamicState(EDITOR_STATE)
-   // Messages Manager
-   const [messagesState, setMessagesState] = useDynamicState({
-      messages: [[{ direction: 0, type: 1, text: "", name: "", size: "", extension: "", buttons: [[{ id: 1, text: "", hasRef: false }]] }]],
-   })
+   const { theme, displayMode, isEditMode } = useWidgetMenu() // Widget Property Menu
+
+   // State Management
+   const [editorState, setEditorState] = useDynamicState<Message>(EDITOR_STATE) // Editor
+   const [messagesState, setMessagesState] = useDynamicState<MessagesState>({ messages: [] }) // Messages
 
    return (
       <AutoLayout name="Widget Container" width={"hug-contents"} height={"hug-contents"} overflow="visible">
@@ -32,21 +29,11 @@ function Widget() {
             </Interface>
          </PhoneFrame>
 
-         {/* Editor Mode (Interface) */}
-         <AutoLayout
-            positioning="absolute"
-            overflow="visible"
-            width={390}
-            y={16}
-            x={{
-               type: "right",
-               offset: -25 - 390,
-            }}
-         >
-            {/* (New Message) Constructor */}
-            <MessageBuilder renderElement={isEditMode} editorManager={[editorState, setEditorState]} theme={theme} />
-            {/* TODO: Remove existing messages from display method*/}
-         </AutoLayout>
+         {/*  */}
+
+         {/* Editor Mode (New Message Constructor) */}
+         <MessageBuilder renderElement={isEditMode} editorManager={[editorState, setEditorState, setMessagesState]} theme={theme} />
+         {/* TODO: Remove existing messages from display (method) */}
       </AutoLayout>
    )
 }
