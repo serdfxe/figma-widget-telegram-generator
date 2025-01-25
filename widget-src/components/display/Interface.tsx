@@ -2,7 +2,8 @@
 const { Frame } = figma.widget
 // Components
 import { Background, BottomBar, Header } from "@/components/ui"
-import { DIMENSIONS } from "@/constants"
+import { DIMENSIONS, USERNAMES } from "@/constants"
+import { useDynamicState } from "@/hooks"
 
 /** Import Changelog
  * commented unnimported comps
@@ -12,10 +13,13 @@ import { DIMENSIONS } from "@/constants"
 
 interface InterfaceProps extends ReqCompProps, OptionalRender, Partial<FrameProps> {
    viewport: number
+   chatId: number
 }
 
 /** Telegram Interface - Header, Chat Input + ios */
-export function Interface({ children, viewport, renderElements, theme, ...props }: InterfaceProps) {
+export function Interface({ children, chatId, viewport, renderElements, theme, ...props }: InterfaceProps) {
+   const [recipient, setRecipient] = useDynamicState({ username: USERNAMES[chatId] }) // Username / Image
+
    return !renderElements ? (
       children
    ) : (
@@ -87,6 +91,8 @@ export function Interface({ children, viewport, renderElements, theme, ...props 
          <Header
             theme={theme}
             name="Header"
+            onEvent={(e) => setRecipient("username", e.characters)}
+            value={recipient.username}
             x={{
                type: "left-right",
                leftOffset: 0,

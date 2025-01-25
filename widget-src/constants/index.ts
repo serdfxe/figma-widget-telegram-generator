@@ -23,3 +23,5 @@ export const DIMENSIONS = [
 
 export const CHATS: (Message[] | undefined)[][] = [CHAT_BOT, CHAT_FRIENDS, []]
 export const REPLIES: Message[] = [REPLY_BOT, REPLY_FRIEND, EDITOR_STATE]
+
+export const USERNAMES: string[] = ["eMarket Bot", "Elizabeth", ""]

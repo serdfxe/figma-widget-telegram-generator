@@ -5,14 +5,6 @@ interface CreatorCompKitConfig extends Partial<AutoLayoutProps> {
    colorPalette: ThemedColors[ThemeModes]
 }
 
-/** Generic `P`: onEvent callback parameters */
-interface ContainsEvent<P extends unknown[] = [WidgetClickEvent]> {
-   /** TextEditEvent Inputs Value */
-   value: P[0] extends WidgetClickEvent ? number : string
-   /** example User Click Event */
-   onEvent: (...args: P) => void
-}
-
 export function Section({ children, ...props }: Partial<CreatorCompKitConfig>) {
    return (
       <AutoLayout name="Section" overflow="visible" direction="vertical" spacing={12} width="fill-parent" {...props}>

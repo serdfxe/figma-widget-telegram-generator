@@ -78,4 +78,14 @@ declare global {
    type PartialPick<T, K extends keyof T> = Omit<T, K> & {
       [P in K]?: T[P]
    }
+
+   /** Component Props contains event
+    * Generic `P`: onEvent callback parameters (support array of arguments passed to callback)
+    */
+   interface ContainsEvent<P extends unknown[] = [WidgetClickEvent]> {
+      /** TextEditEvent Inputs Value */
+      value: P[0] extends WidgetClickEvent ? number : string
+      /** example User Click Event */
+      onEvent: (...args: P) => void
+   }
 }

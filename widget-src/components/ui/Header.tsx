@@ -1,5 +1,5 @@
 // Dependencies
-const { AutoLayout, Text, Rectangle, SVG } = figma.widget
+const { AutoLayout, Text, Rectangle, SVG, Input } = figma.widget
 // Components
 import { remapTokens } from "@/utils"
 // Internal
@@ -12,12 +12,9 @@ import { IosHeaderStatus, ProfilePic } from "@/components/ui/atoms"
  * colors with remapTokens
  */
 
-interface HeaderProps extends ReqCompProps, Partial<AutoLayoutProps> {
-   username?: string
-   // profilePicture?: string
-}
+interface HeaderProps extends ReqCompProps, Partial<AutoLayoutProps>, ContainsEvent<[TextEditEvent]> {}
 
-export function Header({ username = "HawkMoney Demo", theme, ...props }: HeaderProps) {
+export function Header({ value = "HawkMoney Demo", onEvent, theme, ...props }: HeaderProps) {
    /** Required by children (Drilled Props) */
    const reqChildProps = { theme }
 
@@ -154,8 +151,9 @@ export function Header({ username = "HawkMoney Demo", theme, ...props }: HeaderP
                width={228}
                horizontalAlignItems="center"
             >
-               <Text
-                  name="Martha Craig"
+               <Input
+                  name="username"
+                  placeholder="Username or Group"
                   fill={color.text.primary}
                   horizontalAlignText="center"
                   lineHeight={18}
@@ -164,9 +162,9 @@ export function Header({ username = "HawkMoney Demo", theme, ...props }: HeaderP
                   fontWeight={500}
                   strokeWidth={0}
                   strokeAlign="center"
-               >
-                  {username}
-               </Text>
+                  value={value}
+                  onTextEditEnd={onEvent}
+               />
                <Text name="last seen just now" fill={color.text.secondary} lineHeight={15} fontSize={13} letterSpacing={-0.05} strokeWidth={0} strokeAlign="center">
                   last seen just now
                </Text>
