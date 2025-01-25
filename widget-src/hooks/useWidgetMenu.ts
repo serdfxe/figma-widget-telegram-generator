@@ -1,13 +1,14 @@
 // Dependencies
 const { useSyncedState, usePropertyMenu } = figma.widget
 // Components
-import { THEME_MODES } from "../constants"
+import { THEME_MODES, WIDGET_MENU } from "../constants"
 
 interface useWidgetMenuConfig {
    /** Initial State */
    config: {
       theme: ThemeModes
       displayMode: number
+      viewport: number
       isEditMode: boolean
    }
 }
@@ -16,28 +17,41 @@ interface useWidgetMenuConfig {
 const defaultConfig: useWidgetMenuConfig["config"] = {
    theme: THEME_MODES[0],
    isEditMode: true,
-   displayMode: 2,
+   displayMode: 0,
+   viewport: 0,
 }
 
 /** Custom Hook Hnadle Widget Property Menu */
 export default function useWidgetMenu({ config = defaultConfig }: Partial<useWidgetMenuConfig> = {}) {
+   /* State */
+
+   // Display Mode
+   const displayOptions = [
+      { option: "phone", label: "Framed Phone" },
+      { option: "viewport", label: "Viewport (scrollable)" },
+      { option: "messages", label: "Chat Messages" },
+      { option: "message", label: "Last Message Only" },
+   ] as const
+   const [displayMode, setDisplayMode] = useSyncedState<number>("displayMode", config.displayMode) // useSyncedState<(typeof displayOptions)[number]["option"]>("displayMode", displayOptions[0].option)
+
    // Theme Mode
    const [theme, setTheme] = useSyncedState<ThemeModes>("theme", config.theme)
    const themeOptions = THEME_MODES.map((mode) => {
       return { option: mode, label: mode.charAt(0).toUpperCase() + mode.slice(1) }
    })
 
-   // Display Mode
-   const displayOptions = [
-      { option: "phone", label: "Framed Phone" },
-      { option: "viewport", label: "Viewport (scrollable)" },
-      { option: "messages", label: "Only Messages" },
-      { option: "message", label: "Last Message Only" },
+   // Viewport Dimensions
+   const viewportDimensions = [
+      { option: "lg", label: `${WIDGET_MENU.dimensions[0].width}x${WIDGET_MENU.dimensions[0].height} (Default)` },
+      { option: "md", label: `${WIDGET_MENU.dimensions[1].width}x${WIDGET_MENU.dimensions[1].height} (Iphone 12/13 Pro)` },
+      { option: "sm", label: `${WIDGET_MENU.dimensions[2].width}x${WIDGET_MENU.dimensions[2].height} (Iphone SE)` },
    ] as const
-   const [displayMode, setDisplayMode] = useSyncedState<number>("displayMode", config.displayMode) // useSyncedState<(typeof displayOptions)[number]["option"]>("displayMode", displayOptions[0].option)
+   const [viewport, setViewport] = useSyncedState<number>("viewport", config.viewport)
 
-   // Input (New Message)
+   // Editor Mode (New message constructor/form)
    const [isEditMode, setIsEditMode] = useSyncedState("isEditMode", config.isEditMode)
+
+   /* Icons */
 
    const svgPaths = {
       edit: `<svg width='14' height='14' viewBox='0 0 72 72' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -59,16 +73,14 @@ export default function useWidgetMenu({ config = defaultConfig }: Partial<useWid
          </svg>`,
    }
 
+   /* Widget Menu */
+
+   const optionalMenuItem = <T extends PropertyMenuItem>(propObj: T, conditional: boolean): [T] | [] => {
+      return conditional ? [propObj] : []
+   }
+
    usePropertyMenu(
       [
-         // Theme Mode Dropdown
-         {
-            itemType: "dropdown",
-            propertyName: "theme",
-            tooltip: "Theme Mode selector",
-            selectedOption: theme,
-            options: themeOptions,
-         },
          // Display Mode Dropdown (Scrollable Viewport / Full Phone / Only Messages)
          {
             itemType: "dropdown",
@@ -77,7 +89,31 @@ export default function useWidgetMenu({ config = defaultConfig }: Partial<useWid
             selectedOption: displayOptions[displayMode].option,
             options: [...displayOptions],
          },
-         // Input Toggle (Edit Mode / Display Mode)
+
+         // Viewport Dimensions (Presets)
+         ...optionalMenuItem(
+            {
+               itemType: "dropdown",
+               propertyName: "viewport",
+               tooltip: "Viewport Dimensions Preset",
+               selectedOption: viewportDimensions[viewport].option,
+               options: [...viewportDimensions],
+            },
+            displayMode === 1,
+         ),
+
+         { itemType: "separator" }, // Display Settings / Widget Settings
+
+         // Theme Mode Dropdown
+         {
+            itemType: "dropdown",
+            propertyName: "theme",
+            tooltip: "Theme Mode selector",
+            selectedOption: theme,
+            options: themeOptions,
+         },
+
+         // Editor Mode Toggle
          {
             itemType: "action",
             propertyName: "input",
@@ -96,9 +132,13 @@ export default function useWidgetMenu({ config = defaultConfig }: Partial<useWid
             case "display":
                setDisplayMode(displayOptions.findIndex((option) => option.option === propertyValue))
                break
+            case "viewport": {
+               setViewport(viewportDimensions.findIndex((option) => option.option === propertyValue))
+               break
+            }
          }
       },
    )
 
-   return { theme, displayMode, isEditMode }
+   return { displayMode, viewport, theme, isEditMode }
 }

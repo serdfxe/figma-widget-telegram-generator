@@ -2,6 +2,7 @@
 const { Frame } = figma.widget
 // Components
 import { Background, BottomBar, Header } from "@/components/ui"
+import { WIDGET_MENU } from "@/constants"
 
 /** Import Changelog
  * commented unnimported comps
@@ -9,10 +10,12 @@ import { Background, BottomBar, Header } from "@/components/ui"
  * add messages as children
  */
 
-interface InterfaceProps extends ReqCompProps, OptionalRender, Partial<FrameProps> {}
+interface InterfaceProps extends ReqCompProps, OptionalRender, Partial<FrameProps> {
+   viewport: number
+}
 
 /** Telegram Interface - Header, Chat Input + ios */
-export function Interface({ children, renderElements, theme, ...props }: InterfaceProps) {
+export function Interface({ children, viewport, renderElements, theme, ...props }: InterfaceProps) {
    return !renderElements ? (
       children
    ) : (
@@ -29,8 +32,8 @@ export function Interface({ children, renderElements, theme, ...props }: Interfa
             bottomOffset: 0,
          }}
          fill="#151515"
-         width={390 + 19 * 2}
-         height={844 + 16 * 2}
+         width={WIDGET_MENU.dimensions[viewport].width}
+         height={WIDGET_MENU.dimensions[viewport].height}
          {...props}
       >
          <Background
