@@ -237,6 +237,7 @@ export function Message<T extends MessageTypes>({ side, type, config, theme, ...
          </AutoLayout>
          <StatusAtom
             {...reqChildProps}
+            color={color.text[`label${!textConfig.text ? "In" : side}`]}
             name="_status-atom"
             x={{
                type: "right",
