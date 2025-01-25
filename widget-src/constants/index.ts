@@ -1,3 +1,4 @@
+import { IMAGE_BOT, IMAGE_CUSTOM, IMAGE_FRIEND } from "@/assets/base64"
 import { CHAT_FRIENDS, CHAT_BOT, REPLY_BOT, REPLY_FRIEND } from "@/constants/chats"
 
 export const THEME_MODES = ["light", "dark"] as const
@@ -25,3 +26,4 @@ export const CHATS: (Message[] | undefined)[][] = [CHAT_BOT, CHAT_FRIENDS, []]
 export const REPLIES: Message[] = [REPLY_BOT, REPLY_FRIEND, EDITOR_STATE]
 
 export const USERNAMES: string[] = ["eMarket Bot", "Elizabeth", ""]
+export const PROFILE_IMAGES: string[] = [IMAGE_BOT, IMAGE_FRIEND, IMAGE_CUSTOM]

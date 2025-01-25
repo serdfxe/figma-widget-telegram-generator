@@ -12,9 +12,11 @@ import { IosHeaderStatus, ProfilePic } from "@/components/ui/atoms"
  * colors with remapTokens
  */
 
-interface HeaderProps extends ReqCompProps, Partial<AutoLayoutProps>, ContainsEvent<[TextEditEvent]> {}
+interface HeaderProps extends ReqCompProps, Partial<AutoLayoutProps>, ContainsEvent<[TextEditEvent]> {
+   profilePicSrc: string
+}
 
-export function Header({ value = "HawkMoney Demo", onEvent, theme, ...props }: HeaderProps) {
+export function Header({ value, profilePicSrc, onEvent, theme, ...props }: HeaderProps) {
    /** Required by children (Drilled Props) */
    const reqChildProps = { theme }
 
@@ -136,7 +138,7 @@ export function Header({ value = "HawkMoney Demo", onEvent, theme, ...props }: H
                   Chats
                </Text>
             </AutoLayout>
-            <ProfilePic name="profile-pic/HawkMoney" strokeWidth={0.925} width={37} height={37} />
+            <ProfilePic name="profile-pic/HawkMoney" profilePicSrc={profilePicSrc} strokeWidth={0.925} width={37} height={37} />
             <AutoLayout
                name="Frame 1"
                x={{
