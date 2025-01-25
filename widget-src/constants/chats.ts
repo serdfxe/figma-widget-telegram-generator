@@ -95,7 +95,25 @@ export const CHAT_FRIENDS = [
       },
    ],
 ]
+export const REPLY_FRIEND = {
+   direction: 1,
+   type: 1,
+   text: "Marketing sounds exciting! Are you working with a big team?",
+   name: "File_Name",
+   size: "1.4",
+   extension: ".PNG",
+   buttons: [],
+}
 
+export const REPLY_BOT = {
+   direction: 1,
+   type: 1,
+   text: " I’d like to know about any special offers or updates you have! What’s new and exciting?",
+   name: "File_Name",
+   size: "1.4",
+   extension: ".PNG",
+   buttons: [],
+}
 export const CHAT_BOT = [
    [
       {
@@ -112,8 +130,7 @@ export const CHAT_BOT = [
       {
          direction: 0,
          type: 2,
-         text: `
-Welcome to our store!
+         text: `Welcome to our store!
 We’re so glad to have you here. 😊
 
 Here’s how we can assist you today:
@@ -122,14 +139,15 @@ Here’s how we can assist you today:
 2. Browse Products – Discover our range of categories, from electronics to home goods.
 3. Talk to Support – Need help? We’re here to assist you with any queries.
 
-Choose one of the options below, or type your question to get started!`,
+Choose one of the options below, or type your question to get started!
+ `,
          name: "",
          size: "",
          extension: "",
          buttons: [
             [{ id: 1, text: "🧾 Track my order", hasRef: false }],
-            [{ id: 1, text: "🛒 Browse products", hasRef: false }],
-            [{ id: 1, text: "🩺 Talk to support", hasRef: false }],
+            [{ id: 1, text: "🔎 Browse products", hasRef: false }],
+            [{ id: 1, text: "📣 Talk to support", hasRef: false }],
          ],
       },
    ],

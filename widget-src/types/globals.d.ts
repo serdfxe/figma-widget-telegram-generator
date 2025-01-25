@@ -19,13 +19,13 @@ declare global {
    /** Messages
     * @description 2D Array of Out & In Messages
     */
-   type MessagesState = {
-      /** Array of presets [bot, friends, none] */
-      presetted: (Message[] | undefined)[][]
+   type ChatState = {
+      /** Array of previous messages presetted [bot, friends, none] */
+      // chats: (Message[] | undefined)[][]
       messages?: (Message[] | undefined)[]
    }
 
-   /** @param `IsNew` - Represents if message was applied to MessagesState (should change on edit)  */
+   /** @param `IsNew` - Represents if message was applied to ChatState (should change on edit)  */
    type EditorState = Message & { isNew: boolean; hidePreview: boolean }
 
    // Components

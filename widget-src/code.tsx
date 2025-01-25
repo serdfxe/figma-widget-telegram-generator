@@ -6,14 +6,14 @@ const { AutoLayout } = widget
 import { useWidgetMenu, useDynamicState } from "@/hooks"
 import { PhoneFrame, Interface, MessagesLayout, MessagePreview } from "@/components/display"
 import { MessageBuilder } from "@/components/edit-mode"
-import { EDITOR_STATE, CHAT_PRESETS } from "@/constants"
+import { REPLIES, CHATS } from "@/constants"
 
 function Widget() {
-   const { chatPreset, displayMode, viewport, theme, isEditMode } = useWidgetMenu() // Widget Property Menu
+   const { chatId, displayMode, viewport, theme, isEditMode } = useWidgetMenu() // Widget Property Menu
 
-   // State Management
-   const [editorState, setEditorState] = useDynamicState<EditorState>({ ...EDITOR_STATE, isNew: true, hidePreview: false }) // Editor
-   const [messagesState, setMessagesState] = useDynamicState<MessagesState>({ presetted: CHAT_PRESETS, messages: [] }) // Messages
+   // State Management (Constrained to chatId)
+   const [chatState, setChatState] = useDynamicState<ChatState>({ messages: CHATS[chatId] }) // Chat Messages
+   const [editorState, setEditorState] = useDynamicState<EditorState>({ ...REPLIES[chatId], isNew: true, hidePreview: false }) // Message Creator
 
    const showPreview = isEditMode && editorState.isNew && !editorState.hidePreview // Show Preview Condition
 
@@ -22,7 +22,7 @@ function Widget() {
          {/* Generated Chat (Displayed Result) */}
          <PhoneFrame renderElements={displayMode <= 0} theme={theme}>
             <Interface renderElements={displayMode <= 1} viewport={viewport} theme={theme}>
-               <MessagesLayout renderElements={displayMode <= 2} chatPreset={chatPreset} messagesState={messagesState} theme={theme}>
+               <MessagesLayout renderElements={displayMode <= 2} messages={chatState.messages} theme={theme}>
                   {/* Preview Message */}
                   {showPreview && <MessagePreview editorState={editorState} theme={theme} />}
                </MessagesLayout>
@@ -32,7 +32,7 @@ function Widget() {
          {/*  */}
 
          {/* Editor Mode (New Message Constructor) */}
-         <MessageBuilder renderElement={isEditMode} editorManager={[editorState, setEditorState, setMessagesState]} theme={theme} />
+         <MessageBuilder renderElement={isEditMode} editorManager={[editorState, setEditorState, setChatState]} theme={theme} />
          {/* TODO: Remove existing messages from display (method) */}
       </AutoLayout>
    )

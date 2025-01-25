@@ -1,4 +1,4 @@
-import { CHAT_FRIENDS, CHAT_BOT } from "@/constants/chats"
+import { CHAT_FRIENDS, CHAT_BOT, REPLY_BOT, REPLY_FRIEND } from "@/constants/chats"
 
 export const THEME_MODES = ["light", "dark"] as const
 /** Editor Manager State
@@ -21,4 +21,5 @@ export const DIMENSIONS = [
    { width: 320, height: 568 }, // sm
 ]
 
-export const CHAT_PRESETS: (Message[] | undefined)[][] = [CHAT_BOT, CHAT_FRIENDS, []]
+export const CHATS: (Message[] | undefined)[][] = [CHAT_BOT, CHAT_FRIENDS, []]
+export const REPLIES: Message[] = [REPLY_BOT, REPLY_FRIEND, EDITOR_STATE]

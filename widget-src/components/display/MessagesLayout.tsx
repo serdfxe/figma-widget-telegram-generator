@@ -6,14 +6,13 @@ import { Message } from "@/components/ui"
 import { EDITOR_INPUTS } from "@/constants"
 
 interface MessagesLayoutProps extends Partial<AutoLayoutProps>, ReqCompProps, OptionalRender {
-   messagesState: MessagesState
-   chatPreset: number
+   messages?: (Message[] | undefined)[]
 }
 
 /** A component that arranges messages in a specific layout (In & Out Messages). */
-export function MessagesLayout({ messagesState, chatPreset, renderElements, children, theme, ...props }: MessagesLayoutProps) {
+export function MessagesLayout({ messages, renderElements, children, theme, ...props }: MessagesLayoutProps) {
    /** Last Message Only Display Mode */
-   const lastMessageSide = messagesState.messages?.[messagesState.messages.length - 1]
+   const lastMessageSide = messages?.[messages.length - 1]
    const lastMessage = lastMessageSide?.[lastMessageSide.length - 1]
 
    return !renderElements ? (
@@ -58,7 +57,7 @@ export function MessagesLayout({ messagesState, chatPreset, renderElements, chil
          horizontalAlignItems="center"
          {...props}
       >
-         {[...messagesState.presetted[chatPreset], ...(messagesState.messages ?? [])].map(
+         {messages?.map(
             (dirMsg, key) =>
                dirMsg && (
                   <DirectionContainer key={key} side={EDITOR_INPUTS.direction.values[dirMsg[0].direction]}>

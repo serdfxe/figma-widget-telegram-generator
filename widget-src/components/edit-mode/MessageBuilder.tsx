@@ -15,12 +15,12 @@ import { Section, Label, ButtonsRow, Button, ButtomSmall, ChatButtonEditable, Se
 interface MessageBuilderProps extends Partial<AutoLayoutProps>, ReqCompProps {
    /** Fully Hide from layers tree */
    renderElement: boolean
-   /** Editor State Manager (New Message Inputs Centralized State at base code.tsx) & setMessagesState */
-   editorManager: [EditorState, SetterProp<EditorState>, SetterProp<MessagesState>]
+   /** Editor State Manager (New Message Inputs Centralized State at base code.tsx) & setChatState */
+   editorManager: [EditorState, SetterProp<EditorState>, SetterProp<ChatState>]
 }
 
 export function MessageBuilder({ editorManager, renderElement, theme, ...props }: MessageBuilderProps) {
-   const [{ direction, type, text, name, extension, size, buttons, hidePreview }, setEditorState, setMessagesState] = editorManager
+   const [{ direction, type, text, name, extension, size, buttons, hidePreview }, setEditorState, setChatState] = editorManager
 
    const resetIsNew = () => setEditorState("isNew", true) // Reset isNew
 
@@ -72,7 +72,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
    const addMessageToChat = () => {
       setEditorState("isNew", false) // Set isNew
       const newMessage = { direction, type, text, name, extension, size, buttons }
-      setMessagesState("messages", (prevMessages) => {
+      setChatState("messages", (prevMessages) => {
          // Array of In & Out Messages
          const allMsgs = [...(prevMessages ?? [])]
          // Array of Messages in a specific direction

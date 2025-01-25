@@ -6,7 +6,7 @@ import { THEME_MODES, DIMENSIONS } from "../constants"
 interface useWidgetMenuConfig {
    /** Initial State */
    config: {
-      chatPreset: number
+      chatId: number
       displayMode: number
       viewport: number
       isEditMode: boolean
@@ -16,7 +16,7 @@ interface useWidgetMenuConfig {
 
 /** Default config */
 const defaultConfig: useWidgetMenuConfig["config"] = {
-   chatPreset: 0,
+   chatId: 0,
    displayMode: 0,
    viewport: 0,
    isEditMode: true,
@@ -27,13 +27,13 @@ const defaultConfig: useWidgetMenuConfig["config"] = {
 export default function useWidgetMenu({ config = defaultConfig }: Partial<useWidgetMenuConfig> = {}) {
    /* State */
 
-   // Chat Presets
+   // Chat Presets (Previous Messages)
    const chatPresets = [
       { option: "bot", label: "Bot Chat" },
       { option: "friend", label: "Friend Chat" },
       { option: "none", label: "Empty Chat" },
    ] as const
-   const [chatPreset, setChatPreset] = useSyncedState<number>("chatPreset", config.chatPreset)
+   const [chatId, setChatId] = useSyncedState<number>("chatId", config.chatId)
 
    // Display Mode
    const displayOptions = [
@@ -92,12 +92,12 @@ export default function useWidgetMenu({ config = defaultConfig }: Partial<useWid
 
    usePropertyMenu(
       [
-         // Chat Preset Dropdown (Bot / Friend / Empty)
+         // Chat chat Dropdown (Bot / Friend / Empty)
          {
             itemType: "dropdown",
             propertyName: "chat",
-            tooltip: "Previous Chat Messages",
-            selectedOption: chatPresets[chatPreset].option,
+            tooltip: "Change Context (Recipient)",
+            selectedOption: chatPresets[chatId].option,
             options: [...chatPresets],
          },
 
@@ -115,7 +115,7 @@ export default function useWidgetMenu({ config = defaultConfig }: Partial<useWid
             {
                itemType: "dropdown",
                propertyName: "viewport",
-               tooltip: "Viewport Dimensions Preset",
+               tooltip: "Viewport Dimensions chat",
                selectedOption: viewportDimensions[viewport].option,
                options: [...viewportDimensions],
             },
@@ -143,7 +143,7 @@ export default function useWidgetMenu({ config = defaultConfig }: Partial<useWid
       ({ propertyName, propertyValue }) => {
          switch (propertyName) {
             case "chat":
-               setChatPreset(chatPresets.findIndex((option) => option.option === propertyValue))
+               setChatId(chatPresets.findIndex((option) => option.option === propertyValue))
                break
             case "display":
                setDisplayMode(displayOptions.findIndex((option) => option.option === propertyValue))
@@ -162,5 +162,5 @@ export default function useWidgetMenu({ config = defaultConfig }: Partial<useWid
       },
    )
 
-   return { chatPreset, displayMode, viewport, theme, isEditMode }
+   return { chatId, displayMode, viewport, theme, isEditMode }
 }
