@@ -13,9 +13,9 @@ function Widget() {
 
    // State Management (Constrained to chatId)
    const [chatState, setChatState] = useDynamicState<ChatState>({ messages: CHATS[chatId] }) // Chat Messages
-   const [editorState, setEditorState] = useDynamicState<EditorState>({ ...REPLIES[chatId], isNew: true, hidePreview: false }) // Message Creator
+   const [editorState, setEditorState] = useDynamicState<EditorState>({ ...REPLIES[chatId], hidePreview: false }) // Message Creator
 
-   const showPreview = isEditMode && editorState.isNew && !editorState.hidePreview // Show Preview Condition
+   const showPreview = isEditMode && !editorState.hidePreview // Show Preview Condition
 
    return (
       <AutoLayout name="Widget Container" width={"hug-contents"} height={"hug-contents"} overflow="visible">

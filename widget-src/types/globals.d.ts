@@ -25,8 +25,8 @@ declare global {
       messages?: (Message[] | undefined)[]
    }
 
-   /** @param `IsNew` - Represents if message was applied to ChatState (should change on edit)  */
-   type EditorState = Message & { isNew: boolean; hidePreview: boolean }
+   /** @param `hidePreview` - Editor Preference, hides preview from chat  */
+   type EditorState = Message & { hidePreview: boolean }
 
    // Components
 

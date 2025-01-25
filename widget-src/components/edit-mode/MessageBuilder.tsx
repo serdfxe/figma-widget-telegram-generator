@@ -22,8 +22,6 @@ interface MessageBuilderProps extends Partial<AutoLayoutProps>, ReqCompProps {
 export function MessageBuilder({ editorManager, renderElement, theme, ...props }: MessageBuilderProps) {
    const [{ direction, type, text, name, extension, size, buttons, hidePreview }, setEditorState, setChatState] = editorManager
 
-   const resetIsNew = () => setEditorState("isNew", true) // Reset isNew
-
    /** Reset all Inputs to default */
    const resetInputs = () => {
       Object.entries(EDITOR_STATE).map(([key, value]) => {
@@ -33,7 +31,6 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
 
    /** Overrides values of a specific button */
    const updateButton = (row: number, id: number, newvals: Partial<Message["buttons"][number][number]>) => {
-      resetIsNew()
       setEditorState(
          "buttons",
          buttons.map((buttonRow, rowIndex) => (rowIndex === row ? buttonRow.map((button, buttonIndex) => (buttonIndex === id ? { ...button, ...newvals } : button)) : buttonRow)),
@@ -41,14 +38,12 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
    }
 
    const addButtonToRow = (row: number, nextId: number) => {
-      resetIsNew()
       setEditorState(
          "buttons",
          buttons.map((buttonsRow, rowIndex) => (rowIndex === row ? [...buttonsRow, { id: nextId, text: `Button ${rowIndex + 1}-${nextId}`, hasRef: false }] : buttonsRow)),
       )
    }
    const removeButtonFromRow = (row: number, id: number) => {
-      resetIsNew()
       if (buttons[row].length === 1) {
          // Remove row
          setEditorState(
@@ -65,12 +60,12 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
    }
 
    const addRowOfButtons = () => {
-      resetIsNew()
       setEditorState("buttons", [...buttons, [{ id: 1, text: `Button ${buttons.length}-1`, hasRef: false }]])
    }
 
    const addMessageToChat = () => {
-      setEditorState("isNew", false) // Set isNew
+      setEditorState("direction", (prev) => (prev + 1) % EDITOR_INPUTS.direction.values.length) // Toggle Direction
+
       const newMessage = { direction, type, text, name, extension, size, buttons }
       setChatState("messages", (prevMessages) => {
          // Array of In & Out Messages
@@ -202,7 +197,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                <Icon
                   tooltip={hidePreview ? "Show Preview Message" : "Hide Preview Message"}
                   onEvent={() => {
-                     resetIsNew(), setEditorState("hidePreview", (bool) => !bool)
+                     setEditorState("hidePreview", (bool) => !bool)
                   }}
                   icon={hidePreview ? "show" : "hide"}
                   theme={theme}
@@ -213,7 +208,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                <Icon
                   tooltip="Reset New Message Inputs"
                   onEvent={() => {
-                     resetIsNew(), resetInputs()
+                     resetInputs()
                   }}
                   icon={"reset"}
                   theme={theme}
@@ -225,7 +220,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                <Label colorPalette={color}>Message Direction</Label>
                <Selector
                   onEvent={(e, i) => {
-                     resetIsNew(), setEditorState("direction", i++)
+                     setEditorState("direction", i++)
                   }}
                   value={direction}
                   options={[...EDITOR_INPUTS.direction.values]}
@@ -238,7 +233,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                <Label colorPalette={color}>Message Type</Label>
                <Selector
                   onEvent={(e, i) => {
-                     resetIsNew(), setEditorState("type", i++)
+                     setEditorState("type", i++)
                   }}
                   value={type}
                   options={[...EDITOR_INPUTS.type.values]}
@@ -251,7 +246,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                <Label colorPalette={color}>Image Details</Label>
                <TextInput
                   onEvent={(e) => {
-                     resetIsNew(), setEditorState("name", e.characters)
+                     setEditorState("name", e.characters)
                   }}
                   value={name}
                   placeholder="Image/ File Name"
@@ -259,7 +254,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                />
                <TextInput
                   onEvent={(e) => {
-                     resetIsNew(), setEditorState("extension", e.characters)
+                     setEditorState("extension", e.characters)
                   }}
                   value={extension}
                   placeholder="Image/ File Extension"
@@ -267,7 +262,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                />
                <TextInput
                   onEvent={(e) => {
-                     resetIsNew(), setEditorState("size", e.characters)
+                     setEditorState("size", e.characters)
                   }}
                   value={size}
                   placeholder="Image/ File Size"
@@ -280,7 +275,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                <Label colorPalette={color}>Message Content</Label>
                <TextInput
                   onEvent={(e) => {
-                     resetIsNew(), setEditorState("text", e.characters)
+                     setEditorState("text", e.characters)
                   }}
                   value={text}
                   placeholder="Text Message..."
@@ -294,7 +289,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                <Label colorPalette={color}>Message Content</Label>
                <TextInput
                   onEvent={(e) => {
-                     resetIsNew(), setEditorState("text", e.characters)
+                     setEditorState("text", e.characters)
                   }}
                   value={text}
                   placeholder="Text Message..."
