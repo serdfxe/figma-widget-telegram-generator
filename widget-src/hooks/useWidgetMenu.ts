@@ -162,5 +162,5 @@ export default function useWidgetMenu({ config = defaultConfig }: Partial<useWid
       },
    )
 
-   return { displayMode, viewport, theme, isEditMode }
+   return { chatPreset, displayMode, viewport, theme, isEditMode }
 }

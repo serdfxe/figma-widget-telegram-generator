@@ -20,7 +20,8 @@ declare global {
     * @description 2D Array of Out & In Messages
     */
    type MessagesState = {
-      // presetMessages?: Message[][]
+      /** Array of presets [bot, friends, none] */
+      presetted: (Message[] | undefined)[][]
       messages?: (Message[] | undefined)[]
    }
 

@@ -2,7 +2,7 @@
 const { Frame } = figma.widget
 // Components
 import { Background, BottomBar, Header } from "@/components/ui"
-import { WIDGET_MENU } from "@/constants"
+import { DIMENSIONS } from "@/constants"
 
 /** Import Changelog
  * commented unnimported comps
@@ -32,8 +32,8 @@ export function Interface({ children, viewport, renderElements, theme, ...props 
             bottomOffset: 0,
          }}
          fill="#151515"
-         width={WIDGET_MENU.dimensions[viewport].width}
-         height={WIDGET_MENU.dimensions[viewport].height}
+         width={DIMENSIONS[viewport].width}
+         height={DIMENSIONS[viewport].height}
          {...props}
       >
          <Background
