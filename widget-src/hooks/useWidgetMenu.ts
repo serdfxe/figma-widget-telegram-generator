@@ -1,29 +1,39 @@
 // Dependencies
 const { useSyncedState, usePropertyMenu } = figma.widget
 // Components
-import { THEME_MODES, WIDGET_MENU } from "../constants"
+import { THEME_MODES, DIMENSIONS } from "../constants"
 
 interface useWidgetMenuConfig {
    /** Initial State */
    config: {
-      theme: ThemeModes
+      chatPreset: number
       displayMode: number
       viewport: number
       isEditMode: boolean
+      theme: ThemeModes
    }
 }
 
 /** Default config */
 const defaultConfig: useWidgetMenuConfig["config"] = {
-   theme: THEME_MODES[0],
-   isEditMode: true,
+   chatPreset: 0,
    displayMode: 0,
    viewport: 0,
+   isEditMode: true,
+   theme: THEME_MODES[0],
 }
 
 /** Custom Hook Hnadle Widget Property Menu */
 export default function useWidgetMenu({ config = defaultConfig }: Partial<useWidgetMenuConfig> = {}) {
    /* State */
+
+   // Chat Presets
+   const chatPresets = [
+      { option: "bot", label: "Bot Chat" },
+      { option: "friend", label: "Friend Chat" },
+      { option: "none", label: "Empty Chat" },
+   ] as const
+   const [chatPreset, setChatPreset] = useSyncedState<number>("chatPreset", config.chatPreset)
 
    // Display Mode
    const displayOptions = [
@@ -34,16 +44,16 @@ export default function useWidgetMenu({ config = defaultConfig }: Partial<useWid
    ] as const
    const [displayMode, setDisplayMode] = useSyncedState<number>("displayMode", config.displayMode) // useSyncedState<(typeof displayOptions)[number]["option"]>("displayMode", displayOptions[0].option)
 
-   // Theme Mode
-   const [theme, setTheme] = useSyncedState<ThemeModes>("theme", config.theme)
-
    // Viewport Dimensions
    const viewportDimensions = [
-      { option: "lg", label: `${WIDGET_MENU.dimensions[0].width}x${WIDGET_MENU.dimensions[0].height} (Default)` },
-      { option: "md", label: `${WIDGET_MENU.dimensions[1].width}x${WIDGET_MENU.dimensions[1].height} (Iphone 12/13 Pro)` },
-      { option: "sm", label: `${WIDGET_MENU.dimensions[2].width}x${WIDGET_MENU.dimensions[2].height} (Iphone SE)` },
+      { option: "lg", label: `${DIMENSIONS[0].width}x${DIMENSIONS[0].height} (Default)` },
+      { option: "md", label: `${DIMENSIONS[1].width}x${DIMENSIONS[1].height} (Iphone 12/13 Pro)` },
+      { option: "sm", label: `${DIMENSIONS[2].width}x${DIMENSIONS[2].height} (Iphone SE)` },
    ] as const
    const [viewport, setViewport] = useSyncedState<number>("viewport", config.viewport)
+
+   // Theme Mode
+   const [theme, setTheme] = useSyncedState<ThemeModes>("theme", config.theme)
 
    // Editor Mode (New message constructor/form)
    const [isEditMode, setIsEditMode] = useSyncedState("isEditMode", config.isEditMode)
@@ -82,6 +92,15 @@ export default function useWidgetMenu({ config = defaultConfig }: Partial<useWid
 
    usePropertyMenu(
       [
+         // Chat Preset Dropdown (Bot / Friend / Empty)
+         {
+            itemType: "dropdown",
+            propertyName: "chat",
+            tooltip: "Previous Chat Messages",
+            selectedOption: chatPresets[chatPreset].option,
+            options: [...chatPresets],
+         },
+
          // Display Mode Dropdown (Scrollable Viewport / Full Phone / Only Messages)
          {
             itemType: "dropdown",
@@ -116,18 +135,15 @@ export default function useWidgetMenu({ config = defaultConfig }: Partial<useWid
          // Editor Mode Toggle
          {
             itemType: "action",
-            propertyName: "input",
+            propertyName: "edit",
             tooltip: isEditMode ? "Display Mode (Hide Builder)" : "Edit Mode (New Messages)",
             icon: isEditMode ? svgPaths.hide : svgPaths.edit,
          },
       ],
       ({ propertyName, propertyValue }) => {
          switch (propertyName) {
-            case "theme":
-               setTheme((prev) => THEME_MODES[(THEME_MODES.findIndex((mode) => mode === prev) + 1) % THEME_MODES.length])
-               break
-            case "input":
-               setIsEditMode(!isEditMode)
+            case "chat":
+               setChatPreset(chatPresets.findIndex((option) => option.option === propertyValue))
                break
             case "display":
                setDisplayMode(displayOptions.findIndex((option) => option.option === propertyValue))
@@ -136,6 +152,12 @@ export default function useWidgetMenu({ config = defaultConfig }: Partial<useWid
                setViewport(viewportDimensions.findIndex((option) => option.option === propertyValue))
                break
             }
+            case "theme":
+               setTheme((prev) => THEME_MODES[(THEME_MODES.findIndex((mode) => mode === prev) + 1) % THEME_MODES.length])
+               break
+            case "edit":
+               setIsEditMode(!isEditMode)
+               break
          }
       },
    )

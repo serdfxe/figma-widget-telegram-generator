@@ -37,7 +37,7 @@ export type SetterProp<S> = <K extends keyof S>(propKey: K, propValue: S[K] | Se
  * console.log(inputs.buttons[2].text) // Output: "Button 3"
  */
 export default function useDynamicState<S extends DynamicState>({ ...initialState } = {} as S): [S, SetterProp<S>] {
-   const [state, setState] = useSyncedState<S>("state", initialState)
+   const [state, setState] = useSyncedState<S>(JSON.stringify(initialState), initialState)
 
    const setSafeState: SetterProp<S> = (propKey, propValue) => {
       /** Update state for specific state property */

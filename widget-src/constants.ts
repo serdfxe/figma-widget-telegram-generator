@@ -11,10 +11,12 @@ export const EDITOR_INPUTS = {
    type: { values: ["File", "Text", "Image"], tips: ["File / Compressed Image", "Text Message", "Uncompressed Image"] },
 } as const
 
-export const WIDGET_MENU = {
-   dimensions: [
-      { width: 390 + 19 * 2, height: 844 + 16 * 2 }, // lg
-      { width: 390, height: 844 }, // md
-      { width: 320, height: 568 }, // sm
-   ],
-}
+// Widget Menu
+
+export const DIMENSIONS = [
+   { width: 390 + 19 * 2, height: 844 + 16 * 2 }, // lg
+   { width: 390, height: 844 }, // md
+   { width: 320, height: 568 }, // sm
+]
+
+export const CHAT_PRESETS: (Message[] | undefined)[] = []
