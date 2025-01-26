@@ -380,7 +380,7 @@ export function Icon({ onEvent, icon, color, ...props }: IconProps) {
 interface SliderProps extends CreatorCompKitConfig, ContainsEvent<[WidgetClickEvent], boolean> {}
 
 /** Selector Conditional */
-export function Slider({ colorPalette, onEvent, value, ...props }: SliderProps) {
+export function Slider({ colorPalette, value, ...props }: SliderProps) {
    return (
       <AutoLayout
          name="Swipe"
@@ -393,7 +393,6 @@ export function Slider({ colorPalette, onEvent, value, ...props }: SliderProps) 
          width={80}
          horizontalAlignItems={value ? "end" : "start"}
          verticalAlignItems="center"
-         onClick={onEvent}
          {...props}
       >
          <Rectangle
