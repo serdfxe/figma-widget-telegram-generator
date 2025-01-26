@@ -6,6 +6,7 @@ import { remapTokens } from "@/utils"
 import { EDITOR_INPUTS } from "@/constants"
 // Internal
 import { StatusAtom, TailAtom } from "@/components/ui/atoms"
+import { FILE64 } from "@/assets/base64/Icons"
 
 /* Import Changelog
  * Added maxWidth at maxMin Layer
@@ -43,6 +44,7 @@ interface TypePropsMap {
    file: {
       config: {
          src?: ""
+         isImg: boolean
       }
    }
 }
@@ -132,6 +134,7 @@ export function Message<T extends MessageTypes>({ side, type, config, theme, ...
             {type !== "File" ? (
                type !== "Text" ? (
                   <>
+                     {/* Image */}
                      <AutoLayout
                         name="Content Image"
                         minHeight={!textConfig.text ? 150 : 135}
@@ -203,7 +206,15 @@ export function Message<T extends MessageTypes>({ side, type, config, theme, ...
                <>
                   {/* File */}
                   <AutoLayout name="Conent File" minWidth={100} overflow="visible" spacing={8} verticalAlignItems="center">
-                     <Image name="Preview" cornerRadius={11} strokeWidth={0} strokeAlign="center" width={74} height={74} src={PreviewImage64} />
+                     <Image
+                        name="Preview"
+                        cornerRadius={11}
+                        strokeWidth={0}
+                        strokeAlign="center"
+                        width={74}
+                        height={74}
+                        src={(config as MessageProps<"File">["config"]).isImg ? PreviewImage64 : FILE64}
+                     />
                      <AutoLayout
                         name="Stats"
                         overflow="visible"

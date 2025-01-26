@@ -9,7 +9,7 @@ interface MessagePreviewProps extends Partial<AutoLayoutProps>, ReqCompProps {
 
 /** Message from editor mode (preview labeled) */
 export function MessagePreview({ theme, editorState, ...props }: MessagePreviewProps) {
-   const { direction, type, text, name, size, extension, buttons } = editorState
+   const { direction, type, text, name, size, extension, isImg, buttons } = editorState
 
    // Convert
    const directionAsStr = EDITOR_INPUTS.direction.values[direction]
@@ -18,6 +18,7 @@ export function MessagePreview({ theme, editorState, ...props }: MessagePreviewP
    // Match Overload
    const propsOfType = [
       {
+         isImg,
          name,
          size,
          extension,
