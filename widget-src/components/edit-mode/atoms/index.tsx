@@ -398,6 +398,9 @@ export function Slider({ colorPalette, onEvent, value, ...props }: SliderProps) 
       >
          <Rectangle
             name="State"
+            hoverStyle={{
+               fill: value ? colorPalette.surface.primaryHover : colorPalette.surface.actionHover,
+            }}
             fill={value ? colorPalette.surface.primary : colorPalette.surface.action}
             stroke={colorPalette.surface.primary30}
             cornerRadius={17}
