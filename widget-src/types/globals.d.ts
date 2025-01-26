@@ -1,37 +1,6 @@
-import { THEME_MODES, EDITOR_INPUTS } from "@/constants"
+import { THEME_MODES } from "@/constants"
 
 declare global {
-   /** Message Props*/
-   type Message = {
-      /** Messagge direction (side) recipient.. */
-      dir: IndexesOf<typeof EDITOR_INPUTS.dir.map>
-      type: IndexesOf<typeof EDITOR_INPUTS.type.map>
-      text: string
-      name: string
-      size: string
-      extension: string
-      isImg: boolean
-      buttons: {
-         id: number
-         text: string
-         hasRef: boolean
-      }[][]
-   }
-
-   /** Messages
-    * @description 2D Array of Out & In Messages
-    */
-   type ChatState = {
-      /** Array of previous messages presetted [bot, friends, none] */
-      // chats: (Message[] | undefined)[][]
-      messages?: (Message[] | undefined)[]
-   }
-
-   /** @param `hidePreview` - Editor Preference, hides preview from chat  */
-   type EditorState = Message & { hidePreview: boolean }
-
-   // Components
-
    /** Display Modes */
    interface OptionalRender {
       /** Applies to all Elements except children
@@ -44,16 +13,26 @@ declare global {
       isVisible?: boolean
    }
 
-   /** Component Props (Required) */
+   /** Common Component Props (Required) */
    interface ReqCompProps {
       /** Theme Mode, Set Color Variables */
       theme: ThemeModes
    }
 
-   // Utils
+   /** Component Props contains event
+    * Generic `P`: onEvent callback parameters (support array of arguments passed to callback)
+    */
+   interface ContainsEvent<P extends unknown[] = [WidgetClickEvent], V = never> {
+      /** TextEditEvent Inputs Value */
+      value: ifGen<V, V, P[0] extends WidgetClickEvent ? number : string>
+      /** example User Click Event */
+      onEvent: (...args: P) => void
+   }
+
+   // Theme
 
    /** Hex & Primitives */
-   type Color = ColorHex | PrimitiveColor | (WidgetJSX.SolidPaint | WidgetJSX.GradientPaint)[]
+   type Color = `#${string}` | PrimitiveColor | (WidgetJSX.SolidPaint | WidgetJSX.GradientPaint)[]
 
    type ThemeModes = (typeof THEME_MODES)[number]
 
@@ -73,27 +52,4 @@ declare global {
          }
       }
    }
-
-   /**
-    * Make Picked properties in T optional
-    */
-   type PartialPick<T, K extends keyof T> = Omit<T, K> & {
-      [P in K]?: T[P]
-   }
-
-   /** If A exists Return B else C  */
-   type ifGen<A, B, C> = [A] extends [undefined | never] ? C : B
-
-   /** Component Props contains event
-    * Generic `P`: onEvent callback parameters (support array of arguments passed to callback)
-    */
-   interface ContainsEvent<P extends unknown[] = [WidgetClickEvent], V = never> {
-      /** TextEditEvent Inputs Value */
-      value: ifGen<V, V, P[0] extends WidgetClickEvent ? number : string>
-      /** example User Click Event */
-      onEvent: (...args: P) => void
-   }
-
-   /** Indexes of an array ["a", "b", "c"] => 0 | 1 | 2*/
-   type IndexesOf<A extends unknown[], R = []> = R["length"] extends A["length"] ? R[number] : IndexesOf<A, [...R, R["length"]]>
 }
