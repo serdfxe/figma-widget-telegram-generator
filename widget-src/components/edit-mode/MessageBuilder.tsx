@@ -269,11 +269,11 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                   colorPalette={color}
                />
                <ButtonsSection />
-               <AutoLayout width={"fill-parent"} spacing={8} padding={{ vertical: 0, horizontal: 16 }} verticalAlignItems="center">
+               <AutoLayout tooltip="File Preview Is Image" width={"fill-parent"} spacing={8} padding={{ vertical: 0, horizontal: 16 }} verticalAlignItems="center">
                   <Text name="title" fill={color.text.default} width="fill-parent" lineHeight={22} fontSize={17} fontWeight={500}>
                      Compressed Image
                   </Text>
-                  <Slider tooltip="File Preview Is Image" onEvent={() => setEditorState("isImg", (prev) => !prev)} value={isImg} colorPalette={color} />
+                  <Slider onEvent={() => setEditorState("isImg", (prev) => !prev)} value={isImg} colorPalette={color} />
                </AutoLayout>
             </Section>
             {/* Message Type Text */}
