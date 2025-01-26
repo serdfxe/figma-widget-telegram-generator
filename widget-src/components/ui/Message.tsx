@@ -260,6 +260,7 @@ export function Message<T extends MessageTypes>({ side, type, config, theme, ...
          <StatusAtom
             {...reqChildProps}
             color={color.text[`label${type === "Image" ? "In" : side}`]}
+            side={side}
             name="_status-atom"
             x={{
                type: "right",

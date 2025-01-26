@@ -14,9 +14,10 @@ interface StatusAtomProps extends Partial<AutoLayoutProps> {
    /** Status color */
    color: Color
    status?: "read" | "pending" | "sent" | "received"
+   side: "In" | "Out"
 }
 
-export function StatusAtom({ color, ...props }: StatusAtomProps) {
+export function StatusAtom({ color, side, ...props }: StatusAtomProps) {
    const svgPaths = {
       doubleCheck: `<svg width='14' height='9' viewBox='0 0 14 9' fill='none' xmlns='http://www.w3.org/2000/svg'>
             <path d='M6.63361 7.62383L13.1336 0.703371C13.3215 0.503315 13.6379 0.491731 13.8402 0.677497C14.0201 0.842623 14.0493 1.1081 13.9217 1.30556L13.8664 1.37609L7.3664 8.29654C7.1785 8.4966 6.86213 8.50818 6.65978 8.32242C6.47991 8.15729 6.45066 7.89182 6.57835 7.69436L6.63361 7.62383L13.1336 0.703371L6.63361 7.62383Z' fill='${color}'/>
@@ -30,7 +31,7 @@ export function StatusAtom({ color, ...props }: StatusAtomProps) {
          <Text name="10:15" fill={color} horizontalAlignText="right" fontSize={11} italic={true} fontWeight={500} strokeWidth={0} strokeAlign="center">
             10:15
          </Text>
-         <Frame name="double-check" strokeWidth={0} overflow="visible" width={14} height={7.909}>
+         <Frame hidden={side === "In"} name="double-check" strokeWidth={0} overflow="visible" width={14} height={7.909}>
             <SVG name="Path_Path" height={8} width={14} src={svgPaths.doubleCheck} />
          </Frame>
       </AutoLayout>
