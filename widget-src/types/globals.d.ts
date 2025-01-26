@@ -68,7 +68,7 @@ declare global {
 
    type ThemedColors = {
       [key in ThemeModes]: {
-         [key in LayoutProps]: {
+         [key in LayoutProps]?: {
             [key: string]: Color
          }
       }
