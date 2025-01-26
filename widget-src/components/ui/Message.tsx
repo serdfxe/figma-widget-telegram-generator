@@ -6,7 +6,7 @@ import { remapTokens } from "@/utils"
 import { EDITOR_INPUTS } from "@/constants"
 // Internal
 import { StatusAtom, TailAtom } from "@/components/ui/atoms"
-import { FILE64 } from "@/assets/base64/Icons"
+import { FILE_LIGHT_IN64, FILE_LIGHT_OUT64, FILE_DARK64 } from "@/assets/base64/Icons"
 
 /* Import Changelog
  * Added maxWidth at maxMin Layer
@@ -16,6 +16,17 @@ import { FILE64 } from "@/assets/base64/Icons"
  * Extracted Radius for each side into an object
  * Overload case for MessageProps
  */
+
+const ICON_MAP = {
+   light: {
+      In: FILE_LIGHT_IN64,
+      Out: FILE_LIGHT_OUT64,
+   },
+   dark: {
+      In: FILE_DARK64,
+      Out: FILE_DARK64,
+   },
+}
 
 type MessageTypes<S extends number = number> = (typeof EDITOR_INPUTS)["type"]["values"][S]
 export type MessageSides = (typeof EDITOR_INPUTS)["direction"]["values"][number]
@@ -205,7 +216,7 @@ export function Message<T extends MessageTypes>({ side, type, config, theme, ...
             ) : (
                <>
                   {/* File */}
-                  <AutoLayout name="Conent File" minWidth={100} overflow="visible" spacing={8} verticalAlignItems="center">
+                  <AutoLayout name="Conent File" minWidth={100} overflow="visible" verticalAlignItems="center">
                      <Image
                         name="Preview"
                         cornerRadius={11}
@@ -213,7 +224,7 @@ export function Message<T extends MessageTypes>({ side, type, config, theme, ...
                         strokeAlign="center"
                         width={74}
                         height={74}
-                        src={(config as MessageProps<"File">["config"]).isImg ? PreviewImage64 : FILE64}
+                        src={(config as MessageProps<"File">["config"]).isImg ? PreviewImage64 : ICON_MAP[theme][side]}
                      />
                      <AutoLayout
                         name="Stats"
