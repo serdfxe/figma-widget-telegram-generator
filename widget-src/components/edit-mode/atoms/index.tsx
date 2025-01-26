@@ -221,8 +221,8 @@ export function Button({ colorPalette, children, onEvent, ...props }: ButtonProp
    )
 }
 
-interface SelectorProps extends CreatorCompKitConfig, ContainsEvent<[WidgetClickEvent, number]> {
-   options: string[]
+interface SelectorProps<A extends string[] = string[]> extends CreatorCompKitConfig, ContainsEvent<[WidgetClickEvent, IndexesOf<A>]> {
+   options: A
    /** ToolTips for option[number] */
    tips?: string[]
 }
@@ -283,7 +283,7 @@ export function Selector({ onEvent, tips, options, value, colorPalette, ...props
          {...props}
       >
          {options.map((option, index) => (
-            <Option key={index} value={value % options.length} onEvent={(e) => onEvent(e, index)} optionIndex={index} tooltip={tips && tips[index]}>
+            <Option key={index} value={value} onEvent={(e) => onEvent(e, index as IndexesOf<typeof options>)} optionIndex={index} tooltip={tips && tips[index]}>
                {option}
             </Option>
          ))}

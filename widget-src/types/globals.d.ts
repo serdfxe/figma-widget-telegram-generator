@@ -1,10 +1,11 @@
-import { THEME_MODES } from "@/constants"
+import { THEME_MODES, EDITOR_INPUTS } from "@/constants"
 
 declare global {
    /** Message Props*/
    type Message = {
-      direction: number
-      type: number
+      /** Messagge direction (side) recipient.. */
+      dir: IndexesOf<typeof EDITOR_INPUTS.dir.map>
+      type: IndexesOf<typeof EDITOR_INPUTS.type.map>
       text: string
       name: string
       size: string
@@ -92,4 +93,7 @@ declare global {
       /** example User Click Event */
       onEvent: (...args: P) => void
    }
+
+   /** Indexes of an array ["a", "b", "c"] => 0 | 1 | 2*/
+   type IndexesOf<A extends unknown[], R = []> = R["length"] extends A["length"] ? R[number] : IndexesOf<A, [...R, R["length"]]>
 }

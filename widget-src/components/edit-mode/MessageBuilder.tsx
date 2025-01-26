@@ -20,7 +20,7 @@ interface MessageBuilderProps extends Partial<AutoLayoutProps>, ReqCompProps {
 }
 
 export function MessageBuilder({ editorManager, renderElement, theme, ...props }: MessageBuilderProps) {
-   const [{ direction, type, text, name, extension, size, buttons, hidePreview, isImg }, setEditorState, setChatState] = editorManager
+   const [{ dir, type, text, name, extension, size, buttons, hidePreview, isImg }, setEditorState, setChatState] = editorManager
 
    /** Reset all Inputs to default */
    const resetInputs = () => {
@@ -64,16 +64,16 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
    }
 
    const addMessageToChat = () => {
-      setEditorState("direction", (prev) => (prev + 1) % EDITOR_INPUTS.direction.values.length) // Toggle Direction
+      setEditorState("dir", (prev) => ((prev + 1) % EDITOR_INPUTS.dir.map.length) as typeof prev) // Toggle Direction
 
-      const newMessage = { direction, type, text, name, extension, size, buttons, isImg }
+      const newMessage = { dir, type, text, name, extension, size, buttons, isImg }
       setChatState("messages", (prevMessages) => {
          // Array of In & Out Messages
          const allMsgs = [...(prevMessages ?? [])]
          // Array of Messages in a specific direction
          const dirMsgs = allMsgs.pop()
          // Handle No Messages & Direction Change
-         if (typeof dirMsgs !== "undefined" && dirMsgs[0]?.direction === direction) {
+         if (typeof dirMsgs !== "undefined" && dirMsgs[0]?.dir === dir) {
             dirMsgs.push(newMessage)
             allMsgs.push(dirMsgs)
          } else {
@@ -219,12 +219,12 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
             <Section>
                <Label colorPalette={color}>Message Direction</Label>
                <Selector
-                  onEvent={(e, i) => {
-                     setEditorState("direction", i++)
+                  onEvent={(_, i) => {
+                     setEditorState("dir", i)
                   }}
-                  value={direction}
-                  options={[...EDITOR_INPUTS.direction.values]}
-                  tips={[...EDITOR_INPUTS.direction.tips]}
+                  value={dir}
+                  options={[...EDITOR_INPUTS.dir.map]}
+                  tips={[...EDITOR_INPUTS.dir.tips]}
                   colorPalette={color}
                />
             </Section>
@@ -232,11 +232,11 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
             <Section>
                <Label colorPalette={color}>Message Type</Label>
                <Selector
-                  onEvent={(e, i) => {
-                     setEditorState("type", i++)
+                  onEvent={(_, i) => {
+                     setEditorState("type", i)
                   }}
                   value={type}
-                  options={[...EDITOR_INPUTS.type.values]}
+                  options={[...EDITOR_INPUTS.type.map]}
                   tips={[...EDITOR_INPUTS.type.tips]}
                   colorPalette={color}
                />

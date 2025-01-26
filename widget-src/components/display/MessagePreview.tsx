@@ -1,7 +1,6 @@
 // Components
 import { Message } from "@/components/ui"
 import { DirectionContainer, PreviewLabel, WithButtons } from "@/components/display/atoms"
-import { EDITOR_INPUTS } from "@/constants"
 
 interface MessagePreviewProps extends Partial<AutoLayoutProps>, ReqCompProps {
    editorState: Message
@@ -9,11 +8,7 @@ interface MessagePreviewProps extends Partial<AutoLayoutProps>, ReqCompProps {
 
 /** Message from editor mode (preview labeled) */
 export function MessagePreview({ theme, editorState, ...props }: MessagePreviewProps) {
-   const { direction, type, text, name, size, extension, isImg, buttons } = editorState
-
-   // Convert
-   const directionAsStr = EDITOR_INPUTS.direction.values[direction]
-   const typeAsStr = EDITOR_INPUTS.type.values[type]
+   const { dir, type, text, name, size, extension, isImg, buttons } = editorState
 
    // Match Overload
    const propsOfType = [
@@ -27,10 +22,10 @@ export function MessagePreview({ theme, editorState, ...props }: MessagePreviewP
    ]
 
    return (
-      <DirectionContainer name="Preview Container" side={directionAsStr} {...props}>
+      <DirectionContainer name="Preview Container" dir={dir} {...props}>
          <WithButtons buttons={buttons} theme={theme}>
             <PreviewLabel theme={theme} />
-            <Message side={directionAsStr} type={typeAsStr} config={propsOfType[0]} theme={theme} />
+            <Message dir={dir} type={type} {...propsOfType[0]} theme={theme} />
          </WithButtons>
       </DirectionContainer>
    )

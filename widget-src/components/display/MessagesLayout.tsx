@@ -3,7 +3,6 @@ const { AutoLayout } = figma.widget
 // Components
 import { DirectionContainer, WithButtons } from "@/components/display/atoms"
 import { Message } from "@/components/ui"
-import { EDITOR_INPUTS } from "@/constants"
 
 interface MessagesLayoutProps extends Partial<AutoLayoutProps>, ReqCompProps, OptionalRender {
    messages?: (Message[] | undefined)[]
@@ -20,12 +19,7 @@ export function MessagesLayout({ messages, renderElements, children, theme, ...p
          {lastMessage ? (
             <AutoLayout direction="vertical" spacing={28}>
                <WithButtons buttons={lastMessage.buttons} theme={theme}>
-                  <Message
-                     type={EDITOR_INPUTS.type.values[lastMessage.type]}
-                     side={EDITOR_INPUTS.direction.values[lastMessage.direction]}
-                     config={lastMessage}
-                     theme={theme}
-                  ></Message>
+                  <Message {...lastMessage} theme={theme}></Message>
                </WithButtons>
                {children}
             </AutoLayout>
@@ -60,10 +54,10 @@ export function MessagesLayout({ messages, renderElements, children, theme, ...p
          {messages?.map(
             (dirMsg, key) =>
                dirMsg && (
-                  <DirectionContainer key={key} side={EDITOR_INPUTS.direction.values[dirMsg[0].direction]}>
+                  <DirectionContainer key={key} dir={dirMsg[0].dir}>
                      {dirMsg.map((msg, key) => (
                         <WithButtons key={key} buttons={msg.buttons} theme={theme}>
-                           <Message type={EDITOR_INPUTS.type.values[msg.type]} side={EDITOR_INPUTS.direction.values[msg.direction]} config={msg} theme={theme}></Message>
+                           <Message {...msg} theme={theme}></Message>
                         </WithButtons>
                      ))}
                   </DirectionContainer>

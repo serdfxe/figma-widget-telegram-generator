@@ -1,17 +1,15 @@
 import { IMAGE_BOT, IMAGE_CUSTOM, IMAGE_FRIEND } from "@/assets/base64"
-import { CHAT_FRIENDS, CHAT_BOT, REPLY_BOT, REPLY_FRIEND } from "@/constants/chats"
+import { CHAT_FRIENDS, CHAT_BOT, REPLY_BOT, REPLY_FRIEND, EDITOR_STATE } from "@/constants/messages"
 
 export const THEME_MODES = ["light", "dark"] as const
+
 /** Editor Manager State
- * direction - 0: out, 1: in
+ * dir - 0: out, 1: in
  * type - 0: image, 1: text
  */
-export const EDITOR_STATE = { direction: 0, type: 1, text: "Sample Text", name: "File_Name", size: "1.4", extension: ".PNG", isImg: true, buttons: [] }
-
-/** TODO: use numbers */
 export const EDITOR_INPUTS = {
-   direction: { values: ["In", "Out"], tips: ["Incoming Message", "Outgoing Message"] },
-   type: { values: ["File", "Text", "Image"], tips: ["File / Compressed Image", "Text Message", "Uncompressed Image"] },
+   dir: { map: ["In", "Out"], tips: ["Incoming Message", "Outgoing Message"] },
+   type: { map: ["File", "Text", "Image"], tips: ["File / Compressed Image", "Text Message", "Uncompressed Image"] },
 } as const
 
 // Widget Menu
@@ -22,8 +20,12 @@ export const DIMENSIONS = [
    { width: 320, height: 568 }, // sm
 ]
 
+// Chat
+
 export const CHATS: (Message[] | undefined)[][] = [CHAT_BOT, CHAT_FRIENDS, []]
 export const REPLIES: Message[] = [REPLY_BOT, REPLY_FRIEND, EDITOR_STATE]
 
 export const USERNAMES: string[] = ["eMarket Bot", "Elizabeth", ""]
 export const PROFILE_IMAGES: string[] = [IMAGE_BOT, IMAGE_FRIEND, IMAGE_CUSTOM]
+
+export { EDITOR_STATE }
