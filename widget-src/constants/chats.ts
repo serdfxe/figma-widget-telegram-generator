@@ -7,6 +7,7 @@ export const CHAT_FRIENDS = [
          name: "",
          size: "",
          extension: "",
+         isImg: false,
          buttons: [],
       },
       {
@@ -16,6 +17,7 @@ export const CHAT_FRIENDS = [
          name: "",
          size: "",
          extension: "",
+         isImg: false,
          buttons: [],
       },
    ],
@@ -27,6 +29,7 @@ export const CHAT_FRIENDS = [
          name: "Rocky Mountains",
          size: "1.4",
          extension: ".JPG",
+         isImg: false,
          buttons: [],
       },
       {
@@ -36,6 +39,7 @@ export const CHAT_FRIENDS = [
          name: "",
          size: "",
          extension: "",
+         isImg: false,
          buttons: [],
       },
    ],
@@ -47,6 +51,7 @@ export const CHAT_FRIENDS = [
          name: "",
          size: "",
          extension: "",
+         isImg: false,
          buttons: [],
       },
    ],
@@ -58,6 +63,7 @@ export const CHAT_FRIENDS = [
          name: "",
          size: "",
          extension: "",
+         isImg: false,
          buttons: [],
       },
    ],
@@ -69,6 +75,7 @@ export const CHAT_FRIENDS = [
          name: "",
          size: "",
          extension: "",
+         isImg: false,
          buttons: [],
       },
    ],
@@ -80,6 +87,7 @@ export const CHAT_FRIENDS = [
          name: "",
          size: "",
          extension: "",
+         isImg: false,
          buttons: [],
       },
    ],
@@ -91,6 +99,7 @@ export const CHAT_FRIENDS = [
          name: "",
          size: "",
          extension: "",
+         isImg: false,
          buttons: [],
       },
    ],
@@ -102,6 +111,7 @@ export const REPLY_FRIEND = {
    name: "File_Name",
    size: "1.4",
    extension: ".PNG",
+   isImg: false,
    buttons: [],
 }
 
@@ -112,6 +122,7 @@ export const REPLY_BOT = {
    name: "File_Name",
    size: "1.4",
    extension: ".PNG",
+   isImg: false,
    buttons: [],
 }
 export const CHAT_BOT = [
@@ -123,6 +134,7 @@ export const CHAT_BOT = [
          name: "",
          size: "",
          extension: "",
+         isImg: false,
          buttons: [],
       },
    ],
@@ -144,6 +156,7 @@ Choose one of the options below, or type your question to get started!
          name: "",
          size: "",
          extension: "",
+         isImg: false,
          buttons: [
             [{ id: 1, text: "🧾 Track my order", hasRef: false }],
             [{ id: 1, text: "🔎 Browse products", hasRef: false }],

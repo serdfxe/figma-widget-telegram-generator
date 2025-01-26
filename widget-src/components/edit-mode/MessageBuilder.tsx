@@ -5,7 +5,7 @@ import { remapTokens } from "@/utils"
 import { type SetterProp } from "@/hooks"
 import { EDITOR_STATE, EDITOR_INPUTS } from "@/constants"
 // Internal
-import { Section, Label, ButtonsRow, Button, ButtomSmall, ChatButtonEditable, Selector, TextInput, Icon } from "@/components/edit-mode/atoms"
+import { Section, Label, ButtonsRow, Button, ButtomSmall, ChatButtonEditable, Selector, TextInput, Icon, Slider } from "@/components/edit-mode/atoms"
 
 /** Import Changelog
  * Generate Interface, colors & extracted svg paths
@@ -20,7 +20,7 @@ interface MessageBuilderProps extends Partial<AutoLayoutProps>, ReqCompProps {
 }
 
 export function MessageBuilder({ editorManager, renderElement, theme, ...props }: MessageBuilderProps) {
-   const [{ direction, type, text, name, extension, size, buttons, hidePreview }, setEditorState, setChatState] = editorManager
+   const [{ direction, type, text, name, extension, size, buttons, hidePreview, isImg }, setEditorState, setChatState] = editorManager
 
    /** Reset all Inputs to default */
    const resetInputs = () => {
@@ -66,7 +66,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
    const addMessageToChat = () => {
       setEditorState("direction", (prev) => (prev + 1) % EDITOR_INPUTS.direction.values.length) // Toggle Direction
 
-      const newMessage = { direction, type, text, name, extension, size, buttons }
+      const newMessage = { direction, type, text, name, extension, size, buttons, isImg }
       setChatState("messages", (prevMessages) => {
          // Array of In & Out Messages
          const allMsgs = [...(prevMessages ?? [])]
@@ -269,6 +269,12 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                   colorPalette={color}
                />
                <ButtonsSection />
+               <AutoLayout width={"fill-parent"} spacing={8} padding={{ vertical: 0, horizontal: 16 }} verticalAlignItems="center">
+                  <Text name="title" fill={color.text.default} width="fill-parent" lineHeight={22} fontSize={17} fontWeight={500}>
+                     Compressed Image
+                  </Text>
+                  <Slider onEvent={() => setEditorState("isImg", (prev) => !prev)} value={isImg} colorPalette={color} />
+               </AutoLayout>
             </Section>
             {/* Message Type Text */}
             <Section hidden={type !== 1}>

@@ -9,6 +9,7 @@ declare global {
       name: string
       size: string
       extension: string
+      isImg: boolean
       buttons: {
          id: number
          text: string
@@ -79,12 +80,15 @@ declare global {
       [P in K]?: T[P]
    }
 
+   /** If A exists Return B else C  */
+   type ifGen<A, B, C> = [A] extends [undefined | never] ? C : B
+
    /** Component Props contains event
     * Generic `P`: onEvent callback parameters (support array of arguments passed to callback)
     */
-   interface ContainsEvent<P extends unknown[] = [WidgetClickEvent]> {
+   interface ContainsEvent<P extends unknown[] = [WidgetClickEvent], V = never> {
       /** TextEditEvent Inputs Value */
-      value: P[0] extends WidgetClickEvent ? number : string
+      value: ifGen<V, V, P[0] extends WidgetClickEvent ? number : string>
       /** example User Click Event */
       onEvent: (...args: P) => void
    }

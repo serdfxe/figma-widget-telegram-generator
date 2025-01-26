@@ -1,5 +1,5 @@
 // Dependencies
-const { AutoLayout, Text, Input, SVG } = figma.widget
+const { AutoLayout, Text, Input, SVG, Rectangle } = figma.widget
 
 interface CreatorCompKitConfig extends Partial<AutoLayoutProps> {
    colorPalette: ThemedColors[ThemeModes]
@@ -373,6 +373,37 @@ export function Icon({ onEvent, icon, color, ...props }: IconProps) {
          {...props}
       >
          <SVG name="Vector" src={svgPaths[icon]} overflow="visible" />
+      </AutoLayout>
+   )
+}
+
+interface SliderProps extends CreatorCompKitConfig, ContainsEvent<[WidgetClickEvent], boolean> {}
+
+/** Selector Conditional */
+export function Slider({ colorPalette, onEvent, value, ...props }: SliderProps) {
+   return (
+      <AutoLayout
+         name="Swipe"
+         // fill="#313131"
+         fill={colorPalette.surface.inputBg}
+         cornerRadius={81}
+         overflow="visible"
+         spacing={12}
+         padding={6}
+         width={80}
+         horizontalAlignItems={value ? "end" : "start"}
+         verticalAlignItems="center"
+         onClick={onEvent}
+         {...props}
+      >
+         <Rectangle
+            name="State"
+            fill={value ? colorPalette.surface.primary : colorPalette.surface.action}
+            stroke={colorPalette.surface.primary30}
+            cornerRadius={17}
+            width={28}
+            height={28}
+         />
       </AutoLayout>
    )
 }
