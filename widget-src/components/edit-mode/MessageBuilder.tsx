@@ -273,7 +273,7 @@ export function MessageBuilder({ editorManager, renderElement, theme, ...props }
                   <Text name="title" fill={color.text.default} width="fill-parent" lineHeight={22} fontSize={17} fontWeight={500}>
                      Compressed Image
                   </Text>
-                  <Slider onEvent={() => setEditorState("isImg", (prev) => !prev)} value={isImg} colorPalette={color} />
+                  <Slider tooltip="File Preview Is Image" onEvent={() => setEditorState("isImg", (prev) => !prev)} value={isImg} colorPalette={color} />
                </AutoLayout>
             </Section>
             {/* Message Type Text */}
