@@ -8,7 +8,7 @@ export const THEME_MODES = ["light", "dark"] as const
  * type - 0: image, 1: text
  */
 export const EDITOR_INPUTS = {
-   dir: { map: ["In", "Out"], tips: ["Incoming Message", "Outgoing Message"] },
+   dir: { map: ["In"], tips: ["Incoming Message"] },
    type: { map: ["File", "Text", "Image"], tips: ["File / Compressed Image", "Text Message", "Uncompressed Image"] },
 } as const
 
@@ -25,7 +25,7 @@ export const DIMENSIONS = [
 export const CHATS: (Message[] | undefined)[][] = [CHAT_BOT, CHAT_FRIENDS, []]
 export const REPLIES: Message[] = [REPLY_BOT, REPLY_FRIEND, EDITOR_STATE]
 
-export const USERNAMES: string[] = ["eMarket Bot", "Elizabeth", "Random User"]
+export const USERNAMES: string[] = ["Snack Post"]
 export const PROFILE_IMAGES: string[] = [IMAGE_BOT, IMAGE_FRIEND, IMAGE_CUSTOM]
 
 export { EDITOR_STATE }
